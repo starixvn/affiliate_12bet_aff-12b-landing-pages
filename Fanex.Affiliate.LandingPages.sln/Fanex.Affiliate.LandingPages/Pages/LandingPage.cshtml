@@ -1,0 +1,10 @@
+﻿@page "/{languageCode}/{landingPageCode}"
+@model Fanex.Affiliate.LandingPages.Pages.LandingPageModel
+@{
+    ViewData["Title"] = "Landing Page";
+}
+
+<h1>Landing Page: @Model.LandingPageCode</h1>
+
+@await Component.InvokeAsync("RegistrationForm")
+@await Component.InvokeAsync("Background")
