@@ -1,0 +1,25 @@
+@use 'abstracts/variables';
+@use 'abstracts/mixins';
+
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/common';
+@use 'base/utilities';
+
+@use 'layout/background';
+@use 'layout/logo';
+@use 'layout/cta-button';
+
+
+.container {
+  position: relative;
+  width: 100%;
+  // overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .container {
+      max-width: 1200px;
+      margin: auto;
+  }
+}

@@ -1,5 +1,52 @@
 ﻿@page
 @model Fanex.Affiliate.LandingPages.Pages.IndexModel
 @{
+    ViewData["Title"] = "Affiliate Landing Pages";
 }
-<h1>Index Page</h1> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+     <!-- background -->
+        <img src="~/images/background.jpg" alt="background-img" class="background-img"/>
+
+    <!-- sponsor logo only -->
+        <div class="logo-sponsor-container">
+            <img class="logo-sponsor"
+                src="~/images/logo-sponsor.png"
+                alt="logo">
+        </div>
+
+     <!-- sponsor logo + register button -->
+        <div class="logo-sponsor-container">
+            <img class="logo-sponsor"
+                src="~/images/logo-sponsor.png"
+                alt="logo">
+
+            <button class="btn-register">
+                <img src="~/images/icon-click.png"
+                    alt="register icon">
+                Register
+            </button>
+        </div>
+
+        <!-- hero image -->
+        <img class="hero-img"
+            src="~/images/hero-img.png"
+            alt="hero-img">
+
+        <!-- CTA button -->
+        <img class="cta-btn"
+            src="~/images/cta-btn.png"
+            alt="cta-btn">
+
+    </div>
+</body>
+</html> 
