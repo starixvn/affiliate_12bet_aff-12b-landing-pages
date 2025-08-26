@@ -4,7 +4,8 @@
   left: 0;
   width: 100%;
   min-height: 100vh;
-  height: auto;
-  object-fit: cover;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
   z-index: -1;
 }

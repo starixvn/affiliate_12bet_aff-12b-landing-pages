@@ -130,8 +130,9 @@ a {
   left: 0;
   width: 100%;
   min-height: 100vh;
-  height: auto;
-  object-fit: cover;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
   z-index: -1;
 }
 
@@ -140,7 +141,10 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  margin: 0 16px 10px;
+}
+.logo-sponsor-container img {
+  width: 159px;
 }
 
 .logo-sponsor-container > :last-child.btn-register {
@@ -189,6 +193,7 @@ a {
 .container {
   position: relative;
   width: 100%;
+  padding: 30px 0;
 }
 
 @media (min-width: 1024px) {
