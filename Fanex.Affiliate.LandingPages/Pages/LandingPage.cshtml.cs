@@ -15,7 +15,7 @@ public class LandingPageModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string Version { get; set; } = string.Empty;
 
-    public void OnGet()
+    public async Task OnGetAsync()
     {
     }
 }
