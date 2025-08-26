@@ -1,3 +1,8 @@
+:root {
+  --shine-duration: 2.3s;
+  --shine-timing: linear;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -173,7 +178,26 @@ a {
   width: 10px;
   margin-right: 4px;
 }
+.btn-register::before {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 200%;
+  background: linear-gradient(0deg, transparent, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.4), hsla(0, 0%, 100%, 0));
+  transform: rotate(45deg);
+  animation: shine-diagonal var(--shine-duration) var(--shine-timing) infinite;
+}
 
+@keyframes shine-diagonal {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
 .cta-btn {
   position: relative;
   left: 50%;
