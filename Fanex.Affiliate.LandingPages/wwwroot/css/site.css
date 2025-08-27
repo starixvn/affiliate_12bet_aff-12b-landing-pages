@@ -206,6 +206,7 @@ a {
   animation: cta-pulse 2s ease-in-out infinite;
   will-change: transform;
   backface-visibility: hidden;
+  margin: 16px auto;
 }
 
 @keyframes cta-pulse {
@@ -216,6 +217,128 @@ a {
     transform: scale(1.1);
   }
 }
+.register-form {
+  margin: 20px 16px;
+}
+.register-form .form-content {
+  padding: 16px;
+  background-color: #1e1f1d;
+  border-radius: 12px;
+  border: 2px solid #cba465;
+}
+.register-form .form-content .form-title {
+  margin: 20px 0;
+  font-size: 20px;
+  text-align: center;
+  color: #cba465;
+  font-family: sans-serif, Noto Sans SC;
+}
+.register-form .input-field {
+  margin: 4px 0;
+}
+.register-form .input-field .required-text {
+  color: #cf0404;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.register-form .input-field .input-error {
+  border-color: red !important;
+}
+.register-form .input-field .input-box-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 4px;
+}
+.register-form .input-field .input-info {
+  text-align: left;
+  background: #525252;
+  border-radius: 5px;
+  padding: 6px;
+  position: relative;
+  word-break: break-word;
+  color: #e0e6e9;
+  margin-bottom: 5px;
+}
+.register-form .input-field .input-info::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-color: #525252 transparent transparent;
+  border-style: solid dashed dashed;
+  border-width: 8px 8px 0;
+  position: absolute;
+  bottom: -6px;
+  right: 12px;
+  z-index: 1;
+}
+.register-form .input-field .input-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 40px;
+  background-color: #000;
+  overflow: hidden;
+  padding: 0 8px;
+  border: 1px solid #cba465;
+  min-height: 32px;
+}
+.register-form .input-field .input-box .required-tip {
+  color: #cf0404;
+}
+.register-form .input-field .input-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 14px;
+  padding: 8px;
+}
+.register-form .input-field .icon-area {
+  display: flex;
+  align-items: center;
+}
+.register-form .input-field .icon-area .icon-detail {
+  width: 20px;
+  height: 20px;
+  margin-left: 4px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.register-form .input-field .icon-area .icon-checkmark {
+  background-image: url("/images/icon-checkmark.png");
+}
+.register-form .input-field .icon-area .icon-information {
+  background-image: url("/images/icon-info.png");
+}
+.register-form .input-field .icon-area .icon-eye {
+  background-image: url("/images/icon-eye.png");
+}
+.register-form .input-field .icon-area .icon-eye-slash {
+  background-image: url("/images/icon-eye-slash.png");
+}
+.register-form .join-now-btn {
+  width: 230px;
+}
+.register-form select {
+  background-color: #000;
+  color: #fff;
+  border: none;
+}
+.register-form .terms-conditions {
+  text-align: center;
+  padding: 0 8px;
+  margin: 8px 0;
+  color: #ccc;
+}
+.register-form .terms-conditions a {
+  color: #c01d21;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .container {
   position: relative;
   width: 100%;

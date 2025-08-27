@@ -47,6 +47,106 @@
             src="~/images/cta-btn.png"
             alt="cta-btn">
 
+        <!-- Register form -->
+        <form class="register-form" novalidate>
+            <div class="form-content">
+                <p class="form-title">QUICK REGISTRATION</p>
+
+                <div class="input-field">
+                    <div class="input-info">For security, we suggest that your username does not contain your real name.</div>
+                    <div class="input-box input-error">
+                        <span class="required-tip">*</span>
+                        <input type="text" name="username" placeholder="Username" autocomplete="off" required>
+                        <div class="icon-area">
+                            <span class="icon-detail icon-checkmark"></span>
+                            <span class="icon-detail icon-information"></span>
+                        </div>
+                    </div>
+                    <div class="required-text">Username is required.</div>
+                </div>
+
+                <div class="input-field">
+                    <div class="input-box">
+                        <span class="required-tip">*</span>
+                        <input type="password" name="password" placeholder="Password" autocomplete="off" required>
+                        <div class="icon-area">
+                            <span class="icon-detail icon-checkmark"></span>
+                            <span class="icon-detail icon-eye"></span>
+                            <span class="icon-detail icon-eye-slash"></span>
+                        </div>
+                    </div>
+                    <div class="required-text">Password must be 6-15 characters, contain alphanumeric.</div>
+                </div>
+
+                <div class="input-field">
+                    <div class="input-box-container">
+                        <div class="input-box">
+                            <span class="required-tip">*</span>
+                            <select name="countryCode">
+                                <option value="+84" selected>+84</option>
+                                <option value="+855">+855</option>
+                                <option value="+86">+86</option>
+                                <option value="+81">+81</option>
+                                <option value="+82">+82</option>
+                                <option value="+65">+65</option>
+                                <option value="+60">+60</option>
+                                <option value="+66">+66</option>
+                                <option value="+673">+673</option>
+                            </select>
+                        </div>
+                        <div class="input-box">
+                            <span class="required-tip">*</span>
+                            <input type="tel" name="phone" placeholder="Phone Number" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <div class="required-text">Please fill in the phone field</div>
+                </div>
+
+                <div class="input-field">
+                    <div class="input-box">
+                        <span class="required-tip">*</span>
+                        <select name="currency" required>
+                        <option value="VND" selected>VND</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <div class="input-info">Email cannot be changed after submission.</div>
+                    <div class="input-box">
+                        <input type="text" name="email" placeholder="Email (Optional)" autocomplete="off" required>
+                        <div class="icon-area">
+                            <span class="icon-detail icon-checkmark"></span>
+                            <span class="icon-detail icon-information"></span>
+                        </div>
+                    </div>
+                    <div class="required-text">Email address format incorrect</div>
+                </div>
+
+                <div class="input-field">
+                    <div class="input-info">Please enter Affiliate ID (Optional), it can not change once enter!</div>
+                    <div class="input-box">
+                        <input type="text" name="email" placeholder="Affiliate ID/Referral (Optional)" autocomplete="off" required>
+                        <div class="icon-area">
+                            <span class="icon-detail icon-checkmark"></span>
+                            <span class="icon-detail icon-information"></span>
+                        </div>
+                    </div>
+                    <div class="required-text">Affiliate ID cant be found</div>
+                </div>
+
+                <!-- CTA button -->
+                <img class="cta-btn join-now-btn"
+                    src="~/images/join-now-btn.png"
+                    alt="cta-btn">
+
+                <div class="terms-conditions">
+                    By clicking the Register button, I hereby acknowledge that I am above 18 years old and have read and accepted your 
+                    <a rel="noreferrer" target="_blank" href="https://banner.picasso12.com/Static/en/TermsConditions.html">terms &amp; conditions</a>.
+                </div>
+            </div>
+            </form>
+
     </div>
 </body>
 </html> 

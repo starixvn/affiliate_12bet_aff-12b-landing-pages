@@ -6,6 +6,7 @@
   animation: cta-pulse 2s ease-in-out infinite;
   will-change: transform;
   backface-visibility: hidden;
+  margin: 16px auto;
 }
 
 @keyframes cta-pulse {
