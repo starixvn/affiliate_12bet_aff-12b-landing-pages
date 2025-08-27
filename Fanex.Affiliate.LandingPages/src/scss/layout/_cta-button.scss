@@ -1,19 +1,21 @@
 .cta-btn {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: scale-pulse-translate 2s ease-in-out infinite;
-  transform-origin: center center;
+  display: block;
+  width: max-content;
+  margin: 0 auto;
+  transform-origin: center;
+  animation: cta-pulse 2s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-@keyframes scale-pulse-translate {
+@keyframes cta-pulse {
 
   0%,
   100% {
-    transform: translateX(-50%) scale(1);
+    transform: scale(1);
   }
 
   50% {
-    transform: translateX(-50%) scale(1.1);
+    transform: scale(1.1);
   }
 }
