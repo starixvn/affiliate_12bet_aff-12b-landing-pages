@@ -34,6 +34,7 @@
             display: grid;
             grid-template-columns: 1fr 3fr;
             gap: 4px;
+            position: relative;
         }
 
         .input-info {
@@ -121,12 +122,6 @@
         width: 230px;
     }
 
-    select {
-        background-color: #000;
-        color: #fff;
-        border: none;
-    }
-
     .terms-conditions {
         text-align: center;
         padding: 0 8px;
@@ -140,4 +135,50 @@
         }
     }
 
+    .cf-turnstile,
+    .captcha-container {
+        display: flex;
+        justify-content: center;
+        margin: 16px 0;
+    }
+
+    .dropdown-container {
+        // display: none;
+        position: absolute;
+        z-index: 10;
+        top: 100%;
+        left: 0;
+        max-height: 45vw;
+        overflow-y: scroll;
+        color: rgb(76, 83, 86);
+        font-weight: 500;
+        background: rgb(255, 255, 255);
+        border-width: 0px 1px 1px;
+        border-style: solid solid solid;
+        border-color: rgb(174, 172, 172) rgb(174, 172, 172) rgb(174, 172, 172);
+        border-image: initial;
+        border-top: 0px;
+        margin: 0px 0px 0px -1px;
+        border-radius: 6px;
+        width: 90px;
+        // width: 100%;
+    }
+
+    .dropdown-selected-icon {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-image: url("/images/icon-arrow-down.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .dropdown-item {
+        padding: 8px 8px 8px 16px;
+        cursor: pointer;
+        &:hover {
+            background-color: #f0f0f0;
+        }
+    }
 }
