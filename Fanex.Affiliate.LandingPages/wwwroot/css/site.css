@@ -154,6 +154,20 @@ a {
     display: block;
   }
 }
+#goTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  background-image: url("/images/go-top-btn.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .background-img {
   position: absolute;
   top: 0;
@@ -393,7 +407,7 @@ a {
   display: inline-block;
   width: 12px;
   height: 12px;
-  background-image: url("/images/icon-arrow-down.png");
+  background-image: url("/images/icon-dropdown.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
