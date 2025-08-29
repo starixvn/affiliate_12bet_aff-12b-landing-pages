@@ -2,11 +2,11 @@
     const goTopBtn = document.getElementById("goTopBtn");
 
     // Scroll to Top button
-    window.addEventListener("scroll", () => {
-        goTopBtn.style.display = window.scrollY > 200 ? "block" : "none";
-    });
-
     if (goTopBtn) {
+        window.addEventListener("scroll", () => {
+            goTopBtn.style.display = window.scrollY > 200 ? "block" : "none";
+        });
+
         goTopBtn.addEventListener("click", () => {
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
@@ -23,7 +23,9 @@
 
     // Toggle password visibility
     document.querySelectorAll(".input-field").forEach((field) => {
-        const input = field.querySelector('input[type="password"], input[type="text"]');
+        const input = field.querySelector(
+            'input[type="password"], input[type="text"]'
+        );
         const eye = field.querySelector(".icon-eye");
         const eyeSlash = field.querySelector(".icon-eye-slash");
 
@@ -40,6 +42,17 @@
                 eyeSlash.style.display = "inline-block";
             });
         }
+    });
 
+    // Scroll back to register form when click outside
+    document.addEventListener("click", (e) => {
+        const form = document.getElementById("register-form");
+        if (
+            form &&
+            !form.contains(e.target) &&
+            e.target.id !== "goTopBtn"
+        ) {
+            form.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
     });
 });
