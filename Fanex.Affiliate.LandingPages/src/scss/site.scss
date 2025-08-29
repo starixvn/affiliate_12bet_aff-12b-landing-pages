@@ -6,11 +6,13 @@
 @use 'base/common';
 @use 'base/utilities';
 
+@use 'layout/straight-lock-in';
 @use 'layout/background';
 @use 'layout/logo';
 @use 'layout/hero-image';
 @use 'layout/cta-button';
 @use 'layout/register-form';
+@use 'layout/promotion';
 
 .container {
   position: relative;
@@ -20,7 +22,7 @@
 
 @media (min-width: 1024px) {
   .container {
-      // max-width: 1200px;
+      max-width: 600px;
       margin: auto;
   }
 }
