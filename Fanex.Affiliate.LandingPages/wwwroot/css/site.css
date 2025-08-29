@@ -160,8 +160,8 @@ a {
   bottom: 30px;
   right: 30px;
   z-index: 100;
-  width: 50px;
-  height: 50px;
+  width: 42px;
+  height: 42px;
   background-image: url("/images/go-top-btn.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -264,6 +264,8 @@ a {
   margin: 20px 16px;
 }
 .register-form .form-content {
+  display: flex;
+  flex-direction: column;
   padding: 16px;
   background-color: #1e1f1d;
   border-radius: 12px;
@@ -295,6 +297,7 @@ a {
   position: relative;
 }
 .register-form .input-field .input-info {
+  display: none;
   text-align: left;
   background: #525252;
   border-radius: 5px;
@@ -359,6 +362,7 @@ a {
   background-image: url("/images/icon-info.png");
 }
 .register-form .input-field .icon-area .icon-eye {
+  display: none;
   background-image: url("/images/icon-eye.png");
 }
 .register-form .input-field .icon-area .icon-eye-slash {
@@ -411,6 +415,7 @@ a {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  margin-left: 4px;
 }
 .register-form .dropdown-item {
   padding: 8px 8px 8px 16px;

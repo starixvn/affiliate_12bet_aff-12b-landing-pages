@@ -2,6 +2,8 @@
     margin: 20px 16px;
 
     .form-content {
+        display: flex;
+        flex-direction: column;
         padding: 16px;
         background-color: #1e1f1d;
         border-radius: 12px;
@@ -38,6 +40,7 @@
         }
 
         .input-info {
+            display: none;
             text-align: left;
             background: #525252;
             border-radius: 5px;
@@ -110,6 +113,7 @@
             }
 
             .icon-eye {
+                display: none;
                 background-image: url("/images/icon-eye.png");
             }
 
@@ -171,6 +175,7 @@
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+        margin-left: 4px;
     }
 
     .dropdown-item {
