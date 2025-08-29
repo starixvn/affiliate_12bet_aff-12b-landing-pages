@@ -282,15 +282,16 @@ a {
   z-index: 1;
 }
 .register-form .input-field .input-box {
+  position: relative;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 40px;
   background-color: #000;
-  overflow: hidden;
   padding: 0 8px;
   border: 1px solid #cba465;
-  min-height: 32px;
+  height: 40px;
 }
 .register-form .input-field .input-box .required-tip {
   color: #cf0404;
@@ -349,11 +350,12 @@ a {
   margin: 16px 0;
 }
 .register-form .dropdown-container {
+  display: none;
   position: absolute;
   z-index: 10;
   top: 100%;
   left: 0;
-  max-height: 45vw;
+  max-height: 200px;
   overflow-y: scroll;
   color: rgb(76, 83, 86);
   font-weight: 500;
@@ -363,14 +365,13 @@ a {
   border-color: rgb(174, 172, 172) rgb(174, 172, 172) rgb(174, 172, 172);
   border-image: initial;
   border-top: 0px;
-  margin: 0px 0px 0px -1px;
   border-radius: 6px;
-  width: 90px;
+  width: 100%;
 }
 .register-form .dropdown-selected-icon {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background-image: url("/images/icon-arrow-down.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -380,8 +381,32 @@ a {
   padding: 8px 8px 8px 16px;
   cursor: pointer;
 }
-.register-form .dropdown-item:hover {
-  background-color: #f0f0f0;
+.register-form .country-code-container {
+  grid-template-columns: 1fr !important;
+}
+.register-form .country-code-container .input-box {
+  justify-content: flex-start;
+}
+.register-form .country-code-container .flag-img {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border-radius: 100%;
+}
+.register-form .dropdown-selected-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 8px;
+  font-weight: 500;
+}
+.register-form .dropdown-selected-container .dropdown-item {
+  padding: 0;
+}
+.register-form .dropdown-item {
+  display: flex;
+  align-items: center;
 }
 
 .container {

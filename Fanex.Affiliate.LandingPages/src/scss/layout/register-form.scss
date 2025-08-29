@@ -62,15 +62,16 @@
         }
 
         .input-box {
+            position: relative;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-radius: 40px;
             background-color: #000;
-            overflow: hidden;
             padding: 0 8px;
             border: 1px solid #cba465;
-            min-height: 32px;
+            height: 40px;
 
             .required-tip {
                 color: #cf0404;
@@ -143,12 +144,12 @@
     }
 
     .dropdown-container {
-        // display: none;
+        display: none;
         position: absolute;
         z-index: 10;
         top: 100%;
         left: 0;
-        max-height: 45vw;
+        max-height: 200px;
         overflow-y: scroll;
         color: rgb(76, 83, 86);
         font-weight: 500;
@@ -158,16 +159,14 @@
         border-color: rgb(174, 172, 172) rgb(174, 172, 172) rgb(174, 172, 172);
         border-image: initial;
         border-top: 0px;
-        margin: 0px 0px 0px -1px;
         border-radius: 6px;
-        width: 90px;
-        // width: 100%;
+        width: 100%;
     }
 
     .dropdown-selected-icon {
         display: inline-block;
-        width: 10px;
-        height: 10px;
+        width: 12px;
+        height: 12px;
         background-image: url("/images/icon-arrow-down.png");
         background-size: contain;
         background-repeat: no-repeat;
@@ -177,8 +176,38 @@
     .dropdown-item {
         padding: 8px 8px 8px 16px;
         cursor: pointer;
-        &:hover {
-            background-color: #f0f0f0;
+    }
+
+    .country-code-container {
+        grid-template-columns: 1fr !important;
+
+        .input-box {
+            justify-content: flex-start;
         }
+
+        .flag-img {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            border-radius: 100%;
+        }
+    }
+
+    .dropdown-selected-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 8px;
+        font-weight: 500;
+
+        .dropdown-item {
+            padding: 0;
+        }
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
     }
 }
