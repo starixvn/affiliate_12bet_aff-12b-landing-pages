@@ -10,9 +10,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+    <script src="~/lib/swiper/swiper-bundle.min.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="~/js/site.js"></script>
+    <link rel="stylesheet" href="~/lib/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body class="background-img" style="background-image:url('/images/background.jpg')"> <!-- background -->
     <div class="container">
@@ -46,15 +49,25 @@
             src="~/images/cta-btn.png"
             alt="cta-btn">
 
-        <!-- promotion -->
-        <img class="promotion-img"
-            src="~/images/Promotion.png"
-            alt="promotion">
+        <!-- promo -->
+        <img class="promo-img"
+            src="~/images/Promo.png"
+            alt="promo list">
 
-            <!-- fav game -->
-        <img class="fav-game-img"
-            src="~/images/fav-game.png"
-            alt="fav-game">
+        <!-- fav game -->
+        <div class="swiper fav-game-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
+                <div class="swiper-slide"><img src="~/images/fav-game01.png" alt="fav-game"></div>
+                <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
+                <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
+                <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
+            </div>
+
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
+        </div>
 
         <!-- Register form -->
         <form class="register-form" id="register-form" novalidate>
@@ -93,9 +106,9 @@
                             <span class="required-tip">*</span>
                             <div class="dropdown-selected-container">
                                 <div class="dropdown-item">+84</div>
-                                <span class="dropdown-selected-icon"></span>
+                                <!-- <span class="dropdown-selected-icon"></span> -->
                             </div>
-                            <div class="dropdown-container">
+                            <!-- <div class="dropdown-container">
                                 <div class="dropdown-item">+60</div>
                                 <div class="dropdown-item">+66</div>
                                 <div class="dropdown-item">+62</div>
@@ -105,7 +118,7 @@
                                 <div class="dropdown-item">+84</div>
                                 <div class="dropdown-item">+82</div>
                                 <div class="dropdown-item">+65</div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="input-box">
                             <span class="required-tip">*</span>
@@ -124,9 +137,9 @@
                                 <img src="~/images/flag-vn.jpg" alt="vietnam" class="flag-img">
                                 VN
                             </div>
-                            <span class="dropdown-selected-icon"></span>
+                            <!-- <span class="dropdown-selected-icon"></span> -->
                         </div>
-                        <div class="dropdown-container">
+                        <!-- <div class="dropdown-container">
                             <div class="dropdown-item">
                                 <img src="~/images/flag-vn.jpg" alt="vietnam" class="flag-img">
                                 VN
@@ -147,7 +160,7 @@
                                 <img src="~/images/flag-thb.jpg" alt="thb" class="flag-img">
                                 THB
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     </div>
                 </div>
