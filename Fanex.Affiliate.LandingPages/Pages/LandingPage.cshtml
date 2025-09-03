@@ -2,6 +2,7 @@
 @model Fanex.Affiliate.LandingPages.Pages.LandingPageModel
 @{
     ViewData["Title"] = "Landing Page";
+    Layout = "Shared/_Layout.cshtml";
 }
 
 <h1>Landing Page: @Model.LandingPageCode</h1>
@@ -10,3 +11,9 @@
 @await Component.InvokeAsync("Background")
 @await Component.InvokeAsync("ContactUs")
 @await Component.InvokeAsync("Youtube")
+
+@section Scripts {
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            async
+            defer></script>
+}

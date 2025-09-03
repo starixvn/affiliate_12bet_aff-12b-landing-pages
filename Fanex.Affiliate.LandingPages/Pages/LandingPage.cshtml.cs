@@ -15,7 +15,19 @@ public class LandingPageModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string Version { get; set; } = string.Empty;
 
+    [BindProperty]
+    public string Email { get; set; }
+
+    [BindProperty]
+    public string Email1 { get; set; }
+
     public async Task OnGetAsync()
     {
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+
+        return Page();
     }
 }
