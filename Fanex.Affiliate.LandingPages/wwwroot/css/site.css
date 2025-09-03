@@ -16,7 +16,6 @@ html {
 
 body {
   line-height: 1.6;
-  overflow-x: hidden;
 }
 
 img {
@@ -31,7 +30,8 @@ button {
   cursor: pointer;
 }
 
-input, textarea {
+input,
+textarea {
   border: none;
   outline: none;
   font-family: inherit;
@@ -114,6 +114,7 @@ p {
 html,
 body {
   height: 100%;
+  overflow-x: hidden;
 }
 
 a {
