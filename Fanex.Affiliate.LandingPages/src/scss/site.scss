@@ -1,19 +1,20 @@
-@use 'abstracts/variables';
-@use 'abstracts/mixins';
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
 
-@use 'base/reset';
-@use 'base/typography';
-@use 'base/common';
-@use 'base/utilities';
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/common';
+@import 'base/utilities';
 
-@use 'layout/straight-lock-in';
-@use 'layout/go-top-btn';
-@use 'layout/background';
-@use 'layout/logo';
-@use 'layout/hero-image';
-@use 'layout/cta-button';
-@use 'layout/register-form';
-@use 'layout/promo';
+@import 'layout/straight-lock-in';
+@import 'layout/go-top-btn';
+@import 'layout/background';
+@import 'layout/logo';
+@import 'layout/hero-image';
+@import 'layout/cta-button';
+@import 'layout/register-form';
+@import 'layout/promo';
+@import 'layout/youtube';
 
 .container {
   position: relative;
