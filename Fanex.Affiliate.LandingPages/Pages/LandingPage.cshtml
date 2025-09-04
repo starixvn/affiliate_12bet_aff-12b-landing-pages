@@ -1,56 +1,55 @@
-﻿@page "/p1/{languageCode}/{landingPageCode}"
+﻿@page "/p1/{languageCode}/{PageCode}"
+@using Fanex.Affiliate.LandingPages.Core
 @model Fanex.Affiliate.LandingPages.Pages.LandingPageModel
 @{
-    ViewData["Title"] = "Landing Page";
+    ViewData["Title"] = "12BET: The Complete Online Gaming Platform in India for Sports, Casino, and Slots";
     Layout = "Shared/_Layout.cshtml";
 }
-<form method="post">
-    <input type="text" name="email"></input>
-  <!-- widget JS sẽ fill vào #recaptchaToken -->
-  
-  </form>
+
 <div class="container">
-    <!-- background -->
-    @await Component.InvokeAsync("Background")
+    @if (Model != null && Model.LandingPage != null
+        && Model.LandingPage.Modules != null
+        && Model.LandingPage.Modules.Any())
+    {
+        foreach (var module in Model.LandingPage.Modules)
+        {
+            string? moduleName = Enum.GetName(typeof(UiModule), module.ModuleId);
+            if (!string.IsNullOrEmpty(moduleName))
+            {
+                @await Component.InvokeAsync(moduleName)
+            }
+        }
+    }
 
-    <!-- sponsor logo only -->
-    @await Component.InvokeAsync("LogoSponsorship") 
+    @* <!-- background --> *@
+    @* @await Component.InvokeAsync("Background") *@
 
-    <!-- sponsor logo + register button -->
-    @await Component.InvokeAsync("LogoSponsorshipRegister")
+    @* <!-- sponsor logo only --> *@
+    @* @await Component.InvokeAsync("LogoSponsorship")  *@
 
-    <!-- hero image -->
-    @await Component.InvokeAsync("HeroImage")
+    @* <!-- sponsor logo + register button --> *@
+    @* @await Component.InvokeAsync("LogoSponsorshipRegister") *@
 
-    <!-- CTA button -->
-    @await Component.InvokeAsync("CTAButton")
+    @* <!-- hero image --> *@
+    @* @await Component.InvokeAsync("HeroImage") *@
 
-    <!-- promo -->
-    @await Component.InvokeAsync("PromoList")
+    @* <!-- CTA button --> *@
+    @* @await Component.InvokeAsync("CTAButton") *@
 
-    <!-- youtube -->
-    @await Component.InvokeAsync("Youtube")
+    @* <!-- promo --> *@
+    @* @await Component.InvokeAsync("PromoList") *@
 
-    <!-- fav game -->
-    @await Component.InvokeAsync("FavoriteGames")
+    @* <!-- youtube --> *@
+    @* @await Component.InvokeAsync("Youtube") *@
 
-    <!-- Register form -->
-    @await Component.InvokeAsync("RegistrationForm")
+    @* <!-- fav game --> *@
+    @* @await Component.InvokeAsync("FavoriteGames") *@
 
-    <!-- Contact us -->
-    @await Component.InvokeAsync("ContactUs")
-
-    <!-- Provider -->
-    @await Component.InvokeAsync("Provider")
-
-    <!-- Payment method -->
-    @await Component.InvokeAsync("PaymentMethod")
-
-    <!-- Licensee awards -->
-    @await Component.InvokeAsync("LicenseeAwards")
+    @* <!-- Register form --> *@
+    @* @await Component.InvokeAsync("RegistrationForm", Model) *@
 </div>
 
-<button id="goTopBtn" class="goTopBtn"></button>
+<button id="goTopBtn"></button>
 <div class="straight-lock-in">
     <div class="icon icon-mobile img-rotate">
         <i class="icon icon-spinner11"></i>
@@ -62,3 +61,4 @@
         <br>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!
     </div>
 </div>
+
