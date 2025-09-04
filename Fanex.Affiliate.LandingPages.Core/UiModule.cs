@@ -14,5 +14,6 @@ public enum UiModule
     PaymentMethod = 10,
     Provider = 11,
     ContactUs = 12,
-    LicenseeAwards = 13
+    LicenseeAwards = 13,
+    LoginButton = 14
 }
