@@ -36,6 +36,18 @@
 
     <!-- Register form -->
     @await Component.InvokeAsync("RegistrationForm")
+
+    <!-- Contact us -->
+    @await Component.InvokeAsync("ContactUs")
+
+    <!-- Provider -->
+    @await Component.InvokeAsync("Provider")
+
+    <!-- Payment method -->
+    @await Component.InvokeAsync("PaymentMethod")
+
+    <!-- Licensee awards -->
+    @await Component.InvokeAsync("LicenseeAwards")
 </div>
 
 <button id="goTopBtn" class="goTopBtn"></button>
@@ -50,6 +62,3 @@
         <br>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!
     </div>
 </div>
-
-@await Component.InvokeAsync("ContactUs")
-

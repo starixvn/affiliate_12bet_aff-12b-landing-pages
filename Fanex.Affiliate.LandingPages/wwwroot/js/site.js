@@ -15,8 +15,7 @@ function initGoTopBtn() {
         goTopBtn.style.display = window.scrollY > 200 ? "block" : "none";
     };
 
-    toggleGoTopBtn();
-
+    toggleGoTopBtn(); // init first load
     window.addEventListener("scroll", toggleGoTopBtn);
 
     goTopBtn.addEventListener("click", () => {
@@ -77,35 +76,37 @@ function initFormScrollBack() {
     });
 }
 
-// Swiper init
+// Swiper init (multi-instance support)
 function initSwiper() {
-    const swiperEl = document.querySelector(".swiper");
-    if (!swiperEl) return;
+    document.querySelectorAll(".swiper-container").forEach((container) => {
+        const swiperEl = container.querySelector(".swiper");
+        if (!swiperEl) return;
 
-    const slideCount = swiperEl.querySelectorAll(".swiper-slide").length;
-    const swiper = new Swiper(".swiper", {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        loop: slideCount > 1,
-        autoplay: slideCount > 1 ? {
-            delay: 2500,
-            disableOnInteraction: false,
-        } : false,
+        const slideCount = swiperEl.querySelectorAll(".swiper-slide").length;
+
+        new Swiper(swiperEl, {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: container.querySelector(".swiper-button-next"),
+                prevEl: container.querySelector(".swiper-button-prev"),
+            },
+            pagination: {
+                el: container.querySelector(".swiper-pagination"),
+                clickable: true,
+            },
+            loop: slideCount > 1,
+            autoplay: slideCount > 1
+                ? { delay: 2500, disableOnInteraction: false }
+                : false,
+        });
+
+        const pagination = container.querySelector(".swiper-pagination");
+        if (slideCount <= 1) {
+            pagination?.style.setProperty("display", "none");
+            swiperEl.style.paddingBottom = "0";
+        } else {
+            swiperEl.style.paddingBottom = "30px";
+        }
     });
-
-    const pagination = swiperEl.querySelector(".swiper-pagination");
-    if (slideCount <= 1) {
-        pagination?.style.setProperty("display", "none");
-        swiperEl.style.paddingBottom = "0";
-    } else {
-        swiperEl.style.paddingBottom = "30px";
-    }
 }

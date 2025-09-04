@@ -13,8 +13,8 @@
 @import 'layout/hero-image';
 @import 'layout/cta-button';
 @import 'layout/register-form';
-@import 'layout/promo';
 @import 'layout/youtube';
+@import 'layout/fav-game';
 
 .container {
   position: relative;
@@ -24,7 +24,24 @@
 
 @media (min-width: 1024px) {
   .container {
-      max-width: 600px;
-      margin: auto;
+    max-width: 600px;
+    margin: auto;
+  }
+}
+
+.promo-img {
+  width: 100%;
+  height: 100%;
+}
+
+.contact-us, .provider-img, .payment-method-img, .licensee-awards-img {
+  margin: 24px auto;
+}
+
+.contact-us {
+  text-align: center;
+
+  .contact-us-link {
+    display: inline-block;
   }
 }
