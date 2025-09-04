@@ -1,7 +1,11 @@
+using Fanex.Affiliate.LandingPages.Core.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddProxyHttpClient("withProxy", builder.Configuration);
 
 var app = builder.Build();
 

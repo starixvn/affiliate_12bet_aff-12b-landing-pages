@@ -4,16 +4,52 @@
     ViewData["Title"] = "Landing Page";
     Layout = "Shared/_Layout.cshtml";
 }
+<form method="post">
+    <input type="text" name="email"></input>
+  <!-- widget JS sẽ fill vào #recaptchaToken -->
+  
+  </form>
+<div class="container">
+    <!-- background -->
+    @await Component.InvokeAsync("Background")
 
-<h1>Landing Page: @Model.LandingPageCode</h1>
+    <!-- sponsor logo only -->
+    @await Component.InvokeAsync("LogoSponsorship") 
 
-@await Component.InvokeAsync("RegistrationForm")
-@await Component.InvokeAsync("Background")
+    <!-- sponsor logo + register button -->
+    @await Component.InvokeAsync("LogoSponsorshipRegister")
+
+    <!-- hero image -->
+    @await Component.InvokeAsync("HeroImage")
+
+    <!-- CTA button -->
+    @await Component.InvokeAsync("CTAButton")
+
+    <!-- promo -->
+    @await Component.InvokeAsync("PromoList")
+
+    <!-- youtube -->
+    @await Component.InvokeAsync("Youtube")
+
+    <!-- fav game -->
+    @await Component.InvokeAsync("FavoriteGames")
+
+    <!-- Register form -->
+    @await Component.InvokeAsync("RegistrationForm")
+</div>
+
+<button id="goTopBtn"></button>
+<div class="straight-lock-in">
+    <div class="icon icon-mobile img-rotate">
+        <i class="icon icon-spinner11"></i>
+    </div>
+    <div class="text">
+        Dear Valued Customer
+        <br>In order to present the better experience and products<br>
+        <span class="text-org">Kindly rotate your phone in portrait for better game experience</span>
+        <br>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!
+    </div>
+</div>
+
 @await Component.InvokeAsync("ContactUs")
-@await Component.InvokeAsync("Youtube")
 
-@section Scripts {
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-            async
-            defer></script>
-}
