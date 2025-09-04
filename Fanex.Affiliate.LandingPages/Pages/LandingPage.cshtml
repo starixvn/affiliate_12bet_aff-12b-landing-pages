@@ -6,7 +6,6 @@
     Layout = "Shared/_Layout.cshtml";
 }
 
-<div class="container">
     @if (Model != null && Model.LandingPage != null
         && Model.LandingPage.Modules != null
         && Model.LandingPage.Modules.Any())
@@ -47,7 +46,6 @@
 
     @* <!-- Register form --> *@
     @* @await Component.InvokeAsync("RegistrationForm", Model) *@
-</div>
 
 <button id="goTopBtn"></button>
 <div class="straight-lock-in">

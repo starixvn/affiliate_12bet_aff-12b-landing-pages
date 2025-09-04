@@ -5,9 +5,6 @@ namespace Fanex.Affiliate.LandingPages.Core.Criteria;
 
 public class GetLandingPageCriteria : CriteriaBase
 {
-    public int PageId { get; set; } = 1;
-
-    [SpParam(Ignored = true)]
     public string PageCode { get; set; } = string.Empty;
 
     public bool IsPreview { get; set; }

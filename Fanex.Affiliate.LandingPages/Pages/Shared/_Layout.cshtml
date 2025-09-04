@@ -3,21 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Fanex.Affiliate.LandingPages</title>
+    <title>@ViewData["Title"]</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <div class="container">
-        <main role="main" class="pb-3">
-            @* <div id="root"></div> *@
-            @RenderBody()
-        </main>
+        @* <div id="root"></div> *@
+        @RenderBody()
     </div>
     <script src="~/js/app.bundle.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/swiper/swiper-bundle.min.js"></script>
+    <script src="~/lib/swiper/swiper-bundle.min.js" asp-append-version="true"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
