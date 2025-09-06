@@ -14,4 +14,7 @@ public static class Constants
     public const string ErrorQueueName = $"{QueueIdentify}.error.queue";
     public const string RoutingKey = $"{QueueIdentify}.routing";
 
+
+    public const string UseProxyWithForwardHeaders = "UseProxyWithForwardHeaders";
+    public const string UseProxy = "UseProxy";
 }

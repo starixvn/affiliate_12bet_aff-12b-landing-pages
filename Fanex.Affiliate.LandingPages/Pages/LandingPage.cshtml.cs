@@ -1,3 +1,4 @@
+using System.Globalization;
 using Fanex.Affiliate.LandingPages.Core;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
@@ -17,27 +18,39 @@ public class LandingPageModel(ILandingPageService landingPageService,
     public required string LanguageCode { get; set; }
 
     [BindProperty(SupportsGet = true)]
-    public string Version { get; set; } = string.Empty;
+    public string? Version { get; set; }
 
     [BindProperty]
-    public SignupRequest Signup { get; set; } = new SignupRequest();
+    public SignupRequest SignUp { get; set; } = new SignupRequest();
 
     public LandingPage? LandingPage { get; set; }
 
+    [BindProperty(Name = "cf-turnstile-response")]
+    public string? TurnstileResponse { get; set; }
+
     public async Task OnGetAsync()
     {
+        var capchaInfo = await landingPageService.GetRecaptchaInfoAsync();
         LandingPage = await landingPageService.GetLandingPage(PageCode, false);
+        SignUp.CaptchaType = capchaInfo.Data?.Type == 2 ? 2 : 0;
+        LandingPage.IsTurnstileCaptchaEnabled = capchaInfo.IsTurnstileCaptchaEnabled;
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
         {
+            LandingPage = await landingPageService.GetLandingPage(PageCode, false);
             return Page();
         }
 
-        if (Signup != null)
+        if (SignUp != null)
         {
+            if (SignUp.CaptchaType == 2)
+            {
+                SignUp.ReCaptchaToken = TurnstileResponse;
+            }
+            
             await signUpService.SentryErrorAsync(null, null);
             //_context.Customer.Add(Customer);
             //await _context.SaveChangesAsync();

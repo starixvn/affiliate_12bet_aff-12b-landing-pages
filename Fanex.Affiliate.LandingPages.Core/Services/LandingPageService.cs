@@ -1,4 +1,5 @@
-﻿using Fanex.Affiliate.LandingPages.Core.Criteria;
+﻿using System.Text.Json;
+using Fanex.Affiliate.LandingPages.Core.Criteria;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Fanex.Data.Repository;
@@ -6,7 +7,9 @@ using Fanex.Data.Repository;
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
 public class LandingPageService(IDynamicRepository dynamicRepository, 
-    Logging.ILogger logger) : ILandingPageService
+    Logging.ILogger logger,
+    IMemberSiteConfigService memberSiteConfigService,
+    IHttpClientFactory httpClientFactory) : ILandingPageService
 {
     public async Task SentryErrorAsync(string errMsg, Exception exception)
     {
@@ -14,7 +17,7 @@ public class LandingPageService(IDynamicRepository dynamicRepository,
     }
     public async Task<LandingPage> GetLandingPage(string pageCode, bool isPreview)
     {
-        var criteria = new GetLandingPageCriteria()
+        var criteria = new GetLandingPageCriteria
         {
             PageCode = pageCode,
             IsPreview = isPreview
@@ -34,9 +37,35 @@ public class LandingPageService(IDynamicRepository dynamicRepository,
 
             return landingPage;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return GetFakeLandingPage(criteria.PageCode);
+        }
+    }
+
+    public async Task<RecaptchaInfo> GetRecaptchaInfoAsync()
+    {
+        try
+        {
+            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetRecaptchaInfo}");
+            request.Headers.Add("accept", "text/plain");
+           
+            var response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            var jsonContent = await response.Content.ReadAsStringAsync();
+            var recaptchaInfo = JsonSerializer.Deserialize<RecaptchaInfo>(jsonContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            
+            return recaptchaInfo ?? new RecaptchaInfo();
+        }
+        catch (Exception ex)
+        {
+            await SentryErrorAsync("Error getting RecaptchaInfo", ex);
+            return new RecaptchaInfo();
         }
     }
 
@@ -46,7 +75,7 @@ public class LandingPageService(IDynamicRepository dynamicRepository,
         {
             CampaignId = 1,
             PageCode = pageCode,
-            Modules = new List<LandingPageModule>()
+            Modules = new List<LandingPageModule>
                 {
                     new LandingPageModule
                     {
@@ -56,10 +85,6 @@ public class LandingPageService(IDynamicRepository dynamicRepository,
                     {
                         ModuleId = 2
                     },
-                    //new LandingPageModule
-                    //{
-                    //    ModuleId = 3
-                    //},
                     new LandingPageModule
                     {
                         ModuleId = 4

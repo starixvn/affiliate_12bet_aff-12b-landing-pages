@@ -13,34 +13,57 @@ public static class HttpClientProxyExtensions
         IConfiguration configuration)
     {
         var proxyOptions = new ProxyOptions();
-        configuration.Bind($"HttpClients:{name}", proxyOptions);
+        configuration.Bind($"HttpClients:withProxy", proxyOptions);
 
         services.AddHttpClient(name)
             .ConfigurePrimaryHttpMessageHandler(() =>
             {
-                if (!proxyOptions.IsUseProxy)
-                {
-                    return new HttpClientHandler();
-                }
-
-                var proxy = new WebProxy(proxyOptions.ProxyUrl)
-                {
-                    BypassProxyOnLocal = false,
-                    UseDefaultCredentials = string.IsNullOrEmpty(proxyOptions.Username)
-                };
-
-                if (!string.IsNullOrEmpty(proxyOptions.Username) && proxyOptions.Password != null)
-                {
-                    proxy.Credentials = new NetworkCredential(proxyOptions.Username, proxyOptions.Password);
-                }
-
-                return new HttpClientHandler
-                {
-                    Proxy = proxy,
-                    UseProxy = true
-                };
+                return GetPrimaryHttpMessageHandler(proxyOptions);
             });
 
         return services;
+    }
+
+    public static IServiceCollection AddProxyWithForwardHeadersHttpClient(
+        this IServiceCollection services,
+        string name,
+        IConfiguration configuration)
+    {
+        var proxyOptions = new ProxyOptions();
+        configuration.Bind($"HttpClients:withProxy", proxyOptions);
+
+        services.AddHttpClient(name)
+            .AddHttpMessageHandler<ForwardHeadersHandler>()
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                return GetPrimaryHttpMessageHandler(proxyOptions);
+            });
+
+        return services;
+    }
+
+    private static HttpMessageHandler GetPrimaryHttpMessageHandler(ProxyOptions proxyOptions)
+    {
+        if (!proxyOptions.IsUseProxy)
+        {
+            return new HttpClientHandler();
+        }
+
+        var proxy = new WebProxy(proxyOptions.ProxyUrl)
+        {
+            BypassProxyOnLocal = false,
+            UseDefaultCredentials = string.IsNullOrEmpty(proxyOptions.Username)
+        };
+
+        if (!string.IsNullOrEmpty(proxyOptions.Username) && proxyOptions.Password != null)
+        {
+            proxy.Credentials = new NetworkCredential(proxyOptions.Username, proxyOptions.Password);
+        }
+
+        return new HttpClientHandler
+        {
+            Proxy = proxy,
+            UseProxy = true
+        };
     }
 }

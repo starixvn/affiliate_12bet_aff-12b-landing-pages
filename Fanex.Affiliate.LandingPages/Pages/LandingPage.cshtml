@@ -15,7 +15,7 @@
             string? moduleName = Enum.GetName(typeof(UiModule), module.ModuleId);
             if (!string.IsNullOrEmpty(moduleName))
             {
-                @await Component.InvokeAsync(moduleName)
+                @await Component.InvokeAsync(moduleName, Model)
             }
         }
     }

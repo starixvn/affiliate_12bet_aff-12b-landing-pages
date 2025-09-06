@@ -18,5 +18,7 @@ public class LandingPage
 
     public int StatusId { get; set; }
 
+    public bool IsTurnstileCaptchaEnabled { get; set; }
+
     public IEnumerable<LandingPageModule> Modules { get; set; }
 }
