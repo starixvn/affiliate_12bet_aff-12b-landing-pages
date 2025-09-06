@@ -25,11 +25,11 @@
         <div class="background-img" style="background-image:url('/images/background.jpg')"></div>
 
         <!-- sponsor logo only -->
-        <div class="logo-sponsor-container">
+        <!-- <div class="logo-sponsor-container">
             <img class="logo-sponsor"
                 src="~/images/logo-sponsor.png"
                 alt="logo">
-        </div>
+        </div> -->
 
         <!-- sponsor logo + register button -->
         <div class="logo-sponsor-container">
@@ -38,8 +38,7 @@
                 alt="logo">
 
             <button class="btn-register">
-                <img src="~/images/icon-click.png"
-                    alt="register icon">
+                <span class="icon-click icon"></span>
                 Register
             </button>
         </div>
@@ -49,37 +48,25 @@
             src="~/images/hero-img.png"
             alt="hero-img">
 
-        <!-- CTA button -->
-        <img class="cta-btn"
-            src="~/images/cta-btn.png"
-            alt="cta-btn">
-
         <!-- promo -->
         <img class="promo-img"
             src="~/images/Promo.png"
             alt="promo list">
 
-        <!-- youtube -->
-        @* <div class="video-container"> *@
-        @*     <iframe  *@
-        @*         src="https://www.youtube.com/embed/KnTcPPx9rP8?start=7&autoplay=1&mute=1" *@
-        @*         title="YouTube video player"  *@
-        @*         frameborder="0" *@
-        @*         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" *@
-        @*         allowfullscreen> *@
-        @*     </iframe> *@
-        @* </div> *@
-
+        <!-- CTA button -->
+        <img class="cta-btn"
+            src="~/images/cta-btn.png"
+            alt="cta-btn">
 
         <!-- fav game -->
         <div class="swiper-container">
             <div class="swiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
-                    <div class="swiper-slide"><img src="~/images/fav-game01.png" alt="fav-game"></div>
+                    <!-- <div class="swiper-slide"><img src="~/images/fav-game01.png" alt="fav-game"></div>
                     <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
                     <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
-                    <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
+                    <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div> -->
                 </div>
 
                 <div class="swiper-button-prev"></div>
@@ -93,10 +80,10 @@
             <div class="swiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
+                    <!-- <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
                     <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
                     <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
-                    <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
-                    <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
+                    <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div> -->
                 </div>
 
                 <div class="swiper-button-prev"></div>
@@ -258,6 +245,25 @@
             </div>
         </form>
 
+        <!-- Login -->
+        <div class="login-container">
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <img class="login-img" src="~/images/login-img.png" alt="login">
+            </a>
+        </div>
+
+        <!-- youtube -->
+        @* <div class="video-container"> *@
+        @*     <iframe  *@
+        @*         src="https://www.youtube.com/embed/KnTcPPx9rP8?start=7&autoplay=1&mute=1" *@
+        @*         title="YouTube video player"  *@
+        @*         frameborder="0" *@
+        @*         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" *@
+        @*         allowfullscreen> *@
+        @*     </iframe> *@
+        @* </div> *@
+
+
         <!-- Contact us -->
         <div class="contact-us">
             <a href="#" target="_blank" rel="noopener noreferrer" class="contact-us-link">
@@ -277,20 +283,20 @@
             src="~/images/licensed-awards.png"
             alt="licensee-awards">
 
+        <button id="goTopBtn" class="goTopBtn"></button>
+
+        <div class="straight-lock-in">
+            <div class="icon icon-mobile img-rotate">
+                <i class="icon icon-spinner11"></i>
+            </div>
+            <div class="text">
+                Dear Valued Customer
+                <br>In order to present the better experience and products<br>
+                <span class="text-org">Kindly rotate your phone in portrait for better game experience</span>
+                <br>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!
+            </div>
+        </div>
     </div>
 
-    <button id="goTopBtn" class="goTopBtn"></button>
-
-    <div class="straight-lock-in">
-        <div class="icon icon-mobile img-rotate">
-            <i class="icon icon-spinner11"></i>
-        </div>
-        <div class="text">
-            Dear Valued Customer
-            <br>In order to present the better experience and products<br>
-            <span class="text-org">Kindly rotate your phone in portrait for better game experience</span>
-            <br>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!
-        </div>
-    </div>
 </body>
 </html> 

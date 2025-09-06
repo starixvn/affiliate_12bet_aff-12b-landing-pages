@@ -15,7 +15,11 @@
 }
 
 @media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) {
-    .straight-lock-in { 
+    .straight-lock-in {
         display: block;
     }
-  }
+
+    #goTopBtn {
+        display: none !important;
+    }
+}

@@ -1,5 +1,14 @@
 .register-form {
-    margin: 20px 16px;
+    padding: 20px 16px;
+    margin: auto;
+
+    @include respond-to(small-tablet) {
+        padding: 24px 20px;
+    }
+
+    @include respond-to(tablet-to-desktop) {
+        padding: 32px 20px;
+    }
 
     .form-content {
         display: flex;

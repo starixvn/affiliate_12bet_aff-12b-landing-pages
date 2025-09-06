@@ -1,12 +1,30 @@
 .logo-sponsor-container {
+    width: 100%;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 16px 10px;
+    padding: 20px 16px;
+    margin: auto;
 
     img {
-        width: 159px;
+        height: 40px;
+    }
+
+    @include respond-to(small-tablet) {
+        padding: 24px 20px;
+
+        img {
+            height: 50px;
+        }
+    }
+
+    @include respond-to(tablet-to-desktop) {
+        padding: 32px 24px;
+
+        img {
+            height: 60px;
+        }
     }
 }
 
@@ -15,27 +33,23 @@
 }
 
 .btn-register {
-    padding: 6px 16px;
-    box-sizing: content-box;
-    border-radius: 8px;
-    white-space: nowrap;
-    font-size: 11px;
-    font-weight: 300;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(180deg, #39b248, #226b2b);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-family: sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0;
+    vertical-align: middle;
+    background: linear-gradient(180deg, #39B248 0%, #226B2B 100%);
     color: #fff;
+    padding: 10px 17px;
+    min-height: 32px;
+    border-radius: 8px;
     border: none;
-    cursor: pointer;
-    line-height: 1.6;
-
-    img {
-        width: 10px;
-        margin-right: 4px;
-    }
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 
     &::before {
         content: "";
@@ -47,6 +61,38 @@
         background: linear-gradient(0deg, transparent, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, .4), hsla(0, 0%, 100%, 0));
         transform: rotate(45deg);
         animation: shine-diagonal var(--shine-duration) var(--shine-timing) infinite;
+        border-radius: inherit;
+        clip-path: inset(0 round 8px);
+    }
+
+    @include respond-to(small-tablet) {
+        font-size: 14px;
+        padding: 11px 18px;
+        min-height: 36px;
+    }
+
+    @include respond-to(tablet-to-desktop) {
+        font-size: 16px;
+        padding: 12px 20px;
+        min-height: 40px;
+    }
+
+    .icon-click {
+        width: 12px;
+        height: 12px;
+        background-image: url("/images/icon-click.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        @include respond-to(small-tablet) {
+            width: 14px;
+            height: 14px;
+        }
+
+        @include respond-to(tablet-to-desktop) {
+            width: 16px;
+            height: 16px;
+        }
     }
 }
 

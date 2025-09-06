@@ -1,6 +1,24 @@
 .swiper-container {
-    margin: 16px;
-    width: calc(100% - 32px);
+    padding: 12px 16px;
+    margin: auto;
+
+    @include respond-to(small-tablet) {
+        padding: 16px 20px;
+    }
+
+    @include respond-to(tablet) {
+        padding: 20px 24px;
+    }
+
+    @include respond-to(tablet-to-desktop) {
+        padding: 24px 32px;
+    }
+
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .swiper-button-prev {
         left: 0;
