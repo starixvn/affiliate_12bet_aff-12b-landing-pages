@@ -9,7 +9,6 @@ using Fanex.Logging.Sentry.RavenClient;
 using Fanex.Logging;
 using SharpRaven;
 using StackExchange.Redis;
-using System.Reflection.Metadata;
 using Fanex.Affiliate.LandingPages.Core;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages().AddViewLocalization()
     .AddDataAnnotationsLocalization();
+
+builder.Services.AddControllers();
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -79,8 +80,12 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 app.UseRequestLocalization();
+
+// Configure routing for both Razor Pages and MVC
 app.MapRazorPages()
    .WithStaticAssets();
+
+app.MapControllers();
 
 app.UseResponseCaching();
 

@@ -36,13 +36,4 @@
     <Exec Command="npm install" />
   </Target>
 
-  <Target Name="NpmBuild" BeforeTargets="Build" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="npm install" />
-    <Exec Command="npm run build:react" />
-  </Target>
-
-  <Target Name="NpmBuildDev" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-    <Exec Command="npm run build:react:dev" />
-  </Target>
-
 </Project>

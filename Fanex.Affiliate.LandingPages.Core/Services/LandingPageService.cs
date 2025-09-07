@@ -1,20 +1,12 @@
-﻿using System.Text.Json;
-using Fanex.Affiliate.LandingPages.Core.Criteria;
+﻿using Fanex.Affiliate.LandingPages.Core.Criteria;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Fanex.Data.Repository;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
-public class LandingPageService(IDynamicRepository dynamicRepository, 
-    Logging.ILogger logger,
-    IMemberSiteConfigService memberSiteConfigService,
-    IHttpClientFactory httpClientFactory) : ILandingPageService
+public class LandingPageService(IDynamicRepository dynamicRepository) : ILandingPageService
 {
-    public async Task SentryErrorAsync(string errMsg, Exception exception)
-    {
-        await logger.ErrorAsync(errMsg, exception);
-    }
     public async Task<LandingPage> GetLandingPage(string pageCode, bool isPreview)
     {
         var criteria = new GetLandingPageCriteria
@@ -40,32 +32,6 @@ public class LandingPageService(IDynamicRepository dynamicRepository,
         catch (Exception)
         {
             return GetFakeLandingPage(criteria.PageCode);
-        }
-    }
-
-    public async Task<RecaptchaInfo> GetRecaptchaInfoAsync()
-    {
-        try
-        {
-            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetRecaptchaInfo}");
-            request.Headers.Add("accept", "text/plain");
-           
-            var response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            
-            var jsonContent = await response.Content.ReadAsStringAsync();
-            var recaptchaInfo = JsonSerializer.Deserialize<RecaptchaInfo>(jsonContent, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-            
-            return recaptchaInfo ?? new RecaptchaInfo();
-        }
-        catch (Exception ex)
-        {
-            await SentryErrorAsync("Error getting RecaptchaInfo", ex);
-            return new RecaptchaInfo();
         }
     }
 

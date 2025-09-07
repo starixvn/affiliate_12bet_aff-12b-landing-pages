@@ -31,3 +31,4 @@ public interface IMemberSiteConfigService
     /// <returns>The complete API URL</returns>
     string GetFullApiUrl(string path);
 }
+

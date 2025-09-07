@@ -1,26 +1,27 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/js/app.js',
+  entry: {
+    site: './src/js/site.js'
+  },
   output: {
     path: path.resolve(__dirname, 'wwwroot/js'),
-    filename: 'app.bundle.js',
+    filename: '[name].bundle.js',
+    clean: true
   },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
         }
       }
-    ]
+    }
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js']
   }
 };

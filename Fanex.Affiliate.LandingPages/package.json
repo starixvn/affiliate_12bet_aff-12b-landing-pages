@@ -7,21 +7,19 @@
     "build:dev": "sass src/scss/site.scss:wwwroot/css/site.css --style expanded --source-map",
     "build:pro": "sass src/scss/site.scss:wwwroot/css/site.css --style compressed",
     "dev": "concurrently \"npm run watch\" \"dotnet watch run\"",
-    "build:react": "webpack --mode production",
-    "build:react:dev": "webpack --mode development",
-    "watch:react": "webpack --mode development --watch"
+    "build:js": "webpack --mode production",
+    "build:js:dev": "webpack --mode development",
+    "watch:js": "webpack --mode development --watch"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "jquery": "^3.7.1",
+    "jquery-validation": "^1.19.5",
+    "jquery-validation-unobtrusive": "^3.2.12",
+    "swiper": "^11.0.5"
   },
   "devDependencies": {
     "sass": "^1.69.0",
     "concurrently": "^8.2.2",
-    "@babel/core": "^7.23.0",
-    "@babel/preset-env": "^7.23.0",
-    "@babel/preset-react": "^7.22.0",
-    "babel-loader": "^9.1.0",
     "webpack": "^5.88.0",
     "webpack-cli": "^5.1.0"
   }

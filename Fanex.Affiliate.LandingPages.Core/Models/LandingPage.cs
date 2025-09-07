@@ -20,5 +20,7 @@ public class LandingPage
 
     public bool IsTurnstileCaptchaEnabled { get; set; }
 
+    public string TurnstileSiteKey { get; set; }
+
     public IEnumerable<LandingPageModule> Modules { get; set; }
 }

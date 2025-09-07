@@ -1,5 +1,3 @@
-using System.Globalization;
-using Fanex.Affiliate.LandingPages.Core;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +19,7 @@ public class LandingPageModel(ILandingPageService landingPageService,
     public string? Version { get; set; }
 
     [BindProperty]
-    public SignupRequest SignUp { get; set; } = new SignupRequest();
+    public RegisterForm RegisterForm { get; set; } = new RegisterForm();
 
     public LandingPage? LandingPage { get; set; }
 
@@ -30,10 +28,11 @@ public class LandingPageModel(ILandingPageService landingPageService,
 
     public async Task OnGetAsync()
     {
-        var capchaInfo = await landingPageService.GetRecaptchaInfoAsync();
+        var capchaInfo = await signUpService.GetRecaptchaInfoAsync();
         LandingPage = await landingPageService.GetLandingPage(PageCode, false);
-        SignUp.CaptchaType = capchaInfo.Data?.Type == 2 ? 2 : 0;
+        RegisterForm.CaptchaType = capchaInfo.Data?.Type == 2 ? 2 : 0;
         LandingPage.IsTurnstileCaptchaEnabled = capchaInfo.IsTurnstileCaptchaEnabled;
+        LandingPage.TurnstileSiteKey = capchaInfo!.Data!.SiteKey;
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -44,19 +43,17 @@ public class LandingPageModel(ILandingPageService landingPageService,
             return Page();
         }
 
-        if (SignUp != null)
+        if (RegisterForm != null)
         {
-            if (SignUp.CaptchaType == 2)
+            if (RegisterForm.CaptchaType == 2)
             {
-                SignUp.ReCaptchaToken = TurnstileResponse;
+                RegisterForm.ReCaptchaToken = TurnstileResponse;
             }
             
-            await signUpService.SentryErrorAsync(null, null);
+            
             //_context.Customer.Add(Customer);
             //await _context.SaveChangesAsync();
         }
         return RedirectToPage("./Index");
     }
-
-
 }

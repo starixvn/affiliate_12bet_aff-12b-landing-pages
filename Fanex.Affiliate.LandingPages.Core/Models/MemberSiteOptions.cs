@@ -15,3 +15,4 @@ public class MemberSiteOptions
     /// </summary>
     public string APIHost { get; set; } = string.Empty;
 }
+

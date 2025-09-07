@@ -2,7 +2,7 @@
 
 namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
 {
-    public class LoginButtonComponent : ViewComponent
+    public class LoginButtonViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke()
         {
