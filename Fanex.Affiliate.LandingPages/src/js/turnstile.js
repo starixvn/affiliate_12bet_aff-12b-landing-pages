@@ -45,7 +45,7 @@ window.onTurnstileError = function (errorCode) {
     console.error("Turnstile Error:", errorCode);
 
     // Disable submit button
-    $('#submit-btn').prop('disabled', true);
+    //$('#submit-btn').prop('disabled', true);
 
     // Hiển thị number captcha
     $('#numberCapcha').show();

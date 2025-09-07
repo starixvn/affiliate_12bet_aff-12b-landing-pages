@@ -33,6 +33,8 @@ public class LandingPageModel(ILandingPageService landingPageService,
         RegisterForm.CaptchaType = capchaInfo.Data?.Type == 2 ? 2 : 0;
         LandingPage.IsTurnstileCaptchaEnabled = capchaInfo.IsTurnstileCaptchaEnabled;
         LandingPage.TurnstileSiteKey = capchaInfo!.Data!.SiteKey;
+        RegisterForm.AreaCode = LandingPage.CountryInfo!.DialCode;
+        //RegisterForm.CurrencyId = LandingPage.CountryInfo!.Currency;
     }
 
     public async Task<IActionResult> OnPostAsync()

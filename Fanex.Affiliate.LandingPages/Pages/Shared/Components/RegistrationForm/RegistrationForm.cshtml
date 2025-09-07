@@ -8,22 +8,20 @@
             <div class="input-box">
                 <span class="required-tip">*</span>
                 <input asp-for="RegisterForm.Username" placeholder="Username" />
-
-                @* <input type="text" name="username" placeholder="Username" autocomplete="off" required> *@
                 <div class="icon-area">
                     <span class="icon-detail icon-checkmark"></span>
                     <span class="icon-detail icon-information"></span>
                 </div>
             </div>
-            <span class="required-text" asp-validation-for="RegisterForm.Username"></span>
-            @* <div class="required-text">Username is required.</div> *@
+            <span class="required-text" asp-validation-for="RegisterForm.Username">
+            </span>
         </div>
 
         <div class="input-field">
             <div class="input-box">
                 <span class="required-tip">*</span>
                 @* <input type="password" name="password" placeholder="Password" autocomplete="off" required> *@
-                <input asp-for="RegisterForm.UserPwd" placeholder="Password" />
+                <input type="password" asp-for="RegisterForm.UserPwd" placeholder="Password" />
                 <div class="icon-area">
                     <span class="icon-detail icon-checkmark"></span>
                     <span class="icon-detail icon-eye"></span>
@@ -38,7 +36,8 @@
                 <div class="input-box">
                     <span class="required-tip">*</span>
                     <div class="dropdown-selected-container">
-                        <div class="dropdown-item">+84</div>
+                        <div class="dropdown-item">@Model.LandingPage!.CountryInfo!.DialCode</div>
+                        <input asp-for="RegisterForm.AreaCode" type="hidden" />
                         <!-- <span class="dropdown-selected-icon"></span> -->
                     </div>
                     <!-- <div class="dropdown-container">
@@ -160,7 +159,7 @@
 
         <!-- CTA button -->
 
-        <button id="submit-btn" type="submit" disabled>
+        <button id="submit-btn" type="submit">
             <img class="cta-btn join-now-btn"
                  src="~/images/join-now-btn.png"
                  alt="cta-btn">

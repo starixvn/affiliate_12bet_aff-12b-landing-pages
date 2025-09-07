@@ -26,8 +26,8 @@ public class RegisterForm
     public string ReferralUrl { get; set; } = string.Empty;
 
     [Remote(action: "CheckAffiliate", controller: "SignUp")]
-    public string AffCode { get; set; } = string.Empty;
-    public string? AffId { get; set; }
+    public string? AffCode { get; set; }
+    public string AffId { get; set; } = string.Empty;
     public string RefId { get; set; } = string.Empty;
     public string Aff { get; set; } = string.Empty;
     public string Blackbox { get; set; } = string.Empty;

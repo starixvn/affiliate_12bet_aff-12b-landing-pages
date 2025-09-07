@@ -8,6 +8,15 @@ public class LandingPage
 
     public string PageName { get; set; } = string.Empty;
 
+    public CountryInfo? CountryInfo
+    {
+        get
+        {
+            var countryInfo = CountryData.Countries.FirstOrDefault(t => t.ContryCode == TargetCountryCode);
+            return countryInfo;
+        }
+    }
+
     public int CampaignId { get; set; }
 
     public string TargetCountryCode { get; set; } = string.Empty;

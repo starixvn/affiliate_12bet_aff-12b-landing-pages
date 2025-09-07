@@ -41,6 +41,7 @@ public class LandingPageService(IDynamicRepository dynamicRepository) : ILanding
         {
             CampaignId = 1,
             PageCode = pageCode,
+            TargetCountryCode = "IN",
             Modules = new List<LandingPageModule>
                 {
                     new LandingPageModule

@@ -1,6 +1,6 @@
 ﻿import $ from 'jquery';
 import 'jquery-validation';
-import 'jquery-validation-unobtrusive';
+import 'jquery-validation-unobtrusive'; 
 import Swiper from 'swiper';
 import './turnstile.js';
 
@@ -12,6 +12,29 @@ $(function () {
     initSwiper();
 
     enableRemoteValidationDebounce(500);
+
+    $("#register-form").on("submit", function () {
+        const $passwordInput = $("#RegisterForm_UserPwd");
+        if ($passwordInput.val()) {
+            const encoded = btoa(unescape(encodeURIComponent($passwordInput.val())));
+            $passwordInput.val(encoded);
+        }
+    });
+
+    let validator = $("#register-form").data("validator");
+
+    if (validator) {
+        validator.settings.highlight = function (element) {
+            $(element).closest(".input-box")
+                .removeClass("valid")
+                .addClass("error");
+        };
+        validator.settings.unhighlight = function (element) {
+            $(element).closest(".input-box")
+                .removeClass("error")
+                .addClass("valid");
+        };
+    }
 });
 
 // Scroll To Top button
@@ -138,8 +161,6 @@ function enableRemoteValidationDebounce(delayMs) {
             }
 
             this.stopRequest(element, true);
-
-            console.log("skip remote vì empty");
             return true;
         }
 
@@ -161,8 +182,6 @@ function enableRemoteValidationDebounce(delayMs) {
             }
 
             validator.startRequest(element);
-
-            console.log("call remote với value:", value);
 
             currentXhr = $.ajax($.extend(true, {
                 url: param.url || param,
