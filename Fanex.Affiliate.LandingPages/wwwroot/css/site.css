@@ -427,6 +427,16 @@ a {
   font-size: 14px;
   padding: 8px;
 }
+.register-form .input-field .input-box .icon-checkmark {
+  opacity: 0;
+}
+.register-form .input-field .input-box.input-error .icon-checkmark {
+  opacity: 0;
+}
+.register-form .input-field .input-box.input-valid .icon-checkmark {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
 .register-form .input-field .icon-area {
   display: flex;
   align-items: center;

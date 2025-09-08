@@ -26,13 +26,13 @@ $(function () {
     if (validator) {
         validator.settings.highlight = function (element) {
             $(element).closest(".input-box")
-                .removeClass("valid")
-                .addClass("error");
+                .removeClass("input-valid")
+                .addClass("input-error");
         };
         validator.settings.unhighlight = function (element) {
             $(element).closest(".input-box")
-                .removeClass("error")
-                .addClass("valid");
+                .removeClass("input-error")
+                .addClass("input-valid");
         };
     }
 });

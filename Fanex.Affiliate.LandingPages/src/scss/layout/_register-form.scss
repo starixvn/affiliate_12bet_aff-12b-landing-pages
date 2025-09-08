@@ -98,6 +98,23 @@
                 font-size: 14px;
                 padding: 8px;
             }
+
+            .icon-checkmark {
+                opacity: 0;
+            }
+        }
+
+        .input-box.input-error {
+            .icon-checkmark {
+                opacity: 0;
+            }
+        }
+
+        .input-box.input-valid {
+            .icon-checkmark {
+                opacity: 1;
+                transition: opacity 0.6s ease;
+            }
         }
 
         .icon-area {

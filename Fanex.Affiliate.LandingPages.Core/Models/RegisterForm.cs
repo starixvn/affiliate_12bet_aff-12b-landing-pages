@@ -8,7 +8,11 @@ public class RegisterForm
     [Required, StringLength(18, MinimumLength = 6)]
     [Remote(action: "CheckExistsUsername", controller: "SignUp", ErrorMessage = "Username is used")]
     public string Username { get; set; } = string.Empty;
+
     [Required, StringLength(15, MinimumLength = 6)]
+    [DataType(DataType.Password)]
+    [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d).{6,}$",
+        ErrorMessage = "Password must be at least 6 characters, contain at least one letter and one number.")]
     public string UserPwd { get; set; } = string.Empty;
 
     [EmailAddress]
