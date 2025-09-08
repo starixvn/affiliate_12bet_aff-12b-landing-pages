@@ -173,9 +173,6 @@ a {
   transition: background-color 0.3s, transform 0.2s;
   z-index: 10;
 }
-.scroll-to-top.show {
-  display: flex;
-}
 
 .scroll-to-top:hover {
   background-color: #b71c1c;
