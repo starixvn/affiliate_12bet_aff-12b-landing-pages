@@ -24,7 +24,7 @@ function loadToken() {
 // Tạo global functions để RegistrationForm.cshtml có thể gọi
 window.onTurnstileSuccess = function (token) {
     console.log("Turnstile Success:", token);
-
+    $("#RegisterForm_ReCaptchaToken").val(token);
     // Enable submit button
     $('#submit-btn').prop('disabled', false);
     //// Lưu token vào hidden input

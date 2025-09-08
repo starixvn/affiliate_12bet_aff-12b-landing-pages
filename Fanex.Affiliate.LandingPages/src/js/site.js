@@ -2,7 +2,41 @@
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive'; 
 import Swiper from 'swiper';
+import { parsePhoneNumberFromString } from 'libphonenumber-js/core';
+import metadata from 'libphonenumber-js/metadata.mobile.json';
 import './turnstile.js';
+
+// Register phone validation BEFORE DOM ready
+$.validator.unobtrusive.adapters.add("phonenocountry", ["countryproperty"], function (options) {
+    options.rules["phonenocountry"] = {
+        countryProperty: options.params.countryproperty
+    };
+    options.messages["phonenocountry"] = options.message;
+});
+
+$.validator.addMethod("phonenocountry", function (value, element, params) {
+    if (!value) return true;
+
+    // Get country code from the specified property
+    let countryCodeFieldName = "RegisterForm." + params.countryProperty;
+    let countryCode = $("[name='" + countryCodeFieldName + "']").val();
+    
+    // If no country code found, skip validation
+    if (!countryCode) return true;
+
+    try {
+        // Validate phone number using libphonenumber-js
+        let phoneNumber = parsePhoneNumberFromString(value, countryCode, metadata);
+        if (!phoneNumber || !phoneNumber.isValid()) {
+            return false;
+        }
+
+        const type = phoneNumber.getType();
+        return type === 'MOBILE' || type === 'FIXED_LINE_OR_MOBILE';
+    } catch (e) {
+        return false;
+    }
+}, "Invalid phone number for the selected country.");
 
 $(function () {
     initGoTopBtn();
@@ -13,11 +47,15 @@ $(function () {
 
     enableRemoteValidationDebounce(500);
 
-    $("#register-form").on("submit", function () {
-        const $passwordInput = $("#RegisterForm_UserPwd");
-        if ($passwordInput.val()) {
-            const encoded = btoa(unescape(encodeURIComponent($passwordInput.val())));
-            $passwordInput.val(encoded);
+    const $form = $("#register-form");
+    $form.on("submit", function () {
+        if ($form.valid()) {
+            const $passwordInput = $("#RegisterForm_UserPwd");
+            if ($passwordInput.val()) {
+                const encoded = btoa(unescape(encodeURIComponent($passwordInput.val())));
+                $passwordInput.val("ZHNkc2RzZGRZA");
+                $("#RegisterForm_Password").val(encoded);
+            }
         }
     });
 
@@ -35,6 +73,8 @@ $(function () {
                 .addClass("input-valid");
         };
     }
+
+
 });
 
 // Scroll To Top button

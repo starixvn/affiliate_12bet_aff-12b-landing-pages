@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Text;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +25,6 @@ public class LandingPageModel(ILandingPageService landingPageService,
 
     public LandingPage? LandingPage { get; set; }
 
-    [BindProperty(Name = "cf-turnstile-response")]
-    public string? TurnstileResponse { get; set; }
-
     public async Task OnGetAsync()
     {
         var capchaInfo = await signUpService.GetRecaptchaInfoAsync();
@@ -47,12 +46,6 @@ public class LandingPageModel(ILandingPageService landingPageService,
 
         if (RegisterForm != null)
         {
-            if (RegisterForm.CaptchaType == 2)
-            {
-                RegisterForm.ReCaptchaToken = TurnstileResponse;
-            }
-            
-            
             //_context.Customer.Add(Customer);
             //await _context.SaveChangesAsync();
         }
