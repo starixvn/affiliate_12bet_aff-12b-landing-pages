@@ -49,7 +49,6 @@
     border: none;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
 
     &::before {
         content: "";
@@ -80,6 +79,7 @@
     .icon-click {
         width: 12px;
         height: 12px;
+        margin-right: 4px;
         background-image: url("/images/icon-click.png");
         background-size: cover;
         background-repeat: no-repeat;

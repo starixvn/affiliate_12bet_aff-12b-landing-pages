@@ -11,9 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
     <title>@ViewData["Title"]</title>
-    <script src="~/lib/swiper/swiper-bundle.min.js"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script src="~/js/site.js"></script>
+    <script src="~/js/vendor.bundle.js" asp-append-version="true"></script>
+    <script src="~/js/site.bundle.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="~/lib/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 
@@ -283,7 +282,18 @@
             src="~/images/licensed-awards.png"
             alt="licensee-awards">
 
-        <button id="goTopBtn" class="goTopBtn"></button>
+        <!-- Go to top button -->
+        <div class="scroll-to-top" id="goTopBtn">
+            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#ffffff"
+                d="M487.463,216.139L286.099,12.576C278.137,4.52,267.308,0,255.997,0
+                    c-11.312,0-22.13,4.52-30.092,12.576L24.541,216.139c-16.438,16.622-16.304,
+                    43.437,0.329,59.875c16.613,16.438,43.416,16.294,59.854-0.329l128.955-130.352v324.341
+                    c0,23.362,18.945,42.327,42.318,42.327c23.382,0,42.327-18.965,42.327-42.327V145.332
+                    L427.27,275.684c16.438,16.623,43.252,16.767,59.864,0.329
+                    C503.758,259.576,503.901,232.761,487.463,216.139z"/>
+            </svg>
+        </div>
 
         <div class="straight-lock-in">
             <div class="icon icon-mobile img-rotate">

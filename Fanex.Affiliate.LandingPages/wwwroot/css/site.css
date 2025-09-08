@@ -151,24 +151,40 @@ a {
 
 @media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) {
   .straight-lock-in {
-    display: block;
+    display: flex;
   }
   #goTopBtn {
     display: none !important;
   }
 }
-#goTopBtn {
-  display: none;
+.scroll-to-top {
   position: fixed;
-  bottom: 30px;
-  right: 10px;
-  z-index: 100;
-  width: 42px;
-  height: 42px;
-  background-image: url("/images/go-top-btn.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  bottom: 40px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #d32f2f;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s, transform 0.2s;
+  z-index: 10;
+}
+.scroll-to-top.show {
+  display: flex;
+}
+
+.scroll-to-top:hover {
+  background-color: #b71c1c;
+  transform: scale(1.08);
+}
+
+.scroll-to-top svg {
+  width: 18px;
+  height: 18px;
 }
 
 .background-img {
@@ -179,13 +195,8 @@ a {
   min-height: 100vh;
   height: 100%;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% auto;
   z-index: -1;
-}
-@media (min-width: 769px) {
-  .background-img {
-    background-size: cover;
-  }
 }
 
 .logo-sponsor-container {
@@ -238,7 +249,6 @@ a {
   border: none;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
 }
 .btn-register::before {
   content: "";
@@ -270,6 +280,7 @@ a {
 .btn-register .icon-click {
   width: 12px;
   height: 12px;
+  margin-right: 4px;
   background-image: url("/images/icon-click.png");
   background-size: cover;
   background-repeat: no-repeat;

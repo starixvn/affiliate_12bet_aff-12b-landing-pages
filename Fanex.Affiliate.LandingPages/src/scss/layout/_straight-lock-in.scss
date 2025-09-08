@@ -16,7 +16,7 @@
 
 @media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) {
     .straight-lock-in {
-        display: block;
+        display: flex;
     }
 
     #goTopBtn {

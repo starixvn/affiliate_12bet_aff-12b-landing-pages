@@ -97,7 +97,11 @@ function initGoTopBtn() {
     if ($goTopBtn.length === 0) return;
 
     function toggleGoTopBtn() {
-        $goTopBtn.toggle($(window).scrollTop() > 200);
+        if ($(window).scrollTop() > 200) {
+            $goTopBtn.css("display", "flex");   // hiện với flex
+        } else {
+            $goTopBtn.css("display", "none");   // ẩn
+        }
     }
 
     toggleGoTopBtn(); // Initial check
@@ -107,6 +111,7 @@ function initGoTopBtn() {
         $("html, body").animate({ scrollTop: 0 }, 400);
     });
 }
+
 
 // Toggle input-info
 function initInputInfoToggle() {
@@ -141,7 +146,7 @@ function initFormScrollBack() {
     if ($form.length === 0) return;
 
     var exceptions = [
-        ".goTopBtn",
+        ".scroll-to-top",
         ".swiper-button-next",
         ".swiper-button-prev",
         ".swiper-pagination"
