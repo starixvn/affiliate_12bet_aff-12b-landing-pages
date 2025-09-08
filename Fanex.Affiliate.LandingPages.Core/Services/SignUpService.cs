@@ -174,4 +174,37 @@ public class SignUpService(Logging.ILogger logger,
             return new ExistsUserNameResponse();
         }
     }
+
+    public async Task<BaseResponse> SignUpAsync(RegisterForm registerForm)
+    {
+        try
+        {
+            using var httpClient = httpClientFactory.CreateClient();
+            var apiHost = memberSiteConfigService.GetAPIHost();
+            var requestUrl = $"{apiHost}{ApiPath.SignupV2}/{registerForm.UserLang}";
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
+            {
+                Content = new StringContent(
+                    JsonSerializer.Serialize(registerForm),
+                    System.Text.Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<BaseResponse>(content, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return result ?? new BaseResponse();
+        }
+        catch (Exception ex)
+        {
+            await logger.ErrorAsync("Error SignUpAsync", ex);
+            return new BaseResponse();
+        }
+    }
 }

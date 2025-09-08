@@ -2,7 +2,7 @@
 <form class="register-form" id="register-form" method="post">
     <div class="form-content">
         <p class="form-title">QUICK REGISTRATION</p>
-
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="input-field">
             <div class="input-info">For security, we suggest that your username does not contain your real name.</div>
             <div class="input-box">
@@ -70,6 +70,7 @@
             <div class="input-box-container country-code-container">
                 <div class="input-box">
                     <span class="required-tip">*</span>
+                    <input asp-for="RegisterForm.CurrencyId" type="hidden" />
                     <div class="dropdown-selected-container">
                         <div class="dropdown-item">
                             <img src="~/images/flag-vn.jpg" alt="vietnam" class="flag-img">

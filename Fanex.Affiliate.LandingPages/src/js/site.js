@@ -74,7 +74,21 @@ $(function () {
         };
     }
 
+    var $firstErrorField = $(".input-validation-error").first();
 
+    if ($firstErrorField.length) {
+        $('html, body').animate({
+            scrollTop: $firstErrorField.offset().top - 100
+        }, 500);
+        $firstErrorField.focus();
+    } else {
+        var $summary = $(".validation-summary-errors, .validation-summary-valid.text-danger").first();
+        if ($summary.length) {
+            $('html, body').animate({
+                scrollTop: $summary.offset().top - 100
+            }, 500);
+        }
+    }
 });
 
 // Scroll To Top button

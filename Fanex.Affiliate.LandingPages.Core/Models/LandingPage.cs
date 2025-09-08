@@ -19,6 +19,8 @@ public class LandingPage
 
     public int CampaignId { get; set; }
 
+    public int CurrencyId { get; set; }
+
     public string TargetCountryCode { get; set; } = string.Empty;
 
     public string MarketId { get; set; } = string.Empty;

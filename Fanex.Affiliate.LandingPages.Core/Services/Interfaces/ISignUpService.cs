@@ -13,4 +13,6 @@ public interface ISignUpService
     Task<AffiliateCheckResponse> CheckAffiliateAsync(string affCode);
 
     Task<ExistsUserNameResponse> CheckExistsUserNameAsync(string username, string lang);
+
+    Task<BaseResponse> SignUpAsync(RegisterForm registerForm);
 }

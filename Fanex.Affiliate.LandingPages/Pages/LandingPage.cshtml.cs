@@ -1,9 +1,10 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Polly;
 
 namespace Fanex.Affiliate.LandingPages.Pages;
 
@@ -33,22 +34,34 @@ public class LandingPageModel(ILandingPageService landingPageService,
         LandingPage.IsTurnstileCaptchaEnabled = capchaInfo.IsTurnstileCaptchaEnabled;
         LandingPage.TurnstileSiteKey = capchaInfo!.Data!.SiteKey;
         RegisterForm.AreaCode = LandingPage.CountryInfo!.DialCode;
-        //RegisterForm.CurrencyId = LandingPage.CountryInfo!.Currency;
+        RegisterForm.CurrencyId = LandingPage.CurrencyId;
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid && RegisterForm != null)
         {
-            LandingPage = await landingPageService.GetLandingPage(PageCode, false);
-            return Page();
+            RegisterForm.PhoneNo = "123496788";
+            var result = await signUpService.SignUpAsync(RegisterForm);
+            if (result.ErrorCode == 0)
+            {
+                var rootUrl = $"{Request.Scheme}://{Request.Host}/";
+                return Redirect(rootUrl);
+            }
+            else
+            {
+                if (result.ErrorCode == 1114)
+                {
+                    ModelState.AddModelError(nameof(RegisterForm.PhoneNo), result.Message);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, result.Message);
+                }
+            }
         }
 
-        if (RegisterForm != null)
-        {
-            //_context.Customer.Add(Customer);
-            //await _context.SaveChangesAsync();
-        }
-        return RedirectToPage("./Index");
+        await OnGetAsync();
+        return Page();
     }
 }
