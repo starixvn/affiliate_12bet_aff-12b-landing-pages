@@ -55,12 +55,6 @@
                 <div class="input-box">
                     <span class="required-tip">*</span>
                     <input asp-for="RegisterForm.PhoneNo" placeholder="Phone Number" />
-
-                    @* <input asp-for="RegisterForm.PhoneNo" *@
-                    @*        placeholder="Phone Number"  *@
-                    @*        data-val="true"  *@
-                    @*        data-val-phonenocountry="Số điện thoại không hợp lệ cho quốc gia đã chọn"  *@
-                    @*        data-val-phonenocountry-countryproperty="CountryCode" /> *@
                 </div>
             </div>
             <span class="required-text" asp-validation-for="RegisterForm.PhoneNo"></span>

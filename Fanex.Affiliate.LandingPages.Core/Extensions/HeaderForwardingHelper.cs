@@ -27,11 +27,11 @@ public static class HeaderForwardingHelper
         // Fixed header - get from injected MemberSite options
         var memberSiteOptions = context.RequestServices
             .GetService(typeof(IOptions<MemberSiteOptions>)) as IOptions<MemberSiteOptions>;
-        headers["ai-host"] = memberSiteOptions?.Value?.APIHost ?? string.Empty;
+        headers["ai-host"] = memberSiteOptions?.Value?.Host ?? string.Empty;
 
         // Dynamic origin host
-        headers["origin-host"] = $"{context.Request.Scheme}://{context.Request.Host}";
-
+        //headers["origin-host"] = $"{context.Request.Scheme}://{context.Request.Host}";
+        headers["origin-host"] = "http://landing.uatasia.com/";
         // Forward specific headers if present
         foreach (var header in ForwardHeaderNames)
         {

@@ -14,5 +14,5 @@ public interface ISignUpService
 
     Task<ExistsUserNameResponse> CheckExistsUserNameAsync(string username, string lang);
 
-    Task<BaseResponse> SignUpAsync(RegisterForm registerForm);
+    Task<BaseResponse> SignUpAsync(SignUpRequest signUpRequest);
 }

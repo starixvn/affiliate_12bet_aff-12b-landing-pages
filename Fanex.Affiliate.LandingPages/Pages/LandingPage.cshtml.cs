@@ -21,6 +21,9 @@ public class LandingPageModel(ILandingPageService landingPageService,
     [BindProperty(SupportsGet = true)]
     public string? Version { get; set; }
 
+    [BindProperty(SupportsGet = true)]
+    public string? AffClickId { get; set; }
+
     [BindProperty]
     public RegisterForm RegisterForm { get; set; } = new RegisterForm();
 
@@ -41,23 +44,41 @@ public class LandingPageModel(ILandingPageService landingPageService,
     {
         if (ModelState.IsValid && RegisterForm != null)
         {
-            RegisterForm.PhoneNo = "123496788";
-            var result = await signUpService.SignUpAsync(RegisterForm);
+            RegisterForm.UserPwd = RegisterForm.Password;
+            RegisterForm.UserLang = LanguageCode;
+
+            var signUp = new SignUpRequest
+            {
+                Username = RegisterForm.Username,
+                UserPwd = RegisterForm.Password,
+                Email = RegisterForm.Email,
+                UserLang = LanguageCode,
+                PhoneNo = RegisterForm.PhoneNo,
+                AreaCode = RegisterForm.AreaCode,
+                CurrencyId = RegisterForm.CurrencyId,
+                AffCode = RegisterForm.AffCode,
+                CaptchaType = RegisterForm.CaptchaType,
+                ReCaptchaToken = RegisterForm.ReCaptchaToken,
+                AffClickId = AffClickId,
+            };
+
+            var result = await signUpService.SignUpAsync(signUp);
             if (result.ErrorCode == 0)
             {
-                var rootUrl = $"{Request.Scheme}://{Request.Host}/";
+                if (result.Cookies.Any())
+                {
+                    foreach (var cookie in result.Cookies)
+                    {
+                        Response.Headers.Append("Set-Cookie", cookie);
+                    }
+                }
+
+                var rootUrl = $"https://stage.uatasia.com/en/";
                 return Redirect(rootUrl);
             }
             else
             {
-                if (result.ErrorCode == 1114)
-                {
-                    ModelState.AddModelError(nameof(RegisterForm.PhoneNo), result.Message);
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, result.Message);
-                }
+                ModelState.AddModelError(string.Empty, result.Message);
             }
         }
 

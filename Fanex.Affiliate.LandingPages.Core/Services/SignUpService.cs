@@ -43,7 +43,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient();
+            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
             var request = new HttpRequestMessage(HttpMethod.Post, $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetNumberCaptcha}")
             {
                 Content = new StringContent("{\"action\":\"signup\"}", System.Text.Encoding.UTF8, "application/json")
@@ -76,7 +76,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient();
+            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.ExistsEmail}";
 
@@ -110,7 +110,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient();
+            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.AffiliateCheck}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
@@ -144,8 +144,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient();
-
+            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.ExistsUserName}/{lang}";
 
@@ -175,20 +174,22 @@ public class SignUpService(Logging.ILogger logger,
         }
     }
 
-    public async Task<BaseResponse> SignUpAsync(RegisterForm registerForm)
+    public async Task<BaseResponse> SignUpAsync(SignUpRequest signUpRequest)
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient();
+            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
-            var requestUrl = $"{apiHost}{ApiPath.SignupV2}/{registerForm.UserLang}";
+            var requestUrl = $"{apiHost}{ApiPath.SignupV2}/{signUpRequest.UserLang}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
                 Content = new StringContent(
-                    JsonSerializer.Serialize(registerForm),
+                    JsonSerializer.Serialize(signUpRequest),
                     System.Text.Encoding.UTF8,
                     "application/json")
             };
+
+            request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
 
             var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
@@ -199,6 +200,8 @@ public class SignUpService(Logging.ILogger logger,
                 PropertyNameCaseInsensitive = true
             });
 
+            response.Headers.TryGetValues("Set-Cookie", out var cookies);
+            result.Cookies = cookies;
             return result ?? new BaseResponse();
         }
         catch (Exception ex)

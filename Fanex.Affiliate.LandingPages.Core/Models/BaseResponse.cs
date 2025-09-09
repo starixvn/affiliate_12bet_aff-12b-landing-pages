@@ -14,4 +14,6 @@ public class BaseResponse
     public string Message { get; set; }
     public string RawErrorCode { get; set; }
     public string RawMessage { get; set; }
+
+    public IEnumerable<string> Cookies { get; set; }
 }
