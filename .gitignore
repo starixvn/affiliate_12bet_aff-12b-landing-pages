@@ -45,3 +45,4 @@ node_modules
 /Fanex.Affiliate.User.Site/coverage
 /Admin/AffiliateAdmin/coverage
 *.UnitTestCoverage_*.xml
+Fanex.Affiliate.LandingPages/wwwroot/dist/dev

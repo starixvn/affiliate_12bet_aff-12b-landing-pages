@@ -8,7 +8,6 @@
 import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive'; 
-import Swiper from 'swiper';
 import { parsePhoneNumberFromString } from 'libphonenumber-js/core';
 import metadata from 'libphonenumber-js/metadata.mobile.json';
 import './capcha.js'
@@ -148,7 +147,8 @@ function initializeComponents() {
     initializeInputInfoToggle();
     initializePasswordToggle();
     initializeFormScrollBack();
-    initializeSwiper();
+    // Lazy load Swiper only when needed
+    initializeSwiperLazy();
     enableRemoteValidationDebounce(SITE_CONFIG.TIMEOUTS.REMOTE_VALIDATION_DEBOUNCE);
 }
 
@@ -357,53 +357,87 @@ function initializeFormScrollBack() {
 }
 
 /**
- * Initialize Swiper carousels
+ * Initialize Swiper carousels with lazy loading
  * @private
  */
-function initializeSwiper() {
-    $(SITE_CONFIG.SELECTORS.SWIPER_CONTAINER).each(function () {
-        const $container = $(this);
-        const $swiperEl = $container.find(SITE_CONFIG.SELECTORS.SWIPER).first();
-        
-        if ($swiperEl.length === 0) {
-            return;
-        }
+function initializeSwiperLazy() {
+    const $containers = $(SITE_CONFIG.SELECTORS.SWIPER_CONTAINER);
+    
+    if ($containers.length === 0) {
+        return;
+    }
 
-        const slideCount = $swiperEl.find(SITE_CONFIG.SELECTORS.SWIPER_SLIDE).length;
-        const hasMultipleSlides = slideCount > 1;
-
-        try {
-            const swiperInstance = new Swiper($swiperEl[0], {
-                slidesPerView: SITE_CONFIG.SWIPER_CONFIG.SLIDES_PER_VIEW,
-                spaceBetween: SITE_CONFIG.SWIPER_CONFIG.SPACE_BETWEEN,
-                navigation: {
-                    nextEl: $container.find(SITE_CONFIG.SELECTORS.SWIPER_BUTTON_NEXT)[0],
-                    prevEl: $container.find(SITE_CONFIG.SELECTORS.SWIPER_BUTTON_PREV)[0],
-                },
-                pagination: {
-                    el: $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION)[0],
-                    clickable: true,
-                },
-                loop: hasMultipleSlides,
-                autoplay: hasMultipleSlides ? { 
-                    delay: SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY, 
-                    disableOnInteraction: false 
-                } : false,
+    // Use Intersection Observer for lazy loading
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    initializeSwiperForContainer($(entry.target));
+                    observer.unobserve(entry.target);
+                }
             });
+        }, { rootMargin: '50px' });
 
-            swiperInstances.push(swiperInstance);
+        $containers.each(function() {
+            observer.observe(this);
+        });
+    } else {
+        // Fallback for older browsers
+        $containers.each(function() {
+            initializeSwiperForContainer($(this));
+        });
+    }
+}
 
-            const $pagination = $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION);
-            if (hasMultipleSlides) {
-                $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.MULTIPLE_SLIDES);
-            } else {
-                $pagination.css("display", "none");
-                $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.SINGLE_SLIDE);
-            }
-        } catch (error) {
-            console.error('Swiper initialization error:', error);
+/**
+ * Initialize Swiper for a specific container
+ * @param {jQuery} $container - Container element
+ * @private
+ */
+async function initializeSwiperForContainer($container) {
+    const $swiperEl = $container.find(SITE_CONFIG.SELECTORS.SWIPER).first();
+    
+    if ($swiperEl.length === 0) {
+        return;
+    }
+
+    const slideCount = $swiperEl.find(SITE_CONFIG.SELECTORS.SWIPER_SLIDE).length;
+    const hasMultipleSlides = slideCount > 1;
+
+    try {
+        // Dynamic import Swiper only when needed
+        const { Swiper } = await import('swiper');
+        
+        const swiperInstance = new Swiper($swiperEl[0], {
+            slidesPerView: SITE_CONFIG.SWIPER_CONFIG.SLIDES_PER_VIEW,
+            spaceBetween: SITE_CONFIG.SWIPER_CONFIG.SPACE_BETWEEN,
+            navigation: {
+                nextEl: $container.find(SITE_CONFIG.SELECTORS.SWIPER_BUTTON_NEXT)[0],
+                prevEl: $container.find(SITE_CONFIG.SELECTORS.SWIPER_BUTTON_PREV)[0],
+            },
+            pagination: {
+                el: $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION)[0],
+                clickable: true,
+            },
+            loop: hasMultipleSlides,
+            autoplay: hasMultipleSlides ? { 
+                delay: SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY, 
+                disableOnInteraction: false 
+            } : false,
+        });
+
+        swiperInstances.push(swiperInstance);
+
+        const $pagination = $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION);
+        if (hasMultipleSlides) {
+            $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.MULTIPLE_SLIDES);
+        } else {
+            $pagination.css("display", "none");
+            $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.SINGLE_SLIDE);
         }
-    });
+    } catch (error) {
+        console.error('Swiper initialization error:', error);
+    }
 }
 
 /**
@@ -536,4 +570,3 @@ if (typeof module !== 'undefined' && module.exports) {
         SITE_CONFIG
     };
 }
-

@@ -1,3 +1,5 @@
+@use '../abstracts/mixins' as *;
+
 .video-container {
     aspect-ratio: 16 / 9;
     overflow: hidden;

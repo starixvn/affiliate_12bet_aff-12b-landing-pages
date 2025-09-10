@@ -1,5 +1,8 @@
+@use 'sass:map';
+@use 'variables' as *;
+
 @mixin respond-to($breakpoint) {
-  $size: map-get($breakpoints, $breakpoint);
+  $size: map.get($breakpoints, $breakpoint);
 
   @if $breakpoint ==phone {
     @media (max-width: $size) {
@@ -8,19 +11,19 @@
   }
 
   @else if $breakpoint ==small-tablet {
-    @media (min-width: (map-get($breakpoints, phone) + 1)) and (max-width: $size) {
+    @media (min-width: (map.get($breakpoints, phone) + 1)) and (max-width: $size) {
       @content;
     }
   }
 
   @else if $breakpoint ==tablet {
-    @media (min-width: (map-get($breakpoints, small-tablet) + 1)) and (max-width: $size) {
+    @media (min-width: (map.get($breakpoints, small-tablet) + 1)) and (max-width: $size) {
       @content;
     }
   }
 
   @else if $breakpoint ==desktop {
-    @media (min-width: (map-get($breakpoints, tablet) + 1)) {
+    @media (min-width: (map.get($breakpoints, tablet) + 1)) {
       @content;
     }
   }
