@@ -23,6 +23,8 @@ public class LandingPage
 
     public string TargetCountryCode { get; set; } = string.Empty;
 
+    public string TargetLanguageCode { get; set; } = string.Empty;
+
     public string MarketId { get; set; } = string.Empty;
 
     public string DealIds { get; set; } = string.Empty;
@@ -31,7 +33,7 @@ public class LandingPage
 
     public bool IsTurnstileCaptchaEnabled { get; set; }
 
-    public string TurnstileSiteKey { get; set; }
+    public string TurnstileSiteKey { get; set; } = string.Empty;
 
-    public IEnumerable<LandingPageModule> Modules { get; set; }
+    public IEnumerable<LandingPageModule>? Modules { get; set; }
 }

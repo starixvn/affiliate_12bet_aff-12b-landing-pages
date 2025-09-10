@@ -1,72 +1,44 @@
 ﻿@page "/p1/{languageCode}/{PageCode}"
 @using Fanex.Affiliate.LandingPages.Core
 @model Fanex.Affiliate.LandingPages.Pages.LandingPageModel
+
 @{
     ViewData["Title"] = "12BET: The Complete Online Gaming Platform in India for Sports, Casino, and Slots";
     Layout = "Shared/_Layout.cshtml";
 }
 
-    @if (Model != null && Model.LandingPage != null
-        && Model.LandingPage.Modules != null
-        && Model.LandingPage.Modules.Any())
+@if (Model?.LandingPage?.Modules?.Any() == true)
+{
+    foreach (var module in Model.LandingPage.Modules)
     {
-        foreach (var module in Model.LandingPage.Modules)
+        var moduleName = Enum.GetName(typeof(UiModule), module.ModuleId);
+        if (!string.IsNullOrWhiteSpace(moduleName))
         {
-            string? moduleName = Enum.GetName(typeof(UiModule), module.ModuleId);
-            if (!string.IsNullOrEmpty(moduleName))
-            {
-                @await Component.InvokeAsync(moduleName, Model)
-            }
+            @await Component.InvokeAsync(moduleName, Model)
         }
     }
+}
 
-    @* <!-- background --> *@
-    @* @await Component.InvokeAsync("Background") *@
-
-    @* <!-- sponsor logo only --> *@
-    @* @await Component.InvokeAsync("LogoSponsorship")  *@
-
-    @* <!-- sponsor logo + register button --> *@
-    @* @await Component.InvokeAsync("LogoSponsorshipRegister") *@
-
-    @* <!-- hero image --> *@
-    @* @await Component.InvokeAsync("HeroImage") *@
-
-    @* <!-- CTA button --> *@
-    @* @await Component.InvokeAsync("CTAButton") *@
-
-    @* <!-- promo --> *@
-    @* @await Component.InvokeAsync("PromoList") *@
-
-    @* <!-- youtube --> *@
-    @* @await Component.InvokeAsync("Youtube") *@
-
-    @* <!-- fav game --> *@
-    @* @await Component.InvokeAsync("FavoriteGames") *@
-
-    @* <!-- Register form --> *@
-    @* @await Component.InvokeAsync("RegistrationForm", Model) *@
-
-<div class="scroll-to-top" id="goTopBtn">
-    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+<div class="scroll-to-top" id="goTopBtn" aria-label="Scroll to top" tabindex="0">
+    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
         <path fill="#ffffff"
-        d="M487.463,216.139L286.099,12.576C278.137,4.52,267.308,0,255.997,0
-            c-11.312,0-22.13,4.52-30.092,12.576L24.541,216.139c-16.438,16.622-16.304,
-            43.437,0.329,59.875c16.613,16.438,43.416,16.294,59.854-0.329l128.955-130.352v324.341
-            c0,23.362,18.945,42.327,42.318,42.327c23.382,0,42.327-18.965,42.327-42.327V145.332
-            L427.27,275.684c16.438,16.623,43.252,16.767,59.864,0.329
-            C503.758,259.576,503.901,232.761,487.463,216.139z"/>
+            d="M487.463,216.139L286.099,12.576C278.137,4.52,267.308,0,255.997,0
+                c-11.312,0-22.13,4.52-30.092,12.576L24.541,216.139c-16.438,16.622-16.304,
+                43.437,0.329,59.875c16.613,16.438,43.416,16.294,59.854-0.329l128.955-130.352v324.341
+                c0,23.362,18.945,42.327,42.318,42.327c23.382,0,42.327-18.965,42.327-42.327V145.332
+                L427.27,275.684c16.438,16.623,43.252,16.767,59.864,0.329
+                C503.758,259.576,503.901,232.761,487.463,216.139z"/>
     </svg>
 </div>
-<div class="straight-lock-in">
-    <div class="icon icon-mobile img-rotate">
+
+<div class="straight-lock-in" aria-live="polite">
+    <div class="icon icon-mobile img-rotate" aria-hidden="true">
         <i class="icon icon-spinner11"></i>
     </div>
     <div class="text">
         Dear Valued Customer
-        <br>In order to present the better experience and products<br>
+        <br />In order to present a better experience and products<br />
         <span class="text-org">Kindly rotate your phone in portrait for better game experience</span>
-        <br>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!
+        <br />We apologize for the inconvenience caused, and hope for your utmost understanding. Thank you!
     </div>
 </div>
-

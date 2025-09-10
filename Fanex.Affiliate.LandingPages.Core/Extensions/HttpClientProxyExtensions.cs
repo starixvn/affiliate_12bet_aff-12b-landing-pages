@@ -12,14 +12,15 @@ public static class HttpClientProxyExtensions
         string name,
         IConfiguration configuration)
     {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(configuration);
+
         var proxyOptions = new ProxyOptions();
-        configuration.Bind($"HttpClients:withProxy", proxyOptions);
+        configuration.Bind("HttpClients:withProxy", proxyOptions);
 
         services.AddHttpClient(name)
-            .ConfigurePrimaryHttpMessageHandler(() =>
-            {
-                return GetPrimaryHttpMessageHandler(proxyOptions);
-            });
+            .ConfigurePrimaryHttpMessageHandler(() => GetPrimaryHttpMessageHandler(proxyOptions));
 
         return services;
     }
@@ -29,21 +30,24 @@ public static class HttpClientProxyExtensions
         string name,
         IConfiguration configuration)
     {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(configuration);
+
         var proxyOptions = new ProxyOptions();
-        configuration.Bind($"HttpClients:withProxy", proxyOptions);
+        configuration.Bind("HttpClients:withProxy", proxyOptions);
 
         services.AddHttpClient(name)
             .AddHttpMessageHandler<ForwardHeadersHandler>()
-            .ConfigurePrimaryHttpMessageHandler(() =>
-            {
-                return GetPrimaryHttpMessageHandler(proxyOptions);
-            });
+            .ConfigurePrimaryHttpMessageHandler(() => GetPrimaryHttpMessageHandler(proxyOptions));
 
         return services;
     }
 
     private static HttpMessageHandler GetPrimaryHttpMessageHandler(ProxyOptions proxyOptions)
     {
+        ArgumentNullException.ThrowIfNull(proxyOptions);
+
         if (!proxyOptions.IsUseProxy)
         {
             return new HttpClientHandler();
@@ -55,7 +59,7 @@ public static class HttpClientProxyExtensions
             UseDefaultCredentials = string.IsNullOrEmpty(proxyOptions.Username)
         };
 
-        if (!string.IsNullOrEmpty(proxyOptions.Username) && proxyOptions.Password != null)
+        if (!string.IsNullOrEmpty(proxyOptions.Username) && !string.IsNullOrEmpty(proxyOptions.Password))
         {
             proxy.Credentials = new NetworkCredential(proxyOptions.Username, proxyOptions.Password);
         }

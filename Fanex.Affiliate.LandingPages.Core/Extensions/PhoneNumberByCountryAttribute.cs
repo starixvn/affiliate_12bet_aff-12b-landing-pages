@@ -3,23 +3,31 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using PhoneNumbers;
+using System.Reflection;
 
-public class PhoneNumberByCountryAttribute : ValidationAttribute, IClientModelValidator
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class PhoneNumberByCountryAttribute : ValidationAttribute, IClientModelValidator
 {
     public string CountryProperty { get; }
 
     public PhoneNumberByCountryAttribute(string countryProperty)
     {
-        CountryProperty = countryProperty;
+        CountryProperty = countryProperty ?? throw new ArgumentNullException(nameof(countryProperty));
     }
 
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        var phoneNumber = value as string;
-        if (string.IsNullOrEmpty(phoneNumber))
-            return ValidationResult.Success;
+        if (validationContext is null)
+        {
+            throw new ArgumentNullException(nameof(validationContext));
+        }
 
-        var countryProp = validationContext.ObjectType.GetProperty(CountryProperty);
+        if (value is not string phoneNumber || string.IsNullOrWhiteSpace(phoneNumber))
+        {
+            return ValidationResult.Success;
+        }
+
+        var countryProp = validationContext.ObjectType.GetProperty(CountryProperty, BindingFlags.Public | BindingFlags.Instance);
         var country = countryProp?.GetValue(validationContext.ObjectInstance, null)?.ToString();
 
         var phoneUtil = PhoneNumberUtil.GetInstance();
@@ -27,25 +35,35 @@ public class PhoneNumberByCountryAttribute : ValidationAttribute, IClientModelVa
         {
             var parsed = phoneUtil.Parse(phoneNumber, country);
             if (phoneUtil.IsValidNumber(parsed))
+            {
                 return ValidationResult.Success;
+            }
         }
-        catch { }
+        catch (Exception)
+        {
+            // Swallow exception as per original logic, but consider logging in real scenarios.
+        }
 
         return new ValidationResult($"Invalid phone number for the country {country}");
     }
 
-    // Thêm rule cho client
     public void AddValidation(ClientModelValidationContext context)
     {
+        if (context is null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
+
         MergeAttribute(context.Attributes, "data-val", "true");
         MergeAttribute(context.Attributes, "data-val-phonenocountry", ErrorMessage ?? "Invalid phone number");
         MergeAttribute(context.Attributes, "data-val-phonenocountry-countryproperty", CountryProperty);
     }
 
-    private bool MergeAttribute(IDictionary<string, string> attributes, string key, string value)
+    private static void MergeAttribute(IDictionary<string, string> attributes, string key, string value)
     {
-        if (attributes.ContainsKey(key)) return false;
-        attributes.Add(key, value);
-        return true;
+        if (!attributes.ContainsKey(key))
+        {
+            attributes.Add(key, value);
+        }
     }
 }

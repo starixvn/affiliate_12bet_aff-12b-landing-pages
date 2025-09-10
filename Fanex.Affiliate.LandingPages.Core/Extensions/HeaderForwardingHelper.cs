@@ -1,13 +1,13 @@
-﻿namespace Fanex.Affiliate.LandingPages;
-
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Fanex.Affiliate.LandingPages.Core.Models;
 
+namespace Fanex.Affiliate.LandingPages.Core.Extensions;
 public static class HeaderForwardingHelper
 {
     private static readonly string[] ForwardHeaderNames =
-    {
+    [
         "x-forwarded-for",
         "x-forwarded-host",
         "x-client-ip",
@@ -18,31 +18,30 @@ public static class HeaderForwardingHelper
         "cf-ipcountry",
         "cf-ray",
         "cf-visitor"
-    };
+    ];
 
-    public static Dictionary<string, string> BuildForwardHeaders(HttpContext context)
+    public static IDictionary<string, string> BuildForwardHeaders(HttpContext context)
     {
-        var headers = new Dictionary<string, string>();
+        ArgumentNullException.ThrowIfNull(context);
 
-        // Fixed header - get from injected MemberSite options
-        var memberSiteOptions = context.RequestServices
-            .GetService(typeof(IOptions<MemberSiteOptions>)) as IOptions<MemberSiteOptions>;
+        var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        // Get MemberSiteOptions from DI
+        var memberSiteOptions = context.RequestServices.GetService<IOptions<MemberSiteOptions>>();
         headers["ai-host"] = memberSiteOptions?.Value?.Host ?? string.Empty;
 
-        // Dynamic origin host
-        //headers["origin-host"] = $"{context.Request.Scheme}://{context.Request.Host}";
-        headers["origin-host"] = "http://landing.uatasia.com/";
+        // Add origin-host header
+        headers["origin-host"] = $"{context.Request.Scheme}://{context.Request.Host}";
+
         // Forward specific headers if present
-        foreach (var header in ForwardHeaderNames)
+        foreach (var headerName in ForwardHeaderNames)
         {
-            if (context.Request.Headers.TryGetValue(header, out var value))
+            if (context.Request.Headers.TryGetValue(headerName, out var value) && !string.IsNullOrWhiteSpace(value))
             {
-                headers[header] = value.ToString();
+                headers[headerName] = value.ToString();
             }
         }
 
         return headers;
     }
-
-
 }

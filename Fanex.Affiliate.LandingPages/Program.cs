@@ -18,7 +18,6 @@ builder.Services.AddRazorPages().AddViewLocalization()
     .AddDataAnnotationsLocalization();
 
 builder.Services.AddControllers();
-
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[] { "en-US", "vi-VN" };
@@ -76,17 +75,12 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseAuthorization();
-
-app.MapStaticAssets();
 app.UseRequestLocalization();
-
+app.MapStaticAssets();
 // Configure routing for both Razor Pages and MVC
 app.MapRazorPages()
    .WithStaticAssets();
 
 app.MapControllers();
-
-app.UseResponseCaching();
 
 await app.RunAsync();

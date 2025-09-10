@@ -139,7 +139,6 @@ public class SignUpService(Logging.ILogger logger,
         }
     }
 
-
     public async Task<ExistsUserNameResponse> CheckExistsUserNameAsync(string username, string lang)
     {
         try
@@ -174,10 +173,11 @@ public class SignUpService(Logging.ILogger logger,
         }
     }
 
-    public async Task<BaseResponse> SignUpAsync(SignUpRequest signUpRequest)
+    public async Task<BaseResponse> SignUpAsync(RegisterForm registerForm)
     {
         try
         {
+            var signUpRequest = GetSignUpRequest(registerForm);
             using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.SignupV2}/{signUpRequest.UserLang}";
@@ -189,8 +189,7 @@ public class SignUpService(Logging.ILogger logger,
                     "application/json")
             };
 
-            request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
-
+            request.Headers.Add("User-Agent", registerForm.UserAgent);
             var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
@@ -201,13 +200,51 @@ public class SignUpService(Logging.ILogger logger,
             });
 
             response.Headers.TryGetValues("Set-Cookie", out var cookies);
-            result.Cookies = cookies;
-            return result ?? new BaseResponse();
+            if (result != null)
+            {
+                result.Cookies = cookies;
+            }
+            else
+            {
+                result = GetSignUpErrorResponse();
+            }
+            
+            return result;
         }
         catch (Exception ex)
         {
             await logger.ErrorAsync("Error SignUpAsync", ex);
-            return new BaseResponse();
+            return GetSignUpErrorResponse();
         }
+    }
+
+    private BaseResponse GetSignUpErrorResponse()
+    {
+        return new BaseResponse
+        {
+            ErrorCode = 9999,
+            Message = "Something went wrong with your sign-up. Try again later or contact support."
+        };
+    }
+
+    private SignUpRequest GetSignUpRequest(RegisterForm registerForm)
+    {
+        var signUp = new SignUpRequest
+        {
+            Username = registerForm.Username,
+            UserPwd = registerForm.Password,
+            Email = registerForm.Email,
+            PhoneNo = registerForm.PhoneNo,
+            CurrencyId = registerForm.CurrencyId,
+            AreaCode = registerForm.AreaCode,
+            AffCode = registerForm.AffCode,
+            CaptchaType = registerForm.CaptchaType,
+            ReCaptchaToken = registerForm.ReCaptchaToken,
+            AffClickId = registerForm.AffClickId,
+            ReferralUrl = registerForm.ReferralUrl,
+            UserLang = registerForm.UserLang
+        };
+
+        return signUp;
     }
 }

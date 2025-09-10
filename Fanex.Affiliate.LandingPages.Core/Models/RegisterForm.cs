@@ -42,22 +42,6 @@ public class RegisterForm
 
     [Remote(action: "CheckAffiliate", controller: "SignUp")]
     public string? AffCode { get; set; }
-    public string AffId { get; set; } = string.Empty;
-    public string RefId { get; set; } = string.Empty;
-    public string Aff { get; set; } = string.Empty;
-    public string Blackbox { get; set; } = string.Empty;
-    public string LineUserId { get; set; } = string.Empty;
-    public string Nationality { get; set; } = string.Empty;
-    public string RealName { get; set; } = string.Empty;
-    public string PromoCode { get; set; } = string.Empty;
-    public string RedirectUrl { get; set; } = string.Empty;
-    public int Birth_d { get; set; }
-    public int Birth_m { get; set; }
-    public int Birth_y { get; set; }
-    public string AccountNo { get; set; } = string.Empty;
-    public int SysId { get; set; }
-    public string IfscCode { get; set; } = string.Empty;
-    public string JoinBy { get; set; } = string.Empty;
-    public string JoinByBannerType { get; set; } = string.Empty;
-    public string JiooToken { get; set; } = string.Empty;
+
+    public string UserAgent { get; set; } = string.Empty;
 }

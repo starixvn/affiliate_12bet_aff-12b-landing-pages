@@ -18,13 +18,9 @@ public class ForwardHeadersHandler : DelegatingHandler
         {
             var headers = HeaderForwardingHelper.BuildForwardHeaders(context);
 
-            foreach (var header in headers)
+            foreach (var header in headers.Where(h => !request.Headers.Contains(h.Key)))
             {
-                // Tránh add trùng header
-                if (!request.Headers.Contains(header.Key))
-                {
-                    request.Headers.TryAddWithoutValidation(header.Key, header.Value);
-                }
+                request.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
         }
 
