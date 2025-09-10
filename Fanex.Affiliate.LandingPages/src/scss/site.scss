@@ -48,10 +48,13 @@
   .logo-sponsor-container,
   .video-container,
   .swiper-container,
-  .register-form,
   .contact-us,
   .payment-method-img,
   .licensee-awards-img {
     max-width: 768px;
+  }
+
+  .register-form {
+    max-width: 600px;
   }
 }
