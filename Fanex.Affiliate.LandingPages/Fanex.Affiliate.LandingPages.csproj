@@ -32,8 +32,4 @@
     <ProjectReference Include="..\Fanex.Affiliate.LandingPages.Core\Fanex.Affiliate.LandingPages.Core.csproj" />
   </ItemGroup>
 
-  <Target Name="NpmInstall" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-    <Exec Command="npm install" />
-  </Target>
-
 </Project>

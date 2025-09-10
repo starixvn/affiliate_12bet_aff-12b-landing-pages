@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions SiteId="2000003" SiteName="12B">
 	<Function Name="Aff-LandingPage">
-		<Setting Key="Aff_User_GeneralInfo_Sel" SpName="Aff_User_GeneralInfo_Sel" DbName="DBAFF12B.Affiliate_12B.wsv_afinetv" Plain="0" />
+		<Setting Key="Aff_LandingPage_Builder_Sel" SpName="Aff_LandingPage_Builder_Sel" DbName="DBAFF12B.Affiliate_12B.wsv_afinetv" Plain="0" />
 	</Function>
 </Functions>
