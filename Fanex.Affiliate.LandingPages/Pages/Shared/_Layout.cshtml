@@ -19,7 +19,7 @@
         @RenderBody()
     </div>
 
-    <environment include="Production">
+    <environment include="Development">
         <script src="~/dist/dev/jquery.bundle.js" asp-append-version="true"></script>
         <script src="~/dist/dev/vendor.bundle.js" asp-append-version="true"></script>
         <script src="~/dist/dev/swiper.bundle.js" asp-append-version="true"></script>
@@ -28,7 +28,7 @@
         <script src="~/dist/dev/libphonenumber-node_modules_libphonenumber-js_es6_f.bundle.js" asp-append-version="true"></script>
         <script src="~/dist/dev/site.bundle.js" asp-append-version="true"></script>
     </environment>
-    <environment include="Development">
+    <environment include="Production">
         <script src="~/dist/prod/jquery.bundle.js" asp-append-version="true"></script>
         <script src="~/dist/prod/vendor.bundle.js" asp-append-version="true"></script>
         <script src="~/dist/prod/swiper.bundle.js" asp-append-version="true"></script>

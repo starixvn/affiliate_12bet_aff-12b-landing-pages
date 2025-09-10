@@ -11,10 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
     <title>@ViewData["Title"]</title>
-    <script src="~/js/vendor.bundle.js" asp-append-version="true"></script>
-    <script src="~/js/site.bundle.js" asp-append-version="true"></script>
-    <link rel="stylesheet" href="~/lib/swiper/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <environment include="Production">
+        <link rel="stylesheet" href="~/dist/prod/site.css" asp-append-version="true" />
+    </environment>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/dist/dev/site.css" asp-append-version="true" />
+    </environment>
 
 </head>
 <body>
@@ -307,6 +309,23 @@
             </div>
         </div>
     </div>
-
+    <environment include="Development">
+        <script src="~/dist/dev/jquery.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/dev/vendor.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/dev/swiper.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/dev/libphonenumber-node_modules_libphonenumber-js_c.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/dev/libphonenumber-node_modules_libphonenumber-js_e.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/dev/libphonenumber-node_modules_libphonenumber-js_es6_f.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/dev/site.bundle.js" asp-append-version="true"></script>
+    </environment>
+    <environment include="Production">
+        <script src="~/dist/prod/jquery.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/prod/vendor.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/prod/swiper.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/prod/libphonenumber-3213b867.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/prod/libphonenumber-8f257e7f.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/prod/libphonenumber-ed594eef.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/prod/site.bundle.js" asp-append-version="true"></script>
+    </environment>
 </body>
 </html> 

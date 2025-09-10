@@ -1,4 +1,8 @@
 FROM hub.nexdev.net/base/dotnet/core/sdk:9.0-alpine AS builder
+
+# Install Node.js and npm
+RUN apk add --no-cache nodejs npm
+
 WORKDIR /src
 
 COPY *.sln .
@@ -13,6 +17,8 @@ COPY Fanex.Affiliate.LandingPages/. ./Fanex.Affiliate.LandingPages/
 COPY Fanex.Affiliate.LandingPages.Core/. ./Fanex.Affiliate.LandingPages.Core/
 
 WORKDIR /src/Fanex.Affiliate.LandingPages
+
+RUN npm install --ignore-scripts && npm run build:prod
 
 RUN dotnet publish -v n -r linux-x64 --self-contained false -o /app
 

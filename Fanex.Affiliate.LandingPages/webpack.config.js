@@ -11,7 +11,7 @@ module.exports = (env, argv) => {
     output: {
       path: path.resolve(__dirname, `wwwroot/dist/${outputDir}`),
       filename: '[name].bundle.js',
-      clean: true
+      clean: false
     },
     devtool: isProduction ? false : 'source-map',
     optimization: {
