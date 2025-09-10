@@ -105,7 +105,7 @@
         @if (Model.LandingPage?.IsTurnstileCaptchaEnabled == true)
         {
             <div id="turnstile_widget" class="cf-turnstile"
-                 data-sitekey="1x00000000000000000000AA"
+                 data-sitekey="@Model.LandingPage.TurnstileSiteKey"
                  data-theme="dark"
                  data-size="flexible"
                  data-callback="onTurnstileSuccess"
