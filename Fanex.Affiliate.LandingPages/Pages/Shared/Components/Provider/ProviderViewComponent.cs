@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.Provider;
+
+public class ProviderViewComponent : ViewComponent
 {
-    public class ProviderViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            var model = "Provider";
-            return View("Provider", model);
-        }
+        const string model = "Provider";
+        return View("Provider", model);
     }
 }

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.PaymentMethod;
+
+public class PaymentMethodViewComponent : ViewComponent
 {
-    public class PaymentMethodViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            var model = "PaymentMethod";
-            return View("PaymentMethod", model);
-        }
+        const string model = "PaymentMethod";
+        return View("PaymentMethod", model);
     }
 }

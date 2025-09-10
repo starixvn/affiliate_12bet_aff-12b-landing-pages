@@ -11,7 +11,7 @@
 
     public static class CountryData
     {
-        public static readonly List<CountryInfo> Countries = new()
+        public static readonly IReadOnlyList<CountryInfo> Countries = new List<CountryInfo>
         {
             new("Malaysia",     "MY", "MYR", "+60",  9, 10),
             new("Indonesia",    "ID", "IDR", "+62", 10, 13),
@@ -25,8 +25,6 @@
             new("Japan",        "JP", "JPY", "+81", 10, 10),
             new("Brazil",       "BR", "BRL", "+55", 10, 11),
             new("Philippines",  "PH", "PHP", "+63", 11, 11)
-        };
-
-        
+        }.AsReadOnly();  
     }
 }

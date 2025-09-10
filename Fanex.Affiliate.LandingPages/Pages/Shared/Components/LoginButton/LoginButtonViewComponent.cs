@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.LoginButton;
+
+public class LoginButtonViewComponent : ViewComponent
 {
-    public class LoginButtonViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            var model = "LoginButton";
-            return View("LoginButton", model);
-        }
+        const string model = "LoginButton";
+        return View("LoginButton", model);
     }
 }

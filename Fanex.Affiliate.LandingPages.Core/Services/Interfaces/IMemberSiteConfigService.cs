@@ -6,8 +6,8 @@ public interface IMemberSiteConfigService
 
     string GetAPIHost();
 
-    string GetFullUrl(string path);
+    string GetFullLink(string path);
 
-    string GetFullApiUrl(string path);
+    string GetFullApiLink(string path);
 }
 

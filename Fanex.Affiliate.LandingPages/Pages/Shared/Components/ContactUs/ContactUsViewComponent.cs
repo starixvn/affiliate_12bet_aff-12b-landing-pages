@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.ContactUs;
+
+public class ContactUsViewComponent : ViewComponent
 {
-    public class ContactUsViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            // Logic load data, ví dụ demo
-            var model = "Contact Us";
-            return View("ContactUs", model);
-        }
+        const string model = "Contact Us";
+        return View("ContactUs", model);
     }
 }

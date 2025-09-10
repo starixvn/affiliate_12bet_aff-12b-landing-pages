@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.Background;
+
+public class BackgroundViewComponent : ViewComponent
 {
-    public class BackgroundViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            // Logic load data, ví dụ demo
-            var model = "Background";
-            return View("Background", model);
-        }
+        const string model = "Background";
+        return View("Background", model);
     }
 }

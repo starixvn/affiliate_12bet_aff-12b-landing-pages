@@ -23,14 +23,14 @@ public class MemberSiteConfigService : IMemberSiteConfigService
         return _options.APIHost;
     }
 
-    public string GetFullUrl(string path)
+    public string GetFullLink(string path)
     {
         var host = _options.Host.TrimEnd('/');
         var cleanPath = path.TrimStart('/');
         return $"{host}/{cleanPath}";
     }
 
-    public string GetFullApiUrl(string path)
+    public string GetFullApiLink(string path)
     {
         var apiHost = _options.APIHost.TrimEnd('/');
         var cleanPath = path.TrimStart('/');

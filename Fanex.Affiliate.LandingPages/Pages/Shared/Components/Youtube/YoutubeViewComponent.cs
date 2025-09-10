@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.Youtube;
+
+public class YoutubeViewComponent : ViewComponent
 {
-    public class YoutubeViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            var model = "Youtube";
-            return View("Youtube", model);
-        }
+        const string model = "Youtube";
+        return View("Youtube", model);
     }
 }

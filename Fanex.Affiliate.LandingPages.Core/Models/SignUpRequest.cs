@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Fanex.Affiliate.LandingPages.Core.Extensions;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Affiliate.LandingPages.Core.Models;
+﻿namespace Fanex.Affiliate.LandingPages.Core.Models;
 
 public class SignUpRequest
 {

@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.LicenseeAwards;
+
+public class LicenseeAwardsViewComponent : ViewComponent
 {
-    public class LicenseeAwardsViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            // Logic load data, ví dụ demo
-            var model = "Licensee Awards";
-            return View("LicenseeAwards", model);
-        }
+        const string model = "Licensee Awards";
+        return View("LicenseeAwards", model);
     }
 }

@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.HeroImage;
+
+public class HeroImageViewComponent : ViewComponent
 {
-    public class HeroImageViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            // Logic load data, ví dụ demo
-            var model = "Hero Image";
-            return View("HeroImage", model);
-        }
+        const string model = "Hero Image";
+        return View("HeroImage", model);
     }
 }

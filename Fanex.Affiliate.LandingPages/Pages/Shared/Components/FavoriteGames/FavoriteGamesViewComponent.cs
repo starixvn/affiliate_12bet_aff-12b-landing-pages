@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.RegisterForm
+namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.FavoriteGames;
+
+public class FavoriteGamesViewComponent : ViewComponent
 {
-    public class FavoriteGamesViewComponent : ViewComponent
+    public IViewComponentResult Invoke()
     {
-        public IViewComponentResult Invoke()
-        {
-            // Logic load data, ví dụ demo
-            var model = "Favorite Games";
-            return View("FavoriteGames", model);
-        }
+        const string model = "Favorite Games";
+        return View("FavoriteGames", model);
     }
 }
