@@ -165,13 +165,14 @@ function setupFormHandlers() {
     }
 
     $form.on("submit", function (event) {
+        event.preventDefault();
         try {
             if ($form.valid()) {
                 handlePasswordEncoding();
+                this.submit();
             }
         } catch (error) {
             console.error('Form submission error:', error);
-            event.preventDefault();
         }
     });
 }
