@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyNetQ" Version="7.8.0" />
     <PackageReference Include="Fanex.Data.ProxyClient" Version="1.0.6.1" />
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="2.0.2" />
     <PackageReference Include="libphonenumber-csharp" Version="9.0.13" />
     <PackageReference Include="MessagePack" Version="3.1.4" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="6.0.3" />
+    <PackageReference Include="ONEbook.UM" Version="3.2.6" />
     <PackageReference Include="Polly" Version="8.6.3" />
     <PackageReference Include="StackExchange.Redis" Version="2.9.11" />
   </ItemGroup>

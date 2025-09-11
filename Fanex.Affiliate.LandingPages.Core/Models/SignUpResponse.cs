@@ -1,0 +1,6 @@
+﻿namespace Fanex.Affiliate.LandingPages.Core.Models;
+
+public class SignUpResponse : BaseResponse
+{
+    public IEnumerable<string>? Cookies { get; set; }
+}

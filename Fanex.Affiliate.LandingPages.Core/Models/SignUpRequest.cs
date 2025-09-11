@@ -2,16 +2,18 @@
 
 public class SignUpRequest
 {
-    public string Username { get; set; } = string.Empty;
-    public string UserPwd { get; set; } = string.Empty;
-    public string? Email { get; set; }
-    public string PhoneNo { get; set; } = string.Empty;
-    public string AreaCode { get; set; } = string.Empty;
-    public int CurrencyId { get; set; }
-    public string UserLang { get; set; } = string.Empty;
-    public int CaptchaType { get; set; }
-    public string ReCaptchaToken { get; set; } = string.Empty;
-    public string? AffCode { get; set; }
-    public string AffClickId { get; set; } = string.Empty;
-    public string ReferralUrl { get; set; } = string.Empty;
+    public SignUp? SignUpData { get; set; }
+
+    public BaseResponse? SignUpResponeData { get; set; }
+
+    public string IpAddress { get; set; } = string.Empty;
+
+    public long Duration { get; set; }
+
+    public string UserAgent { get; set; } = string.Empty;
+
+    public string ApiUrl { get; set; } = string.Empty;
+
+    public string SignUpUrl { get; set; } = string.Empty;
+
 }

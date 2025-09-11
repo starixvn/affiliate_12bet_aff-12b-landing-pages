@@ -2,6 +2,7 @@
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PhoneNumbers;
 
 namespace Fanex.Affiliate.LandingPages.Pages;
 
@@ -67,17 +68,21 @@ public class LandingPageModel(
         {
             await HandleTrackingParametersAsync();
 
-            var (captchaInfo, landingPage) = await LoadPageDataAsync();
-            LandingPage = landingPage;
-
+            var landingPage = await LoadPageDataAsync(PageCode);
             var redirectResult = await HandleRedirectsAsync(landingPage);
             if (redirectResult != null)
             {
                 return redirectResult;
             }
 
-            ConfigureFormData(captchaInfo, landingPage);
+            RegisterForm.CaptchaType = landingPage!.CaptchaType;
+            RegisterForm.AreaCode = $"+{landingPage.DialCode}";
+            RegisterForm.CountryCode = landingPage.TargetCountryCode;
+            RegisterForm.CurrencyId = landingPage.CurrencyId;
+            RegisterForm.AffClickId = ClickId ?? string.Empty;
+            RegisterForm.AffCode = AffCode ?? string.Empty;
 
+            LandingPage = landingPage;
             return Page();
         }
         catch (Exception ex)
@@ -94,8 +99,7 @@ public class LandingPageModel(
         {
             if (!ModelState.IsValid || RegisterForm == null)
             {
-                await OnGetAsync();
-                return Page();
+                return await OnGetAsync();
             }
 
             var result = await ProcessRegistrationAsync();
@@ -105,15 +109,13 @@ public class LandingPageModel(
             }
 
             ModelState.AddModelError(string.Empty, result.ErrorMessage);
-            await OnGetAsync();
-            return Page();
+            return await OnGetAsync();
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred during form submission for PageCode: {PageCode}", PageCode);
             ModelState.AddModelError(string.Empty, "An error occurred while processing your request. Please try again.");
-            await OnGetAsync();
-            return Page();
+            return await OnGetAsync();
         }
     }
 
@@ -144,14 +146,22 @@ public class LandingPageModel(
         return await Task.FromResult(currentValue);
     }
 
-    private async Task<(RecaptchaInfo captchaInfo, LandingPage? landingPage)> LoadPageDataAsync()
+    private async Task<LandingPage?> LoadPageDataAsync(string pageCode)
     {
-        var captchaTask = signUpService.GetRecaptchaInfoAsync();
-        var landingPageTask = landingPageService.GetLandingPage(PageCode, false);
+        //check from cache
 
-        await Task.WhenAll(captchaTask, landingPageTask);
+        var landingPage = await landingPageService.GetLandingPage(pageCode, false);
+        if (landingPage != null)
+        {
+            var captchaInfo = await signUpService.GetRecaptchaInfoAsync();
+            landingPage.CaptchaType = captchaInfo.IsTurnstileCaptchaEnabled ? TurnstileCaptchaType : NumberCaptchaType;
+            landingPage.IsTurnstileCaptchaEnabled = captchaInfo.IsTurnstileCaptchaEnabled;
+            landingPage.TurnstileSiteKey = captchaInfo.Data?.SiteKey ?? string.Empty;
+            var phoneUtil = PhoneNumberUtil.GetInstance();
+            landingPage.DialCode = phoneUtil.GetCountryCodeForRegion(landingPage.TargetCountryCode);
+        }
 
-        return (await captchaTask, await landingPageTask);
+        return landingPage;
     }
 
     private Task<IActionResult?> HandleRedirectsAsync(LandingPage? landingPage)
@@ -171,23 +181,6 @@ public class LandingPageModel(
         return Task.FromResult<IActionResult?>(null);
     }
 
-    private void ConfigureFormData(RecaptchaInfo captchaInfo, LandingPage? landingPage)
-    {
-        if (landingPage == null)
-        {
-            return;
-        }
-
-        RegisterForm.CaptchaType = captchaInfo.Data?.Type == TurnstileCaptchaType ? TurnstileCaptchaType : NumberCaptchaType;
-        LandingPage!.IsTurnstileCaptchaEnabled = captchaInfo.IsTurnstileCaptchaEnabled;
-        LandingPage.TurnstileSiteKey = captchaInfo.Data?.SiteKey ?? string.Empty;
-
-        RegisterForm.AreaCode = landingPage.CountryInfo?.DialCode ?? string.Empty;
-        RegisterForm.CurrencyId = landingPage.CurrencyId;
-        RegisterForm.AffClickId = ClickId ?? string.Empty;
-        RegisterForm.AffCode = AffCode ?? string.Empty;
-    }
-
     private async Task<RegistrationResult> ProcessRegistrationAsync()
     {
         if (RegisterForm == null)
@@ -200,6 +193,8 @@ public class LandingPageModel(
         RegisterForm.AffClickId = ClickId ?? string.Empty;
         RegisterForm.ReferralUrl = GetRequestHeader(RefererHeader);
         RegisterForm.UserAgent = GetRequestHeader(UserAgentHeader);
+        RegisterForm.SignUpUrl = GetCurrentUrl().ToString();
+        RegisterForm.IpAddress = GetClientIpAddress();
 
         var result = await signUpService.SignUpAsync(RegisterForm);
         
@@ -214,11 +209,11 @@ public class LandingPageModel(
     private async Task<IActionResult> HandleSuccessfulRegistrationAsync(RegistrationResult result)
     {
         AppendSetCookie(result.Response!);
-        var redirectLink = GetRedirectLink();
+        var redirectLink = GetMemberSiteRedirectLink();
         return await Task.FromResult(Redirect(redirectLink));
     }
 
-    private void AppendSetCookie(BaseResponse result)
+    private void AppendSetCookie(SignUpResponse result)
     {
         if (result.Cookies?.Any() == true)
         {
@@ -238,12 +233,12 @@ public class LandingPageModel(
 
     private string GetDefaultMemberSiteLink()
     {
-        var redirectLink = GetRedirectLink();
+        var redirectLink = GetMemberSiteRedirectLink();
         var defaultPath = configuration[ConfigKeys.DefaultPath] ?? "join";
         return $"{redirectLink}/{LanguageCode}/{defaultPath}";
     }
 
-    private string GetRedirectLink()
+    private string GetMemberSiteRedirectLink()
     {
         var redirectLink = GetRootDomain();
         var redirectToRootDomain = configuration.GetValue<bool>(ConfigKeys.RedirectToRootDomain);
@@ -293,10 +288,39 @@ public class LandingPageModel(
         return Redirect("/Error");
     }
 
+    private Uri GetCurrentUrl()
+    {
+        var request = HttpContext.Request;
+        var uriBuilder = new UriBuilder
+        {
+            Scheme = request.Scheme,
+            Host = request.Host.Host,
+            Port = request.Host.Port ?? (request.Scheme == "https" ? 443 : 80),
+            Path = request.Path,
+            Query = request.QueryString.HasValue ? request.QueryString.Value : string.Empty
+        };
+        return uriBuilder.Uri;
+    }
+
+    private string GetClientIpAddress()
+    {
+        var headers = HttpContext.Request.Headers;
+        if (headers.TryGetValue("X-Forwarded-For", out var forwardedFor) && !string.IsNullOrWhiteSpace(forwardedFor))
+        {
+            var ip = forwardedFor.ToString().Split(',')[0].Trim();
+            if (!string.IsNullOrEmpty(ip))
+            {
+                return ip;
+            }
+        }
+
+        return HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+    }
+
     #endregion
 
     #region Helper Classes
-    private sealed record RegistrationResult(bool Success, string ErrorMessage, BaseResponse? Response = null);
+    private sealed record RegistrationResult(bool Success, string ErrorMessage, SignUpResponse? Response = null);
 
     #endregion
 }

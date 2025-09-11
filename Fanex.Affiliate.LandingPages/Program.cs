@@ -10,6 +10,10 @@ using Fanex.Logging;
 using SharpRaven;
 using StackExchange.Redis;
 using Fanex.Affiliate.LandingPages.Core;
+using Fanex.Affiliate.Link.Core.Services.Interfaces;
+using Fanex.Affiliate.Link.Workers;
+using Fanex.Affiliate.Link.Core.Services;
+using ONEbook.UM.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +38,7 @@ builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
 builder.Services.AddScoped<ISignUpService, SignUpService>();
 builder.Services.AddScoped<ILandingPageService, LandingPageService>();
 builder.Services.AddSingleton<ILogService, Fanex.Affiliate.LandingPages.Core.Services.LogService>();
-builder.Services.AddSingleton<Fanex.Logging.ILogger, Fanex.Logging.Logger>();
+builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 
 // Configure MemberSite options from appsettings.json
 builder.Services.Configure<MemberSiteOptions>(builder.Configuration.GetSection("MemberSite"));
@@ -43,6 +47,16 @@ builder.Services.AddSingleton<IMemberSiteConfigService, MemberSiteConfigService>
 RedisConnectionHelper.Initialize(builder.Configuration);
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelper.Connection);
 builder.Services.AddSingleton<IRedisService, RedisService>();
+builder.Services.AddSingleton<ITrackingSignUpService, TrackingSignUpService>();
+
+builder.Services.AddHostedService<RabbitMqBusHostedService>();
+builder.Services.AddSingleton<IRabbitBus, RabbitBus>();
+
+builder.Services.AddOneBookUmForService(builder.Configuration);
+// Configure thread pool settings
+const short DefaultWorkerThreads = 300;
+const short DefaultCompletionPortThreads = 300;
+_ = ThreadPool.SetMinThreads(DefaultWorkerThreads, DefaultCompletionPortThreads);
 
 var env = builder.Configuration["Sentry:Environment"];
 var backEndDsn = builder.Configuration["Sentry:Dsn"];

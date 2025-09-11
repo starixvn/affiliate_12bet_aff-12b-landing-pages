@@ -8,14 +8,7 @@ public class LandingPage
 
     public string PageName { get; set; } = string.Empty;
 
-    public CountryInfo? CountryInfo
-    {
-        get
-        {
-            var countryInfo = CountryData.Countries.FirstOrDefault(t => t.ContryCode == TargetCountryCode);
-            return countryInfo;
-        }
-    }
+    public int DialCode { get; set; }
 
     public int CampaignId { get; set; }
 
@@ -30,6 +23,8 @@ public class LandingPage
     public string DealIds { get; set; } = string.Empty;
 
     public int StatusId { get; set; }
+
+    public int CaptchaType { get; set; }
 
     public bool IsTurnstileCaptchaEnabled { get; set; }
 

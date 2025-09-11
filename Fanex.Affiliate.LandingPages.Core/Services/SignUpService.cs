@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
@@ -6,8 +7,10 @@ namespace Fanex.Affiliate.LandingPages.Core.Services;
 
 public class SignUpService(Logging.ILogger logger, 
     IMemberSiteConfigService memberSiteConfigService,
+    ITrackingSignUpService trackingSignUpService,
     IHttpClientFactory httpClientFactory) : ISignUpService
 {
+    private const string errorText = "Something went wrong with your sign-up. Try again later or contact support.";
     public async Task SentryErrorAsync(string errMsg, Exception exception)
     {
         await logger.ErrorAsync(errMsg, exception);
@@ -173,15 +176,42 @@ public class SignUpService(Logging.ILogger logger,
         }
     }
 
-    public async Task<BaseResponse> SignUpAsync(RegisterForm registerForm)
+    public async Task<SignUpResponse> SignUpAsync(RegisterForm registerForm)
     {
+        var apiHost = memberSiteConfigService.GetAPIHost();
+        registerForm.ApiUrl = $"{apiHost}{ApiPath.SignupV2}/{registerForm.UserLang}";
+
+        var stopwatch = Stopwatch.StartNew();
+        var (signUpResponse, signUp) = await ProcessSignUpAPI(registerForm);
+        stopwatch.Stop();
+        
+        var signUpRequest = new SignUpRequest
+        {
+            SignUpData = signUp,
+            SignUpResponeData = signUpResponse,
+            IpAddress = registerForm.IpAddress,
+            UserAgent = registerForm.UserAgent,
+            SignUpUrl = registerForm.SignUpUrl,
+            ApiUrl = registerForm.ApiUrl,
+            Duration = stopwatch.ElapsedMilliseconds,
+        };
+
+        _ = Task.Run(async () =>
+        {
+            await trackingSignUpService.WriteLogSignUp(signUpRequest);
+        });
+        
+        return signUpResponse;
+    }
+
+    private async Task<(SignUpResponse, SignUp)> ProcessSignUpAPI(RegisterForm registerForm)
+    {
+        SignUpResponse result;
+        var signUpRequest = GetSignUpRequest(registerForm);
         try
         {
-            var signUpRequest = GetSignUpRequest(registerForm);
             using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
-            var apiHost = memberSiteConfigService.GetAPIHost();
-            var requestUrl = $"{apiHost}{ApiPath.SignupV2}/{signUpRequest.UserLang}";
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
+            var request = new HttpRequestMessage(HttpMethod.Post, registerForm.ApiUrl)
             {
                 Content = new StringContent(
                     JsonSerializer.Serialize(signUpRequest),
@@ -192,44 +222,66 @@ public class SignUpService(Logging.ILogger logger,
             request.Headers.Add("User-Agent", registerForm.UserAgent);
             var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
-
+            
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<BaseResponse>(content, new JsonSerializerOptions
+            result = JsonSerializer.Deserialize<SignUpResponse>(content, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
-            });
+            }) ?? GetSignUpErrorResponse();
 
-            response.Headers.TryGetValues("Set-Cookie", out var cookies);
-            if (result != null)
+            if (result.ErrorCode == 0)
             {
+                response.Headers.TryGetValues("Set-Cookie", out var cookies);
                 result.Cookies = cookies;
             }
-            else
-            {
-                result = GetSignUpErrorResponse();
-            }
-            
-            return result;
+        }
+        catch (HttpRequestException ex)
+        {
+            await logger.ErrorAsync("Error SignUpAsync", ex);
+            result = GetSignUpHttpRequestException(ex);
         }
         catch (Exception ex)
         {
             await logger.ErrorAsync("Error SignUpAsync", ex);
-            return GetSignUpErrorResponse();
+            result =  GetSignUpExceptionException(ex);
         }
+
+        return (result, signUpRequest);
     }
 
-    private BaseResponse GetSignUpErrorResponse()
+    private SignUpResponse GetSignUpHttpRequestException(HttpRequestException ex)
     {
-        return new BaseResponse
+        return new SignUpResponse
         {
             ErrorCode = 9999,
-            Message = "Something went wrong with your sign-up. Try again later or contact support."
+            Message = errorText,
+            RawErrorCode = ex.StatusCode?.ToString() ?? string.Empty,
+            RawMessage = ex.Message
         };
     }
 
-    private SignUpRequest GetSignUpRequest(RegisterForm registerForm)
+    private SignUpResponse GetSignUpExceptionException(Exception ex)
     {
-        var signUp = new SignUpRequest
+        return new SignUpResponse
+        {
+            ErrorCode = 9999,
+            Message = errorText,
+            RawMessage = ex.Message
+        };
+    }
+
+    private SignUpResponse GetSignUpErrorResponse()
+    {
+        return new SignUpResponse
+        {
+            ErrorCode = 9998,
+            Message = errorText
+        };
+    }
+
+    private SignUp GetSignUpRequest(RegisterForm registerForm)
+    {
+        var signUp = new SignUp
         {
             Username = registerForm.Username,
             UserPwd = registerForm.Password,

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.Affiliate.LandingPage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.Affiliate.LandingPages.Core", "Fanex.Affiliate.LandingPages.Core\Fanex.Affiliate.LandingPages.Core.csproj", "{B99D199A-BDEE-48CE-9243-0A06FD902433}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.Affiliate.LandingPages.Consumer", "Fanex.Affiliate.LandingPages.Consumer\Fanex.Affiliate.LandingPages.Consumer.csproj", "{CD736C56-45D6-0928-0E09-876486F56FE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B99D199A-BDEE-48CE-9243-0A06FD902433}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B99D199A-BDEE-48CE-9243-0A06FD902433}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B99D199A-BDEE-48CE-9243-0A06FD902433}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD736C56-45D6-0928-0E09-876486F56FE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD736C56-45D6-0928-0E09-876486F56FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD736C56-45D6-0928-0E09-876486F56FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD736C56-45D6-0928-0E09-876486F56FE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

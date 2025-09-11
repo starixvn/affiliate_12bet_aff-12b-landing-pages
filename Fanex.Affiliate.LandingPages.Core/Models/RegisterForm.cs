@@ -28,7 +28,7 @@ public class RegisterForm
     public string PhoneNo { get; set; } = string.Empty;
 
     [Required]
-    public string CountryCode { get; set; } = "VN"; // Default VN
+    public string CountryCode { get; set; } = string.Empty;
 
     public string AreaCode { get; set; } = string.Empty;
     public int CurrencyId { get; set; }
@@ -37,11 +37,15 @@ public class RegisterForm
     public string ReCaptchaToken { get; set; } = string.Empty;
     public string AffClickId { get; set; } = string.Empty;
     public string AffMediaLinkId { get; set; } = string.Empty;
-    public string SignupUrl { get; set; } = string.Empty;
+    public string SignUpUrl { get; set; } = string.Empty;
     public string ReferralUrl { get; set; } = string.Empty;
 
     [Remote(action: "CheckAffiliate", controller: "SignUp")]
     public string? AffCode { get; set; }
 
     public string UserAgent { get; set; } = string.Empty;
+
+    public string IpAddress { get; set; } = string.Empty;
+
+    public string ApiUrl { get; set; } = string.Empty;
 }

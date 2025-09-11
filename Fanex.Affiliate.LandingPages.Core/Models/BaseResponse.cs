@@ -8,5 +8,4 @@ public class BaseResponse
     public string Message { get; set; } = string.Empty;
     public string RawErrorCode { get; set; } = string.Empty;
     public string RawMessage { get; set; } = string.Empty;
-    public IEnumerable<string>? Cookies { get; set; }
 }

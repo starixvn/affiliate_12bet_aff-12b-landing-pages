@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions SiteId="2000003" SiteName="12B">
+	<Function Name="Aff-Link">
+		<Setting Key="Aff_ClickStatisticsIns" SpName="Aff_ClickStatisticsIns" DbName="DBAFF12B.Affiliate_12B.wsv_afinet" Plain="0" />
+	</Function>
+</Functions>

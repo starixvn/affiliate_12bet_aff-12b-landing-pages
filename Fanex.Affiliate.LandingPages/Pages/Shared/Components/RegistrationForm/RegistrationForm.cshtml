@@ -42,7 +42,7 @@
                 <div class="input-box">
                     <span class="required-tip" aria-label="required">*</span>
                     <div class="dropdown-selected-container">
-                        <div class="dropdown-item">@Model.LandingPage?.CountryInfo?.DialCode</div>
+                        <div class="dropdown-item">@Model.RegisterForm.AreaCode</div>
                         <input asp-for="RegisterForm.AreaCode" type="hidden" />
                     </div>
                 </div>
@@ -62,11 +62,11 @@
                     <input asp-for="RegisterForm.CurrencyId" type="hidden" />
                     <div class="dropdown-selected-container">
                         <div class="dropdown-item">
-                            <img src="~/images/flag-vn.jpg" alt="Vietnam flag" class="flag-img" />
-                            VN
+                            <img src="~/images/flag-@(Model.RegisterForm.CountryCode.ToLowerInvariant()).jpg" alt="@Model.RegisterForm.CountryCode flag" class="flag-img" />
+                            @Model.RegisterForm.CountryCode
                         </div>
                     </div>
-                    <input asp-for="RegisterForm.CountryCode" type="hidden" value="VN" />
+                    <input asp-for="RegisterForm.CountryCode" type="hidden" />
                 </div>
             </div>
         </div>
