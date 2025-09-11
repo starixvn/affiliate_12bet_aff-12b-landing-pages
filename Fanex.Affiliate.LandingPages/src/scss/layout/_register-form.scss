@@ -37,6 +37,7 @@
         margin-top: 12px;
 
         .required-text {
+            font-weight: 400;
             display: block;
             color: #FF1F1F;
             margin-top: 4px;
@@ -90,7 +91,7 @@
             background-color: #0C0C0D;
             padding: 0 8px;
             border: 1px solid #FFF4A3;
-            min-height: 44px;
+            height: 44px;
 
             .required-tip {
                 color: #FF1F1F;
@@ -101,30 +102,31 @@
                 border: none;
                 outline: none;
                 background-color: transparent;
-                color: #fff;
                 font-size: 15px;
+                font-weight: 600;
                 padding: 12px 4px;
                 color: #FFF4A3;
 
                 &::placeholder {
                     color: #AEAEAE;
+                    font-weight: 400 !important;
                 }
             }
 
             .icon-checkmark {
-                opacity: 0;
+                display: none;
             }
         }
 
         .input-box.input-error {
             .icon-checkmark {
-                opacity: 0;
+                display: none;
             }
         }
 
         .input-box.input-valid {
             .icon-checkmark {
-                opacity: 1;
+                display: block !important;
                 transition: opacity 0.6s ease;
             }
         }
@@ -162,13 +164,14 @@
     }
 
     .terms-conditions {
+        font-weight: 500;
         text-align: center;
-        padding: 0 8px;
-        margin: 8px 0;
-        color: #ccc;
+        margin-top: 11px;
+        color: #CCCCCC;
 
         a {
-            color: #c01d21;
+            font-weight: 700;
+            color: #FF1F1F;
             text-decoration: underline;
             cursor: pointer;
         }
@@ -178,7 +181,11 @@
     .captcha-container {
         display: flex;
         justify-content: center;
-        margin: 16px 0;
+        margin-top: 12px;
+    }
+
+    .cf-turnstile .theme-dark #content {
+        border-color: #807A52 !important;
     }
 
     .dropdown-container {
@@ -227,8 +234,9 @@
         .flag-img {
             width: 20px;
             height: 20px;
-            margin-right: 8px;
+            margin-right: 4px;
             border-radius: 100%;
+            border: 1px solid #000;
         }
     }
 
