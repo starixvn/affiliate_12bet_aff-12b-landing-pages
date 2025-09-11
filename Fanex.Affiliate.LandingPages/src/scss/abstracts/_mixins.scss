@@ -29,7 +29,7 @@
   }
 
   @else if $breakpoint ==tablet-to-desktop {
-    @media (min-width: 769px) {
+    @media (min-width: 767px) {
       @content;
     }
   }
