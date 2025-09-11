@@ -14,7 +14,7 @@ const CAPTCHA_CONFIG = {
     },
     TIMEOUTS: {
         RETRY_DELAY: 5000,
-        DEFAULT_REFRESH: 30000
+        DEFAULT_REFRESH: 300000
     },
     CAPTCHA_TYPES: {
         NUMBER: 0,

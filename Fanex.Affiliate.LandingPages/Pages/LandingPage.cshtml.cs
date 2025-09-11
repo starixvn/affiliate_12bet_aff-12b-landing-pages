@@ -68,21 +68,14 @@ public class LandingPageModel(
         {
             await HandleTrackingParametersAsync();
 
-            var landingPage = await LoadPageDataAsync(PageCode);
-            var redirectResult = await HandleRedirectsAsync(landingPage);
+            await ConfigureFormData();
+
+            var redirectResult = await HandleRedirectsAsync(LandingPage);
             if (redirectResult != null)
             {
                 return redirectResult;
             }
 
-            RegisterForm.CaptchaType = landingPage!.CaptchaType;
-            RegisterForm.AreaCode = $"+{landingPage.DialCode}";
-            RegisterForm.CountryCode = landingPage.TargetCountryCode;
-            RegisterForm.CurrencyId = landingPage.CurrencyId;
-            RegisterForm.AffClickId = ClickId ?? string.Empty;
-            RegisterForm.AffCode = AffCode ?? string.Empty;
-
-            LandingPage = landingPage;
             return Page();
         }
         catch (Exception ex)
@@ -93,29 +86,46 @@ public class LandingPageModel(
         }
     }
 
+    private async Task ConfigureFormData()
+    {
+        var landingPage = await LoadPageDataAsync(PageCode);
+        RegisterForm.CaptchaType = landingPage!.CaptchaType;
+        RegisterForm.AreaCode = $"+{landingPage.DialCode}";
+        RegisterForm.CountryCode = landingPage.TargetCountryCode;
+        RegisterForm.CurrencyId = landingPage.CurrencyId;
+        RegisterForm.AffClickId = ClickId ?? string.Empty;
+        RegisterForm.AffCode = AffCode ?? string.Empty;
+
+        LandingPage = landingPage;
+    }
+
     public async Task<IActionResult> OnPostAsync()
     {
         try
         {
-            if (!ModelState.IsValid || RegisterForm == null)
+            var errorMessage = string.Empty;
+            if (ModelState.IsValid && RegisterForm != null)
             {
-                return await OnGetAsync();
+                var result = await ProcessRegistrationAsync();
+                if (result.Success)
+                {
+                    return await HandleSuccessfulRegistrationAsync(result);
+                }
+                else
+                {
+                    errorMessage = result.ErrorMessage;
+                }
             }
 
-            var result = await ProcessRegistrationAsync();
-            if (result.Success)
-            {
-                return await HandleSuccessfulRegistrationAsync(result);
-            }
-
-            ModelState.AddModelError(string.Empty, result.ErrorMessage);
-            return await OnGetAsync();
+            ModelState.AddModelError(string.Empty, errorMessage);
+            await ConfigureFormData();
+            return Page();
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred during form submission for PageCode: {PageCode}", PageCode);
             ModelState.AddModelError(string.Empty, "An error occurred while processing your request. Please try again.");
-            return await OnGetAsync();
+            return RedirectToErrorPage();
         }
     }
 
