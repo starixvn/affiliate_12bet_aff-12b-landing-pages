@@ -17,7 +17,7 @@ public class InsertSignUpLogCommand: BaseNonQueryCommand
 
     public long Duration { get; set; }
 
-    public override string GetSettingKey() => "API_SignUp";
+    public override string GetSettingKey() => "Aff_LandingPage_SignUp";
 
     public override bool IsValid() => true;
 }

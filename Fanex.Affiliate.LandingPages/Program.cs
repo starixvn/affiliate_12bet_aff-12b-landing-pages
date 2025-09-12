@@ -1,19 +1,18 @@
+using Fanex.Affiliate.LandingPages.Core;
 using Fanex.Affiliate.LandingPages.Core.Extensions;
+using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Redis;
 using Fanex.Affiliate.LandingPages.Core.Services;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
-using Fanex.Affiliate.LandingPages.Core.Models;
+using Fanex.Affiliate.Link.Workers;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Fanex.Logging.Sentry.RavenClient;
 using Fanex.Logging;
+using Fanex.Logging.Sentry.RavenClient;
+using Microsoft.AspNetCore.DataProtection;
+using ONEbook.UM.DependencyInjection;
 using SharpRaven;
 using StackExchange.Redis;
-using Fanex.Affiliate.LandingPages.Core;
-using Fanex.Affiliate.Link.Core.Services.Interfaces;
-using Fanex.Affiliate.Link.Workers;
-using Fanex.Affiliate.Link.Core.Services;
-using ONEbook.UM.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +73,15 @@ DbSettingProviderManager
     .StartNewSession()
     .Register(builder.Configuration)
     .Run();
+
+RedisConnectionHelper.Initialize(builder.Configuration);
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelper.Connection);
+const string dataProtectionKeys = "DataProtectionKeys"; 
+var localBackupPath = new DirectoryInfo(Path.Combine(AppContext.BaseDirectory, dataProtectionKeys));
+builder.Services.AddDataProtection()
+    .PersistKeysToStackExchangeRedis(RedisConnectionHelper.Connection, dataProtectionKeys)
+    .PersistKeysToFileSystem(localBackupPath)
+    .SetApplicationName("Aff.12B.LandingPage");
 
 var app = builder.Build();
 

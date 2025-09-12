@@ -1,6 +1,6 @@
 ﻿using EasyNetQ;
 
-namespace Fanex.Affiliate.Link.Core.Services.Interfaces;
+namespace Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 public interface IRabbitBus
 {

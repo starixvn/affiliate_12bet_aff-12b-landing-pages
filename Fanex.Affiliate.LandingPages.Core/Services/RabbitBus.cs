@@ -1,11 +1,9 @@
 ﻿using EasyNetQ;
 using EasyNetQ.Topology;
-using Fanex.Affiliate.LandingPages.Core;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
-using Fanex.Affiliate.Link.Core.Services.Interfaces;
 using Newtonsoft.Json;
 
-namespace Fanex.Affiliate.Link.Core.Services;
+namespace Fanex.Affiliate.LandingPages.Core.Services;
 
 public class RabbitBus(ILogService logService) : IRabbitBus
 {

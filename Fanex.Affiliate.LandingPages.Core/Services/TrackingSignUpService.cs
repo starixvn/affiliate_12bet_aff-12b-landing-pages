@@ -1,7 +1,6 @@
 ﻿using Fanex.Affiliate.LandingPages.Core.Commands;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
-using Fanex.Affiliate.Link.Core.Services.Interfaces;
 using Fanex.Data.Repository;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;

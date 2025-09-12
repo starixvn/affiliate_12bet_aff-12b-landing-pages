@@ -1,7 +1,6 @@
 ﻿#nullable enable
 using EasyNetQ;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
-using Fanex.Affiliate.Link.Core.Services.Interfaces;
 
 namespace Fanex.Affiliate.Link.Workers;
 
