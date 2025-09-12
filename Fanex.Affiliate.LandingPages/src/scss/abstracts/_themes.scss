@@ -13,7 +13,7 @@
 .theme-orange {
     --color: rgba(252, 195, 48, 1);
     --border-color: rgba(252, 195, 48, 1);
-    --background-color: rgba(30, 31, 29, 1);
+    --background-color: linear-gradient(180deg, #261E07 0%, #1E1F1D 100%);
     --submit-btn-text-color: rgba(0, 0, 0, 1);
     --submit-btn-border-color: linear-gradient(90deg, #CBA465 0%, #765520 25%, #EED6AF 50%, #765520 75%, #CBA465 100%);
     --submit-btn-background-color: linear-gradient(180deg, #FCC330 0%, #FFD363 48%, #FCC330 49%, #FCC330 100%);
@@ -91,7 +91,7 @@
     --color: rgba(215, 105, 251, 1);
     --border-color: rgba(215, 105, 251, 1);
     --background-color: linear-gradient(180deg, #1F0C26 0%, #0A040D 100%);
-    --submit-btn-text-color: rgba(255, 255, 255, 1);
+    --submit-btn-text-color: rgba(0, 0, 0, 1);
     --submit-btn-border-color: linear-gradient(90deg, #A354BD 0%, #4D2859 25%, #ECB2FF 50%, #4D2859 75%, #A354BD 100%);
     --submit-btn-background-color: linear-gradient(180deg, #D769FB 0%, #E38CFF 48%, #D769FB 49%, #D769FB 100%);
     --submit-btn-box-shadow: rgba(217, 112, 251, 1);
