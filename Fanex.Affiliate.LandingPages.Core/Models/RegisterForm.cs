@@ -48,4 +48,6 @@ public class RegisterForm
     public string IpAddress { get; set; } = string.Empty;
 
     public string ApiUrl { get; set; } = string.Empty;
+
+    public SignUpFormConfig? SignUpFormConfig { get; set; }
 }

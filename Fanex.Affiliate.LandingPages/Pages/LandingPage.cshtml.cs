@@ -1,4 +1,5 @@
-﻿using Fanex.Affiliate.LandingPages.Core.Models;
+﻿using Fanex.Affiliate.LandingPages.Core;
+using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -53,6 +54,9 @@ public class LandingPageModel(
     [BindProperty(SupportsGet = true)]
     public string? AffCode { get; set; }
 
+    [BindProperty(SupportsGet = true)]
+    public string FormCode { get; set; } = "F1";
+
     [BindProperty]
     public RegisterForm RegisterForm { get; set; } = new();
 
@@ -95,7 +99,7 @@ public class LandingPageModel(
         RegisterForm.CurrencyId = landingPage.CurrencyId;
         RegisterForm.AffClickId = ClickId ?? string.Empty;
         RegisterForm.AffCode = AffCode ?? string.Empty;
-
+        RegisterForm.SignUpFormConfig = SignUpFormConfigs.SupportSignUpForms.FirstOrDefault(t => t.FormCode == FormCode);
         LandingPage = landingPage;
     }
 

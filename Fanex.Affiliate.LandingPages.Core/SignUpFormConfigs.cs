@@ -1,0 +1,118 @@
+﻿namespace Fanex.Affiliate.LandingPages.Core
+{
+    public record SignUpFormConfig(
+        int FormId,
+        string FormCode,
+        string FormType,
+        string CssClass,
+        bool IsEnableCurrency,
+        bool IsEnableEmail,
+        bool IsEnableAffiliate,
+        bool IsEnableTermsAndCondition
+    );
+
+    public static class SignUpFormConfigs
+    {
+        public static readonly IReadOnlyList<SignUpFormConfig> SupportSignUpForms = new List<SignUpFormConfig>
+        {
+            new(1, "F1","F1", "css1", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(2, "F2", "F2", "css1", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(3, "F3", "F3", "css1", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(4, "F4", "F4", "css1", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(5, "F5", "F5", "css1", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(6, "F6", "F6", "css1", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(7, "F7", "F7", "css1", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(8, "F8", "F8", "css1", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(9, "F9", "F9", "css1", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(10, "F10", "F10", "css1", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+
+            new(11, "F11", "F1", "css2", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(12, "F12", "F2", "css2", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(13, "F13", "F3", "css2", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(14, "F14", "F4", "css2", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(15, "F15", "F5", "css2", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(16, "F16", "F6", "css2", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(17, "F17", "F7", "css2", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(18, "F18", "F8", "css2", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(19, "F19", "F9", "css2", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(20, "F20", "F10", "css2", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+
+            new(21, "F21", "F1", "css3", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(22, "F22", "F2", "css3", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(23, "F23", "F3", "css3", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(24, "F24", "F4", "css3", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(25, "F25", "F5", "css3", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(26, "F26", "F6", "css3", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(27, "F27", "F7", "css3", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(28, "F28", "F8", "css3", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(29, "F29", "F9", "css3", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(30, "F30", "F10", "css3", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+
+            new(31, "F31", "F1", "css4", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(32, "F32", "F2", "css4", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(33, "F33", "F3", "css4", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(34, "F34", "F4", "css4", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(35, "F35", "F5", "css4", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(36, "F36", "F6", "css4", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(37, "F37", "F7", "css4", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(38, "F38", "F8", "css4", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(39, "F39", "F9", "css4", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(40, "F40", "F10", "css4", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+
+            new(41, "F41", "F1", "css5", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(42, "F42", "F2", "css5", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(43, "F43", "F3", "css5", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(44, "F44", "F4", "css5", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(45, "F45", "F5", "css5", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(46, "F46", "F6", "css5", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(47, "F47", "F7", "css5", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(48, "F48", "F8", "css5", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(49, "F49", "F9", "css5", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(50, "F50", "F10", "css5", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+
+            new(51, "F51", "F1", "css6", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(52, "F52", "F2", "css6", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(53, "F53", "F3", "css6", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(54, "F54", "F4", "css6", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(55, "F55", "F5", "css6", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(56, "F56", "F6", "css6", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(57, "F57", "F7", "css6", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(58, "F58", "F8", "css6", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(59, "F59", "F9", "css6", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(60, "F60", "F10", "css6", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+
+            new(61, "F61", "F1", "css7", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(62, "F62", "F2", "css7", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(63, "F63", "F3", "css7", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(64, "F64", "F4", "css7", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(65, "F65", "F5", "css7", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(66, "F66", "F6", "css7", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(67, "F67", "F7", "css7", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(68, "F68", "F8", "css7", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(69, "F69", "F9", "css7", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(70, "F70", "F10", "css7", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+
+            new(71, "F71", "F1", "css8", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(72, "F72", "F2", "css8", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(73, "F73", "F3", "css8", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(74, "F74", "F4", "css8", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(75, "F75", "F5", "css8", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(76, "F76", "F6", "css8", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(77, "F77", "F7", "css8", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(78, "F78", "F8", "css8", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(79, "F79", "F9", "css8", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(80, "F80", "F10", "css8", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+
+            new(81, "F81", "F1", "css9", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(82, "F82", "F2", "css9", IsEnableCurrency: true, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(83, "F83", "F3", "css9", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:true, IsEnableTermsAndCondition: true),
+            new(84, "F84", "F4", "css9", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: true, IsEnableTermsAndCondition: false),
+            new(85, "F85", "F5", "css9", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(86, "F86", "F6", "css9", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(87, "F87", "F7", "css9", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(88, "F88", "F8", "css9", IsEnableCurrency: false, IsEnableEmail: true, IsEnableAffiliate: false, IsEnableTermsAndCondition: false),
+            new(89, "F89", "F9", "css9", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate:false, IsEnableTermsAndCondition: true),
+            new(90, "F90", "F10", "css9", IsEnableCurrency: false, IsEnableEmail: false, IsEnableAffiliate: false, IsEnableTermsAndCondition: false)
+        }.AsReadOnly();  
+    }
+}
