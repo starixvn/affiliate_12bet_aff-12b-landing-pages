@@ -23,7 +23,7 @@ const SITE_CONFIG = {
         INPUT_FIELD: '.input-field',
         INPUT_BOX: '.input-box',
         INPUT_INFO: '.input-info',
-        ICON_INFORMATION: '.icon-information',
+        ICON_INFORMATION: '.icon-info',
         ICON_EYE: '.icon-eye',
         ICON_EYE_SLASH: '.icon-eye-slash',
         SWIPER_CONTAINER: '.swiper-container',
@@ -323,8 +323,8 @@ function initializePasswordToggle() {
             $eye.add($eyeSlash).on("click.site", function () {
                 const isPassword = $input.attr("type") === "password";
                 $input.attr("type", isPassword ? "text" : "password");
-                $eye.toggle(!isPassword);
-                $eyeSlash.toggle(isPassword);
+                $eye.toggle(isPassword);
+                $eyeSlash.toggle(!isPassword);
             });
         }
     });

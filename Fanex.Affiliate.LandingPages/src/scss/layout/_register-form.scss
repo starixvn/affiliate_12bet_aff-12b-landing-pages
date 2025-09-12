@@ -113,19 +113,19 @@
                 }
             }
 
-            .icon-checkmark {
+            .icon-check-mark {
                 display: none;
             }
         }
 
         .input-box.input-error {
-            .icon-checkmark {
+            .icon-check-mark {
                 display: none;
             }
         }
 
         .input-box.input-valid {
-            .icon-checkmark {
+            .icon-check-mark {
                 display: block !important;
                 transition: opacity 0.6s ease;
             }
@@ -136,29 +136,15 @@
             align-items: center;
 
             .icon-detail {
-                width: 20px;
-                height: 20px;
                 margin-left: 4px;
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-            }
 
-            .icon-checkmark {
-                background-image: url("/images/icon-checkmark.png");
-            }
-
-            .icon-information {
-                background-image: url("/images/icon-info.png");
+                &::before {
+                    font-size: 20px !important;
+                }
             }
 
             .icon-eye {
                 display: none;
-                background-image: url("/images/icon-eye.png");
-            }
-
-            .icon-eye-slash {
-                background-image: url("/images/icon-eye-slash.png");
             }
         }
     }
@@ -177,7 +163,7 @@
         -webkit-text-fill-color: #FFF4A3 !important;
         transition: background-color 5000s ease-in-out 0s;
         height: 42px !important;
-        caret-color: #FFF4A3 !important; 
+        caret-color: #FFF4A3 !important;
     }
 
     .terms-conditions {

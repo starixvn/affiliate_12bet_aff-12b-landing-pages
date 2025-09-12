@@ -14,8 +14,8 @@
                 <span class="required-tip" aria-label="required">*</span>
                 <input asp-for="RegisterForm.Username" placeholder="Username" autocomplete="username" />
                 <div class="icon-area" aria-hidden="true">
-                    <span class="icon-detail icon-checkmark"></span>
-                    <span class="icon-detail icon-information"></span>
+                    <i class="icon-detail icon-check-mark"></i>
+                    <i class="icon-detail icon-info"></i>
                 </div>
             </div>
             <span class="required-text" asp-validation-for="RegisterForm.Username"></span>
@@ -27,9 +27,10 @@
                 <span class="required-tip" aria-label="required">*</span>
                 <input asp-for="RegisterForm.UserPwd" placeholder="Password" type="password" autocomplete="new-password" />
                 <div class="icon-area" aria-hidden="true">
-                    <span class="icon-detail icon-checkmark"></span>
-                    <span class="icon-detail icon-eye"></span>
-                    <span class="icon-detail icon-eye-slash"></span>
+                    <i class="icon-detail icon-check-mark"></i>
+                    <i class="icon-detail icon-eye"></i>
+                    <i class="icon-detail icon-eye-slash"></i>
+
                 </div>
             </div>
             <input asp-for="RegisterForm.Password" type="hidden" />
@@ -79,8 +80,8 @@
             <div class="input-box">
                 <input asp-for="RegisterForm.Email" placeholder="Email (Optional)" autocomplete="email" />
                 <div class="icon-area" aria-hidden="true">
-                    <span class="icon-detail icon-checkmark"></span>
-                    <span class="icon-detail icon-information"></span>
+                    <i class="icon-detail icon-check-mark"></i>
+                    <i class="icon-detail icon-info"></i>
                 </div>
             </div>
             <span class="required-text" asp-validation-for="RegisterForm.Email"></span>
@@ -94,8 +95,8 @@
             <div class="input-box">
                 <input asp-for="RegisterForm.AffCode" placeholder="Affiliate ID/Referral (Optional)" />
                 <div class="icon-area" aria-hidden="true">
-                    <span class="icon-detail icon-checkmark"></span>
-                    <span class="icon-detail icon-information"></span>
+                    <i class="icon-detail icon-check-mark"></i>
+                    <i class="icon-detail icon-info"></i>
                 </div>
             </div>
             <span class="required-text" asp-validation-for="RegisterForm.AffCode"></span>
@@ -126,7 +127,7 @@
                 <div class="input-box">
                     <input asp-for="RegisterForm.ReCaptchaToken" placeholder="Enter captcha code" autocomplete="off" />
                     <div class="icon-area" aria-hidden="true">
-                        <span class="icon-detail icon-checkmark"></span>
+                        <i class="icon-detail icon-check-mark"></i>
                     </div>
                 </div>
             </div>
