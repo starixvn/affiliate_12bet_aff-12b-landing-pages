@@ -3,7 +3,7 @@
     var formConfig = Model.RegisterForm.SignUpFormConfig!;
 }
 
-<form class="register-form" id="register-form" method="post" autocomplete="off" class="@formConfig.CssClass">
+<form id="register-form" class="register-form @formConfig.CssClass" method="post" autocomplete="off">
     <div class="form-content">
         <p class="form-title">QUICK REGISTRATION</p>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>

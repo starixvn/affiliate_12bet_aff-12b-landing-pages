@@ -169,9 +169,8 @@
         position: relative;
         background: var(--submit-btn-border-color);
         box-shadow: 0px 0px 8px 0px var(--submit-btn-box-shadow);
-
-        // transform-origin: center;
-        // animation: cta-pulse 2s ease-in-out infinite;
+        transform-origin: center;
+        animation: cta-pulse 2s ease-in-out infinite;
 
         &:before {
             background: var(--submit-btn-background-color);
