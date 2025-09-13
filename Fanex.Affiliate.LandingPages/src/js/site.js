@@ -52,7 +52,7 @@ const SITE_CONFIG = {
         SLIDES_PER_VIEW: 1,
         SPACE_BETWEEN: 20,
         PADDING_BOTTOM: {
-            SINGLE_SLIDE: '0',
+            SINGLE_SLIDE: '12px',
             MULTIPLE_SLIDES: '30px'
         }
     },
@@ -422,6 +422,9 @@ async function initializeSwiperForContainer($container) {
         const SwiperModule = await import('swiper');
         const Swiper = SwiperModule.default || SwiperModule.Swiper;
 
+        const paginationEl = $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION)[0];
+        const $pagination = $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION);
+
         const swiperInstance = new Swiper($swiperEl[0], {
             slidesPerView: SITE_CONFIG.SWIPER_CONFIG.SLIDES_PER_VIEW,
             spaceBetween: SITE_CONFIG.SWIPER_CONFIG.SPACE_BETWEEN,
@@ -430,21 +433,48 @@ async function initializeSwiperForContainer($container) {
                 prevEl: $container.find(SITE_CONFIG.SELECTORS.SWIPER_BUTTON_PREV)[0],
             },
             pagination: {
-                el: $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION)[0],
+                el: paginationEl,
                 clickable: true,
             },
             loop: hasMultipleSlides,
             autoplay: hasMultipleSlides ? {
                 delay: SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY,
-                disableOnInteraction: false
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
             } : false,
+            speed: 500,
+            allowTouchMove: true,
+            loopAdditionalSlides: 1,
+            on: {
+                slideChange: function () {
+                    const realIndex = this.realIndex;
+                    $pagination.find('.swiper-pagination-bullet').removeClass('swiper-pagination-bullet-active');
+                    $pagination.find(`.swiper-pagination-bullet[data-slide="${realIndex}"]`).addClass('swiper-pagination-bullet-active');
+                }
+            }
         });
 
         swiperInstances.push(swiperInstance);
 
-        const $pagination = $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION);
         if (hasMultipleSlides) {
             $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.MULTIPLE_SLIDES);
+            $pagination.css("display", "block");
+
+            // Force create bullets if they don't exist
+            setTimeout(() => {
+                const bullets = $pagination.find('.swiper-pagination-bullet');
+                if (bullets.length === 0) {
+                    for (let i = 0; i < slideCount; i++) {
+                        $pagination.append(`<span class="swiper-pagination-bullet ${i === 0 ? 'swiper-pagination-bullet-active' : ''}" data-slide="${i}"></span>`);
+                    }
+
+                    // Add click handlers for manual bullets
+                    $pagination.find('.swiper-pagination-bullet').on('click', function () {
+                        const slideIndex = parseInt($(this).data('slide'));
+                        swiperInstance.slideTo(slideIndex);
+                    });
+                }
+            }, 100);
         } else {
             $pagination.css("display", "none");
             $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.SINGLE_SLIDE);
