@@ -1,7 +1,8 @@
 ﻿@page
 @model Fanex.Affiliate.LandingPages.Pages.IndexModel
+@using Fanex.Affiliate.LandingPages.Core.Resources
 @{
-    ViewData["Title"] = "Affiliate Landing Pages";
+    ViewData["Title"] = UI.PageTitle_Default;
 }
 
 <!DOCTYPE html>
@@ -36,28 +37,28 @@
         <div class="logo-sponsor-container">
             <img class="logo-sponsor"
                 src="~/images/logo-sponsor.png"
-                alt="logo">
+                alt="@UI.Alt_Logo">
 
             <button class="btn-register">
                 <span class="icon-click icon"></span>
-                Register
+                @UI.Form_Register
             </button>
         </div>
 
         <!-- hero image -->
         <img class="hero-img"
             src="~/images/hero-img.png"
-            alt="hero-img">
+            alt="@UI.Alt_HeroImage">
 
         <!-- promo -->
         <img class="promo-img"
             src="~/images/Promo.png"
-            alt="promo list">
+            alt="@UI.Alt_PromoList">
 
         <!-- CTA button -->
         <img class="cta-btn"
             src="~/images/cta-btn.png"
-            alt="cta-btn">
+            alt="@UI.Alt_CTAButton">
 
         <!-- fav game -->
         <div class="swiper-container">
@@ -99,29 +100,29 @@
                 <p class="form-title">QUICK REGISTRATION</p>
 
                 <div class="input-field">
-                    <div class="input-info">For security, we suggest that your username does not contain your real name.</div>
+                    <div class="input-info">@UI.Form_UsernameHelp</div>
                     <div class="input-box input-error">
                         <span class="required-tip">*</span>
-                        <input type="text" name="username" placeholder="Username" autocomplete="off" required>
+                        <input type="text" name="username" placeholder="@UI.Form_Username" autocomplete="off" required>
                         <div class="icon-area">
                             <span class="icon-detail icon-checkmark"></span>
                             <span class="icon-detail icon-information"></span>
                         </div>
                     </div>
-                    <div class="required-text">Username is required.</div>
+                    <div class="required-text">@UI.Validation_UsernameRequired</div>
                 </div>
 
                 <div class="input-field">
                     <div class="input-box">
                         <span class="required-tip">*</span>
-                        <input type="password" name="password" placeholder="Password" autocomplete="off" required>
+                        <input type="password" name="password" placeholder="@UI.Form_Password" autocomplete="off" required>
                         <div class="icon-area">
                             <span class="icon-detail icon-checkmark"></span>
                             <span class="icon-detail icon-eye"></span>
                             <span class="icon-detail icon-eye-slash"></span>
                         </div>
                     </div>
-                    <div class="required-text">Password must be 6-15 characters, contain alphanumeric.</div>
+                    <div class="required-text">@UI.Validation_PasswordRequired</div>
                 </div>
 
                 <div class="input-field">
@@ -146,10 +147,10 @@
                         </div>
                         <div class="input-box">
                             <span class="required-tip">*</span>
-                            <input type="tel" name="phone" placeholder="Phone Number" autocomplete="off" required>
+                            <input type="tel" name="phone" placeholder="@UI.Form_PhoneNumber" autocomplete="off" required>
                         </div>
                     </div>
-                    <div class="required-text">Please fill in the phone field</div>
+                    <div class="required-text">@UI.Validation_PhoneRequired</div>
                 </div>
 
                 <div class="input-field">
@@ -190,27 +191,27 @@
                 </div>
 
                 <div class="input-field">
-                    <div class="input-info">Email cannot be changed after submission.</div>
+                    <div class="input-info">@UI.Validation_EmailCannotChange</div>
                     <div class="input-box">
-                        <input type="text" name="email" placeholder="Email (Optional)" autocomplete="off" required>
+                        <input type="text" name="email" placeholder="@UI.Form_Email (Optional)" autocomplete="off" required>
                         <div class="icon-area">
                             <span class="icon-detail icon-checkmark"></span>
                             <span class="icon-detail icon-information"></span>
                         </div>
                     </div>
-                    <div class="required-text">Email address format incorrect</div>
+                    <div class="required-text">@UI.Validation_EmailFormat</div>
                 </div>
 
                 <div class="input-field">
-                    <div class="input-info">Please enter Affiliate ID (Optional), it can not change once enter!</div>
+                    <div class="input-info">@UI.Validation_AffiliateCannotChange</div>
                     <div class="input-box">
-                        <input type="text" name="email" placeholder="Affiliate ID/Referral (Optional)" autocomplete="off" required>
+                        <input type="text" name="email" placeholder="@UI.Form_AffiliateCode (Optional)" autocomplete="off" required>
                         <div class="icon-area">
                             <span class="icon-detail icon-checkmark"></span>
                             <span class="icon-detail icon-information"></span>
                         </div>
                     </div>
-                    <div class="required-text">Affiliate ID cant be found</div>
+                    <div class="required-text">@UI.Validation_AffiliateNotFound</div>
                 </div>
 
                 <!-- Turnstile -->
@@ -227,7 +228,7 @@
 
                 <div class="input-field">
                     <div class="input-box">
-                        <input type="text" name="captcha" placeholder="Enter captcha code" autocomplete="off" required>
+                        <input type="text" name="captcha" placeholder="@UI.Form_Captcha" autocomplete="off" required>
                         <div class="icon-area">
                             <span class="icon-detail icon-checkmark"></span>
                         </div>
@@ -240,8 +241,8 @@
                     alt="cta-btn">
 
                 <div class="terms-conditions">
-                    By clicking the Register button, I hereby acknowledge that I am above 18 years old and have read and accepted your 
-                    <a rel="noreferrer" target="_blank" href="https://banner.picasso12.com/Static/en/TermsConditions.html">terms &amp; conditions</a>.
+                    @UI.Terms_Agreement 
+                    <a rel="noreferrer" target="_blank" href="https://banner.picasso12.com/Static/en/TermsConditions.html">@UI.Terms_LinkText</a>.
                 </div>
             </div>
         </form>
@@ -270,22 +271,22 @@
             <a href="#" target="_blank" rel="noopener noreferrer" class="contact-us-link">
                 <img
                 src="~/images/contact-us.png"
-                    alt="contact-us">
+                    alt="@UI.Alt_ContactUs">
             </a>
         </div>
 
         <!-- Payment method -->
         <img class="payment-method-img"
             src="~/images/payment-method.png"
-            alt="payment-method">
+            alt="@UI.Alt_PaymentMethod">
 
         <!-- Licensee awards -->
         <img class="licensee-awards-img"
             src="~/images/licensed-awards.png"
-            alt="licensee-awards">
+            alt="@UI.Alt_LicenseeAwards">
 
         <!-- Go to top button -->
-        <div class="scroll-to-top" id="goTopBtn">
+        <div class="scroll-to-top" id="goTopBtn" aria-label="@UI.A11y_ScrollToTop">
             <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                 <path fill="#ffffff"
                 d="M487.463,216.139L286.099,12.576C278.137,4.52,267.308,0,255.997,0
@@ -302,10 +303,10 @@
                 <i class="icon icon-spinner11"></i>
             </div>
             <div class="text">
-                Dear Valued Customer
-                <br>In order to present the better experience and products<br>
-                <span class="text-org">Kindly rotate your phone in portrait for better game experience</span>
-                <br>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!
+                @UI.Mobile_DearCustomer
+                <br>@UI.Mobile_BetterExperience<br>
+                <span class="text-org">@UI.Mobile_RotatePhone</span>
+                <br>@UI.Mobile_Apologize
             </div>
         </div>
     </div>
@@ -328,4 +329,4 @@
         <script src="~/dist/prod/site.bundle.js" asp-append-version="true"></script>
     </environment>
 </body>
-</html> 
+</html>

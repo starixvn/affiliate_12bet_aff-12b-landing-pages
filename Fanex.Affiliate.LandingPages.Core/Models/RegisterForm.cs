@@ -1,30 +1,32 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Fanex.Affiliate.LandingPages.Core.Extensions;
+using Fanex.Affiliate.LandingPages.Core.Resources;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Affiliate.LandingPages.Core.Models;
 
 public class RegisterForm
 {
-    [Required, StringLength(18, MinimumLength = 6)]
-    [Remote(action: "CheckExistsUsername", controller: "SignUp", ErrorMessage = "Username is no longer available.")]
+    [Required(ErrorMessageResourceName = "Validation_UsernameRequired", ErrorMessageResourceType = typeof(UI))]
+    [StringLength(18, MinimumLength = 6, ErrorMessageResourceName = "Username_Required", ErrorMessageResourceType = typeof(UI))]
+    [Remote(action: "CheckExistsUsername", controller: "SignUp", ErrorMessageResourceName = "Username_NoLongerAvailable", ErrorMessageResourceType = typeof(UI))]
     public string Username { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "The Password field is required.")]
+    [Required(ErrorMessageResourceName = "Password_Required", ErrorMessageResourceType = typeof(UI))]
     [StringLength(15, MinimumLength = 6)]
     [DataType(DataType.Password)]
     [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d).{6,}$",
-        ErrorMessage = "The field Password must be at least 6 characters, contain at least one letter and one number.")]
+        ErrorMessageResourceName = "Password_Complexity", ErrorMessageResourceType = typeof(UI))]
     public string UserPwd { get; set; } = string.Empty;
 
     public string Password { get; set; } = string.Empty;
 
     [EmailAddress]
-    [Remote(action: "CheckExistsEmail", controller: "SignUp", ErrorMessage = "Mail already exists.")]
+    [Remote(action: "CheckExistsEmail", controller: "SignUp", ErrorMessageResourceName = "Email_AlreadyExists", ErrorMessageResourceType = typeof(UI))]
     public string? Email { get; set; }
 
-    [Required(ErrorMessage = "The Phone Number field is required.")]
-    [PhoneNumberByCountry("CountryCode", ErrorMessage = "Invalid phone number for the selected country.")]
+    [Required(ErrorMessageResourceName = "PhoneNumber_Required", ErrorMessageResourceType = typeof(UI))]
+    [PhoneNumberByCountry("CountryCode", ErrorMessageResourceName = "PhoneNumber_InvalidForCountry", ErrorMessageResourceType = typeof(UI))]
     public string PhoneNo { get; set; } = string.Empty;
 
     [Required]

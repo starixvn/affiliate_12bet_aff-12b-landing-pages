@@ -55,7 +55,7 @@ public class LandingPageModel(
     public string? AffCode { get; set; }
 
     [BindProperty(SupportsGet = true)]
-    public string FormCode { get; set; } = "F1";
+    public string? FormCode { get; set; } = "F1";
 
     [BindProperty]
     public RegisterForm RegisterForm { get; set; } = new();

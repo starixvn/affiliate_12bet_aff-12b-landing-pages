@@ -23,7 +23,7 @@ builder.Services.AddRazorPages().AddViewLocalization()
 builder.Services.AddControllers();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    var supportedCultures = new[] { "en-US", "vi-VN" };
+    var supportedCultures = new[] { "en-US", "vi-VN", "th-TH", "zh-CN", "te-IN" };
     options.SetDefaultCulture("en-US")
            .AddSupportedCultures(supportedCultures)
            .AddSupportedUICultures(supportedCultures);

@@ -19,17 +19,38 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ValidationMessages.Designer.cs">
+    <Compile Update="Resources\ValidationMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ValidationMessages.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\UI.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UI.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ValidationMessages.resx">
+    <EmbeddedResource Update="Resources\ValidationMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UI.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UI.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UI.vi.resx">
+      <DependentUpon>UI.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UI.th.resx">
+      <DependentUpon>UI.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UI.zh-CN.resx">
+      <DependentUpon>UI.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UI.te-IN.resx">
+      <DependentUpon>UI.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 

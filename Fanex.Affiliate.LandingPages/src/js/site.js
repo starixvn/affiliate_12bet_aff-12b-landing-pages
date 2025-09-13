@@ -74,6 +74,8 @@ let isInitialized = false;
 let swiperInstances = [];
 
 setupPhoneValidation(); //must run first
+// Lazy load Swiper only when needed
+initializeSwiperLazy();
 
 /**
  * Initialize site functionality
@@ -135,7 +137,7 @@ function setupPhoneValidation() {
             console.error('Phone validation error:', error);
             return false;
         }
-    }, "Invalid phone number for the selected country.");
+    }, window.validationMessages?.phoneNumberInvalid || "Invalid phone number for the selected country.");
 }
 
 /**
@@ -147,8 +149,7 @@ function initializeComponents() {
     initializeInputInfoToggle();
     initializePasswordToggle();
     initializeFormScrollBack();
-    // Lazy load Swiper only when needed
-    initializeSwiperLazy();
+    
     enableRemoteValidationDebounce(SITE_CONFIG.TIMEOUTS.REMOTE_VALIDATION_DEBOUNCE);
 }
 

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using PhoneNumbers;
 using System.Reflection;
+using Fanex.Affiliate.LandingPages.Core.Resources;
 
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class PhoneNumberByCountryAttribute : ValidationAttribute, IClientModelValidator
@@ -44,7 +45,7 @@ public sealed class PhoneNumberByCountryAttribute : ValidationAttribute, IClient
             // Swallow exception as per original logic, but consider logging in real scenarios.
         }
 
-        return new ValidationResult($"Invalid phone number for the country {country}");
+        return new ValidationResult(string.Format(UI.PhoneNumber_InvalidForCountryWithCode, country));
     }
 
     public void AddValidation(ClientModelValidationContext context)

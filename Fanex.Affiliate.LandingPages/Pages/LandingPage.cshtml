@@ -3,7 +3,7 @@
 @model Fanex.Affiliate.LandingPages.Pages.LandingPageModel
 
 @{
-    ViewData["Title"] = "12BET: The Complete Online Gaming Platform in India for Sports, Casino, and Slots";
+    ViewData["Title"] = UI.PageTitle_LandingPage;
     Layout = "Shared/_Layout.cshtml";
 }
 
@@ -19,7 +19,7 @@
     }
 }
 
-<div class="scroll-to-top" id="goTopBtn" aria-label="Scroll to top" tabindex="0">
+<div class="scroll-to-top" id="goTopBtn" aria-label="@UI.A11y_ScrollToTop" tabindex="0">
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
         <path fill="#ffffff"
             d="M487.463,216.139L286.099,12.576C278.137,4.52,267.308,0,255.997,0
@@ -36,9 +36,9 @@
         <i class="icon icon-spinner11"></i>
     </div>
     <div class="text">
-        Dear Valued Customer
-        <br />In order to present a better experience and products<br />
-        <span class="text-org">Kindly rotate your phone in portrait for better game experience</span>
-        <br />We apologize for the inconvenience caused, and hope for your utmost understanding. Thank you!
+        @UI.Mobile_DearCustomer
+        <br />@UI.Mobile_BetterExperience<br />
+        <span class="text-org">@UI.Mobile_RotatePhone</span>
+        <br />@UI.Mobile_Apologize
     </div>
 </div>

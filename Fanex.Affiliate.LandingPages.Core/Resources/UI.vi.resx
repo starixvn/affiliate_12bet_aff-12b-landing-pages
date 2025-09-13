@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,10 +117,142 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="PageTitle_Default" xml:space="preserve">
+    <value>Trang Đích Liên Kết</value>
+  </data>
+  <data name="PageTitle_LandingPage" xml:space="preserve">
+    <value>12BET: Nền Tảng Game Trực Tuyến Hoàn Chỉnh tại Ấn Độ cho Thể Thao, Casino và Slots</value>
+  </data>
+  <data name="Form_QuickRegistration" xml:space="preserve">
+    <value>ĐĂNG KÝ NHANH</value>
+  </data>
+  <data name="Form_Register" xml:space="preserve">
+    <value>Đăng Ký</value>
+  </data>
+  <data name="Form_Username" xml:space="preserve">
+    <value>Tên Đăng Nhập</value>
+  </data>
+  <data name="Form_Password" xml:space="preserve">
+    <value>Mật Khẩu</value>
+  </data>
+  <data name="Form_PhoneNumber" xml:space="preserve">
+    <value>Số Điện Thoại</value>
+  </data>
+  <data name="Form_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Form_AffiliateCode" xml:space="preserve">
+    <value>Mã Liên Kết</value>
+  </data>
+  <data name="Form_Currency" xml:space="preserve">
+    <value>Tiền Tệ</value>
+  </data>
+  <data name="Form_Captcha" xml:space="preserve">
+    <value>Nhập mã captcha</value>
+  </data>
+  <data name="Form_UsernameHelp" xml:space="preserve">
+    <value>Để bảo mật, chúng tôi khuyên bạn không nên sử dụng tên thật trong tên đăng nhập.</value>
+  </data>
+  <data name="Terms_Agreement" xml:space="preserve">
+    <value>Bằng cách nhấp vào nút Đăng ký, tôi xác nhận rằng tôi trên 18 tuổi và đã đọc và chấp nhận</value>
+  </data>
+  <data name="Terms_LinkText" xml:space="preserve">
+    <value>điều khoản &amp; điều kiện</value>
+  </data>
+  <data name="Mobile_DearCustomer" xml:space="preserve">
+    <value>Khách Hàng Thân Mến</value>
+  </data>
+  <data name="Mobile_BetterExperience" xml:space="preserve">
+    <value>Để mang đến trải nghiệm và sản phẩm tốt hơn</value>
+  </data>
+  <data name="Mobile_RotatePhone" xml:space="preserve">
+    <value>Vui lòng xoay điện thoại theo chiều dọc để có trải nghiệm chơi game tốt hơn</value>
+  </data>
+  <data name="Mobile_Apologize" xml:space="preserve">
+    <value>Chúng tôi xin lỗi vì sự bất tiện này và hy vọng bạn thông cảm. Cảm ơn!</value>
+  </data>
+  <data name="A11y_ScrollToTop" xml:space="preserve">
+    <value>Cuộn lên đầu</value>
+  </data>
+  <data name="A11y_Required" xml:space="preserve">
+    <value>bắt buộc</value>
+  </data>
+  <data name="Alt_Logo" xml:space="preserve">
+    <value>logo</value>
+  </data>
+  <data name="Alt_HeroImage" xml:space="preserve">
+    <value>hình ảnh chính</value>
+  </data>
+  <data name="Alt_PromoList" xml:space="preserve">
+    <value>danh sách khuyến mãi</value>
+  </data>
+  <data name="Alt_CTAButton" xml:space="preserve">
+    <value>nút hành động</value>
+  </data>
+  <data name="Alt_ContactUs" xml:space="preserve">
+    <value>liên hệ chúng tôi</value>
+  </data>
+  <data name="Alt_PaymentMethod" xml:space="preserve">
+    <value>phương thức thanh toán</value>
+  </data>
+  <data name="Alt_LicenseeAwards" xml:space="preserve">
+    <value>giải thưởng cấp phép</value>
+  </data>
+  <data name="Alt_Login" xml:space="preserve">
+    <value>đăng nhập</value>
+  </data>
+  <data name="Alt_Captcha" xml:space="preserve">
+    <value>mã xác thực</value>
+  </data>
+  <data name="Validation_UsernameRequired" xml:space="preserve">
+    <value>Tên đăng nhập là bắt buộc.</value>
+  </data>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>Mật khẩu phải có 6-15 ký tự, chứa chữ và số.</value>
+  </data>
+  <data name="Validation_PhoneRequired" xml:space="preserve">
+    <value>Vui lòng điền số điện thoại</value>
+  </data>
+  <data name="Validation_EmailFormat" xml:space="preserve">
+    <value>Định dạng email không đúng</value>
+  </data>
+  <data name="Validation_AffiliateNotFound" xml:space="preserve">
+    <value>Không tìm thấy mã liên kết</value>
+  </data>
+  <data name="Validation_EmailCannotChange" xml:space="preserve">
+    <value>Email không thể thay đổi sau khi gửi.</value>
+  </data>
+  <data name="Validation_AffiliateCannotChange" xml:space="preserve">
+    <value>Vui lòng nhập Mã Liên Kết (Tùy chọn), không thể thay đổi sau khi nhập!</value>
+  </data>
+  <data name="Username_NoLongerAvailable" xml:space="preserve">
+    <value>Tên đăng nhập không còn khả dụng.</value>
+  </data>
+  <data name="Password_Required" xml:space="preserve">
+    <value>Trường Mật khẩu là bắt buộc.</value>
+  </data>
+  <data name="Username_Required" xml:space="preserve">
+    <value>Trường Tên đăng nhập phải là chuỗi có độ dài tối thiểu 6 và tối đa 18 ký tự.</value>
+  </data>
+  <data name="Password_Complexity" xml:space="preserve">
+    <value>Trường Mật khẩu phải có ít nhất 6 ký tự, chứa ít nhất một chữ cái và một số.</value>
+  </data>
+  <data name="Email_AlreadyExists" xml:space="preserve">
+    <value>Email đã tồn tại.</value>
+  </data>
+  <data name="PhoneNumber_Required" xml:space="preserve">
+    <value>Trường Số điện thoại là bắt buộc.</value>
+  </data>
+  <data name="PhoneNumber_InvalidForCountry" xml:space="preserve">
+    <value>Số điện thoại không hợp lệ cho quốc gia đã chọn.</value>
+  </data>
   <data name="InvalidEmail" xml:space="preserve">
-    <value>Invalid email address</value>
+    <value>Địa chỉ email không hợp lệ</value>
+  </data>
+  <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
+    <value>Số điện thoại không hợp lệ cho quốc gia {0}</value>
   </data>
   <data name="RequiredField" xml:space="preserve">
-    <value>This field is required</value>
+    <value>Trường này là bắt buộc</value>
   </data>
 </root>

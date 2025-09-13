@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,10 +117,142 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="PageTitle_Default" xml:space="preserve">
+    <value>联盟着陆页</value>
+  </data>
+  <data name="PageTitle_LandingPage" xml:space="preserve">
+    <value>12BET：印度完整的在线游戏平台，涵盖体育、赌场和老虎机</value>
+  </data>
+  <data name="Form_QuickRegistration" xml:space="preserve">
+    <value>快速注册</value>
+  </data>
+  <data name="Form_Register" xml:space="preserve">
+    <value>注册</value>
+  </data>
+  <data name="Form_Username" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="Form_Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Form_PhoneNumber" xml:space="preserve">
+    <value>电话号码</value>
+  </data>
+  <data name="Form_Email" xml:space="preserve">
+    <value>电子邮件</value>
+  </data>
+  <data name="Form_AffiliateCode" xml:space="preserve">
+    <value>联盟代码</value>
+  </data>
+  <data name="Form_Currency" xml:space="preserve">
+    <value>货币</value>
+  </data>
+  <data name="Form_Captcha" xml:space="preserve">
+    <value>输入验证码</value>
+  </data>
+  <data name="Form_UsernameHelp" xml:space="preserve">
+    <value>为了安全起见，我们建议您的用户名不要包含您的真实姓名。</value>
+  </data>
+  <data name="Terms_Agreement" xml:space="preserve">
+    <value>点击注册按钮，我确认我已年满18岁并已阅读并接受您的</value>
+  </data>
+  <data name="Terms_LinkText" xml:space="preserve">
+    <value>条款和条件</value>
+  </data>
+  <data name="Mobile_DearCustomer" xml:space="preserve">
+    <value>亲爱的客户</value>
+  </data>
+  <data name="Mobile_BetterExperience" xml:space="preserve">
+    <value>为了提供更好的体验和产品</value>
+  </data>
+  <data name="Mobile_RotatePhone" xml:space="preserve">
+    <value>请将手机旋转为竖屏以获得更好的游戏体验</value>
+  </data>
+  <data name="Mobile_Apologize" xml:space="preserve">
+    <value>我们对造成的不便深表歉意，希望您能理解。谢谢！</value>
+  </data>
+  <data name="A11y_ScrollToTop" xml:space="preserve">
+    <value>滚动到顶部</value>
+  </data>
+  <data name="A11y_Required" xml:space="preserve">
+    <value>必填</value>
+  </data>
+  <data name="Alt_Logo" xml:space="preserve">
+    <value>标志</value>
+  </data>
+  <data name="Alt_HeroImage" xml:space="preserve">
+    <value>主图</value>
+  </data>
+  <data name="Alt_PromoList" xml:space="preserve">
+    <value>促销列表</value>
+  </data>
+  <data name="Alt_CTAButton" xml:space="preserve">
+    <value>行动按钮</value>
+  </data>
+  <data name="Alt_ContactUs" xml:space="preserve">
+    <value>联系我们</value>
+  </data>
+  <data name="Alt_PaymentMethod" xml:space="preserve">
+    <value>付款方式</value>
+  </data>
+  <data name="Alt_LicenseeAwards" xml:space="preserve">
+    <value>许可证奖项</value>
+  </data>
+  <data name="Alt_Login" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Alt_Captcha" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="Validation_UsernameRequired" xml:space="preserve">
+    <value>用户名是必填项。</value>
+  </data>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>密码必须是6-15个字符，包含字母和数字。</value>
+  </data>
+  <data name="Validation_PhoneRequired" xml:space="preserve">
+    <value>请填写电话号码</value>
+  </data>
+  <data name="Validation_EmailFormat" xml:space="preserve">
+    <value>电子邮件格式不正确</value>
+  </data>
+  <data name="Validation_AffiliateNotFound" xml:space="preserve">
+    <value>找不到联盟代码</value>
+  </data>
+  <data name="Validation_EmailCannotChange" xml:space="preserve">
+    <value>提交后无法更改电子邮件。</value>
+  </data>
+  <data name="Validation_AffiliateCannotChange" xml:space="preserve">
+    <value>请输入联盟代码（可选），输入后无法更改！</value>
+  </data>
+  <data name="Username_NoLongerAvailable" xml:space="preserve">
+    <value>用户名不再可用。</value>
+  </data>
+  <data name="Password_Required" xml:space="preserve">
+    <value>密码字段是必填的。</value>
+  </data>
+  <data name="Username_Required" xml:space="preserve">
+    <value>用户名字段必须是长度在6到18个字符之间的字符串。</value>
+  </data>
+  <data name="Password_Complexity" xml:space="preserve">
+    <value>密码字段必须至少6个字符，包含至少一个字母和一个数字。</value>
+  </data>
+  <data name="Email_AlreadyExists" xml:space="preserve">
+    <value>邮件已存在。</value>
+  </data>
+  <data name="PhoneNumber_Required" xml:space="preserve">
+    <value>电话号码字段是必填的。</value>
+  </data>
+  <data name="PhoneNumber_InvalidForCountry" xml:space="preserve">
+    <value>所选国家的电话号码无效。</value>
+  </data>
   <data name="InvalidEmail" xml:space="preserve">
-    <value>Invalid email address</value>
+    <value>无效的电子邮件地址</value>
+  </data>
+  <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
+    <value>国家 {0} 的电话号码无效</value>
   </data>
   <data name="RequiredField" xml:space="preserve">
-    <value>This field is required</value>
+    <value>此字段是必填的</value>
   </data>
 </root>
