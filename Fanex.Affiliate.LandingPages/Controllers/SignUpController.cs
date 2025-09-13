@@ -1,5 +1,6 @@
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Fanex.Affiliate.LandingPages.Core.Resources;
 
 namespace Fanex.Affiliate.LandingPages.Controllers;
 
@@ -48,7 +49,7 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
             
             if (result.ErrorCode != 0) // Invalid affiliate
             {
-                return new JsonResult(result.Message);
+                return new JsonResult(UI.Validation_AffiliateNotFound);
             }
             return new JsonResult(true); // Valid affiliate
         }

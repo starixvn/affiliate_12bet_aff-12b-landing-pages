@@ -205,7 +205,7 @@
     <value>captcha</value>
   </data>
   <data name="Validation_UsernameRequired" xml:space="preserve">
-    <value>Username is required.</value>
+    <value>The Username field is required.</value>
   </data>
   <data name="Validation_PasswordRequired" xml:space="preserve">
     <value>Password must be 6-15 characters, contain alphanumeric.</value>
@@ -254,5 +254,8 @@
   </data>
   <data name="RequiredField" xml:space="preserve">
     <value>This field is required</value>
+  </data>
+  <data name="Validation_PhoneValid" xml:space="preserve">
+    <value>Invalid phone number</value>
   </data>
 </root>
