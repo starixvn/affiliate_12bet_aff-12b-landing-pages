@@ -8,6 +8,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Services;
 public class TrackingSignUpService(IDynamicRepository dynamicRepository,
         IRabbitBus rabbitBus,
         IRedisService redisService,
+        ICacheKeyService cacheKeyService,
         ILogService logService) : ITrackingSignUpService
 {
     public async Task WriteLogSignUp(SignUpRequest signUpRequest)
@@ -17,7 +18,7 @@ public class TrackingSignUpService(IDynamicRepository dynamicRepository,
         {
             try
             {
-                await redisService.ListRightPushAsync(CacheKey.SignUp, signUpRequest);
+                await redisService.ListRightPushAsync(cacheKeyService.GetSignUpKey(), signUpRequest);
             }
             catch (Exception ex)
             {
@@ -45,8 +46,10 @@ public class TrackingSignUpService(IDynamicRepository dynamicRepository,
                 AffCode = signUp.AffCode,
                 UserLang = signUp.UserLang,
                 ReferralUrl = signUp.ReferralUrl,
-                IpAddress = signUpRequest.IpAddress,
-                Duration = signUpRequest.Duration
+                IP = signUpRequest.IpAddress,
+                Duration = signUpRequest.Duration,
+                Status = signUpRequest.SignUpResponeData!.ErrorCode == 0 ? "success" : "error",
+                ExtData = GetExtData(signUpRequest)
             };
 
             await dynamicRepository.ExecuteAsync(command);
@@ -65,7 +68,14 @@ public class TrackingSignUpService(IDynamicRepository dynamicRepository,
                 ErrorMessage = ex.Message ?? string.Empty
             };
         }
-        
-        
+    }
+
+    private static string GetExtData(SignUpRequest signUpRequest)
+    {
+        const string extDataTpl = "TraceId:{0} ErrorCode:{1} Message:{2} SignUpUrl:{3} ApiUrl:{4} UserAgent:{5}";
+        var respone = signUpRequest.SignUpResponeData!;
+        var extData = string.Format(extDataTpl, respone.TraceId, respone.ErrorCode, 
+            respone.Message, signUpRequest.SignUpUrl, signUpRequest.ApiUrl, signUpRequest.UserAgent);
+        return extData;
     }
 }

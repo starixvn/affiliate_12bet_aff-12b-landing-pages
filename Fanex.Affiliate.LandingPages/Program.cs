@@ -46,6 +46,7 @@ builder.Services.AddSingleton<IMemberSiteConfigService, MemberSiteConfigService>
 RedisConnectionHelper.Initialize(builder.Configuration);
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelper.Connection);
 builder.Services.AddSingleton<IRedisService, RedisService>();
+builder.Services.AddSingleton<ICacheKeyService, CacheKeyService>();
 builder.Services.AddSingleton<ITrackingSignUpService, TrackingSignUpService>();
 
 builder.Services.AddHostedService<RabbitMqBusHostedService>();
@@ -76,11 +77,10 @@ DbSettingProviderManager
 
 RedisConnectionHelper.Initialize(builder.Configuration);
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelper.Connection);
-const string dataProtectionKeys = "DataProtectionKeys"; 
-var localBackupPath = new DirectoryInfo(Path.Combine(AppContext.BaseDirectory, dataProtectionKeys));
+const string dataProtectionKeys = "DataProtectionKeys";
+var appName = builder.Configuration.GetValue<string>("fanex.caching.redis:ApplicationName");
 builder.Services.AddDataProtection()
-    .PersistKeysToStackExchangeRedis(RedisConnectionHelper.Connection, dataProtectionKeys)
-    .PersistKeysToFileSystem(localBackupPath)
+    .PersistKeysToStackExchangeRedis(RedisConnectionHelper.Connection, $"{appName}:{dataProtectionKeys}")
     .SetApplicationName("Aff.12B.LandingPage");
 
 var app = builder.Build();

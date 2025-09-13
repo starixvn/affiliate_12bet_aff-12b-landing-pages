@@ -19,4 +19,14 @@ public class LandingPageModule
     public string MediaName { get; set; } = string.Empty;
 
     public string Dimension { get; set; } = string.Empty;
+
+    public int ModuleType { get; set; }
+
+    public int NavigateTo { get; set; }
+
+    public bool IsRequired { get; set; }
+
+    public bool IsUnique { get; set; }
+
+    public string RowVer { get; set; } = string.Empty;
 }

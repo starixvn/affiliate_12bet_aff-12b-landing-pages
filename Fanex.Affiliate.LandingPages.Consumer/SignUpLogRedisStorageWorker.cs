@@ -1,5 +1,4 @@
-﻿using Fanex.Affiliate.LandingPages.Core;
-using Fanex.Affiliate.LandingPages.Core.Models;
+﻿using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using ONEbook.UM.Services;
 
@@ -9,6 +8,7 @@ public sealed class SignUpLogRedisStorageWorker(
     IMaintenanceService maintenanceService,
     ITrackingSignUpService trackingSignUpService,
     IRedisService redisService,
+    ICacheKeyService cacheKeyService,
     ILogService logService) : BackgroundService
 {
     private const int JobDelayMinute = 1;
@@ -33,7 +33,7 @@ public sealed class SignUpLogRedisStorageWorker(
         {
             while (true)
             {
-                var signUpRequest = await redisService.ListLeftPopAsync<SignUpRequest>(Constants.CacheRedisQueueName).ConfigureAwait(false);
+                var signUpRequest = await redisService.ListLeftPopAsync<SignUpRequest>(cacheKeyService.GetSignUpKey()).ConfigureAwait(false);
                 if (signUpRequest == null)
                 {
                     break;

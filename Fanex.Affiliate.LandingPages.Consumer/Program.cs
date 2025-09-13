@@ -19,6 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHostedService<SignUpLogWorker>();
 builder.Services.AddHostedService<SignUpLogDLQWorker>();
 builder.Services.AddHostedService<SignUpLogRedisStorageWorker>();
+builder.Services.AddHostedService<SyncLandingPageToCacheWorker>();
+
 var rabbitMqConnectionString = builder.Configuration.GetValue<string>("RabbitMQConnectionString");
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnectionString));
@@ -29,6 +31,8 @@ builder.Services.AddSingleton<ITrackingSignUpService, TrackingSignUpService>();
 RedisConnectionHelper.Initialize(builder.Configuration);
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelper.Connection);
 builder.Services.AddSingleton<IRedisService, RedisService>();
+builder.Services.AddSingleton<ICacheKeyService, CacheKeyService>();
+builder.Services.AddSingleton<ILandingPageService, LandingPageService>();
 builder.Services.AddSingleton<Fanex.Logging.ILogger, Fanex.Logging.Logger>();
 builder.Services.AddSingleton<ILogService, Fanex.Affiliate.LandingPages.Core.Services.LogService>();
 builder.Services.AddSingleton<IRabbitBus, Fanex.Affiliate.LandingPages.Core.Services.RabbitBus>();

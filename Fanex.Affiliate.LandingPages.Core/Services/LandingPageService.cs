@@ -5,29 +5,33 @@ using Fanex.Data.Repository;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
-public class LandingPageService(IDynamicRepository dynamicRepository, IRedisService redisService) : ILandingPageService
+public class LandingPageService(IDynamicRepository dynamicRepository, IRedisService redisService, ICacheKeyService cacheKeyService) : ILandingPageService
 {
-    public async Task<LandingPage> GetLandingPage(string pageCode, bool isPreview)
+    private const int cacheDurationInSeconds = 86400;
+
+    public async Task<LandingPage> GetLandingPage(string pageCode, bool isPreview, int? pageId = null)
     {
-        const int cacheDurationInSeconds = 86400;
-        var cacheKey = string.Format(CacheKey.LandingPage, isPreview ? 0 : 1, pageCode);
+        var cacheKey = isPreview 
+            ? cacheKeyService.GetLandingPagePreviewKey(pageCode, pageId ?? 0)
+            : cacheKeyService.GetLandingPageKey(pageCode);
         var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
         var landingPage = await redisService.GetAsync<LandingPage>(cacheKey);
         if (landingPage is null)
         {
-            landingPage = await GetLandingPageFromDatabase(pageCode, isPreview);
+            landingPage = await GetLandingPageFromDatabase(pageCode, isPreview, pageId);
             await redisService.SetAsync(cacheKey, landingPage, slidingExpirationTime);
         }
 
         return landingPage!;
     }
 
-    public async Task<LandingPage> GetLandingPageFromDatabase(string pageCode, bool isPreview)
+    public async Task<LandingPage> GetLandingPageFromDatabase(string pageCode, bool isPreview, int? pageId = null)
     {
         var criteria = new GetLandingPageCriteria
         {
             PageCode = pageCode,
-            IsPreview = isPreview
+            IsPreview = isPreview,
+            PageId = pageId
         };
 
         var results = await dynamicRepository.FetchMultipleAsync<LandingPage, LandingPageModule>(criteria);
@@ -40,6 +44,49 @@ public class LandingPageService(IDynamicRepository dynamicRepository, IRedisServ
         return landingPage!;
     }
 
+    public async Task SyncAllLandingPageToCache(bool isPreview)
+    {
+        var landingPages = await GetAllLandingPages(isPreview);
+        //todo: remove when db not dup
+        landingPages = landingPages
+            .GroupBy(lp => lp.PageCode)
+            .Select(g => g.First())
+            .ToList();
+        // end
+        var landingPageVersions = landingPages.ToDictionary(t => t.PageCode, t => t.RowVer);
+        var oldLandingPageVersions = await redisService.GetAsync<Dictionary<string, string>>(cacheKeyService.GetAllLandingPageVersionKey(isPreview.ToString()));
+        var changedLandingPages = new List<LandingPage>();
+
+        if (oldLandingPageVersions == null)
+        {
+            changedLandingPages.AddRange(landingPages);
+        }
+        else
+        {
+            foreach (var landingPage in landingPages)
+            {
+                if (!oldLandingPageVersions.TryGetValue(landingPage.PageCode, out var oldVersion) || oldVersion != landingPage.RowVer)
+                {
+                    changedLandingPages.Add(landingPage);
+                }
+            }
+        }
+
+        if (changedLandingPages.Any())
+        {
+            var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
+            var cacheKeyAll = cacheKeyService.GetAllLandingPageVersionKey(isPreview.ToString());
+            await redisService.SetAsync(cacheKeyAll, landingPageVersions, slidingExpirationTime);
+
+            foreach (var landingPage in changedLandingPages)
+            {
+                var cacheKey = isPreview
+                ? cacheKeyService.GetLandingPagePreviewKey(landingPage.PageCode, landingPage.PageId)
+                : cacheKeyService.GetLandingPageKey(landingPage.PageCode);
+                await redisService.SetAsync(cacheKey, landingPage, slidingExpirationTime);
+            }
+        }
+    }
 
     public async Task<IEnumerable<LandingPage>> GetAllLandingPages(bool isPreview)
     {

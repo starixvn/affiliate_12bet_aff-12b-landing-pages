@@ -31,4 +31,6 @@ public class LandingPage
     public string TurnstileSiteKey { get; set; } = string.Empty;
 
     public IEnumerable<LandingPageModule>? Modules { get; set; }
+
+    public string RowVer { get; set; } = string.Empty;
 }
