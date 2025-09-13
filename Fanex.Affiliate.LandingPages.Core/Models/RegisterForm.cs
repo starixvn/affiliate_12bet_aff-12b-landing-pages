@@ -42,7 +42,8 @@ public class RegisterForm
     public string SignUpUrl { get; set; } = string.Empty;
     public string ReferralUrl { get; set; } = string.Empty;
 
-    [Remote(action: "CheckAffiliate", controller: "SignUp")]
+    [Remote(action: "CheckAffiliate", controller: "SignUp", 
+        ErrorMessageResourceName = "Validation_AffiliateNotFound", ErrorMessageResourceType = typeof(UI))]
     public string? AffCode { get; set; }
 
     public string UserAgent { get; set; } = string.Empty;

@@ -1,6 +1,5 @@
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Fanex.Affiliate.LandingPages.Core.Resources;
 
 namespace Fanex.Affiliate.LandingPages.Controllers;
 
@@ -30,7 +29,7 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
             var result = await signUpService.CheckExistsEmailAsync(email);
             if (result.Data)
             {
-                return new JsonResult("Mail already exists.");
+                return new JsonResult(false);
             }
             return new JsonResult(true);
         }
@@ -49,7 +48,7 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
             
             if (result.ErrorCode != 0) // Invalid affiliate
             {
-                return new JsonResult(UI.Validation_AffiliateNotFound);
+                return new JsonResult(false);
             }
             return new JsonResult(true); // Valid affiliate
         }
@@ -68,7 +67,7 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
 
             if (result.Data)
             {
-                return new JsonResult(result.Message);
+                return new JsonResult(false);
             }
             return new JsonResult(true);
         }

@@ -1,4 +1,5 @@
-﻿using Fanex.Affiliate.LandingPages.Core;
+﻿using System.Text.RegularExpressions;
+using Fanex.Affiliate.LandingPages.Core;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +71,7 @@ public class LandingPageModel(
     {
         try
         {
+            SetCulture();
             await HandleTrackingParametersAsync();
 
             await ConfigureFormData();
@@ -88,6 +90,20 @@ public class LandingPageModel(
                 PageCode, LanguageCode);
             return RedirectToErrorPage();
         }
+    }
+
+    private void SetCulture()
+    {
+        var culture = "en-US";
+        if (LanguageCode == "vn") culture = "vi-VN";
+        if (LanguageCode == "th") culture = "th-TH";
+        if (LanguageCode == "cn") culture = "zh-CN";
+        if (LanguageCode == "te") culture = "te-IN";
+
+        var cultureInfo = new System.Globalization.CultureInfo(culture);
+        System.Globalization.CultureInfo.CurrentUICulture = cultureInfo;
+        System.Globalization.CultureInfo.CurrentCulture = cultureInfo;
+        Core.Resources.UI.Culture = cultureInfo;
     }
 
     private async Task ConfigureFormData()
