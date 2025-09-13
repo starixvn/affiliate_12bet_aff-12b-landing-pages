@@ -69,15 +69,7 @@ public class LandingPageModel(
             ValidateRequiredParameters();
             SetCulture();
             await HandleTrackingParametersAsync();
-            await ConfigureFormDataAsync();
-
-            var redirectResult = await HandleRedirectsAsync(LandingPage);
-            if (redirectResult != null)
-            {
-                return redirectResult;
-            }
-
-            return Page();
+            return await ProcessFormDataAsync();
         }
         catch (ArgumentException ex)
         {
@@ -120,9 +112,12 @@ public class LandingPageModel(
                 errorMessage = GetModelStateErrors();
             }
 
-            ModelState.AddModelError(string.Empty, errorMessage);
-            await ConfigureFormDataAsync();
-            return Page();
+            if (errorMessage is not null)
+            {
+                ModelState.AddModelError(string.Empty, errorMessage);
+            }
+
+            return await ProcessFormDataAsync();
         }
         catch (Exception ex)
         {
@@ -165,16 +160,28 @@ public class LandingPageModel(
     /// <summary>
     /// Configures form data by loading landing page information
     /// </summary>
-    private async Task ConfigureFormDataAsync()
+    private async Task<IActionResult> ProcessFormDataAsync()
     {
-        var landingPage = await LoadPageDataAsync(PageCode);
-        if (landingPage == null)
+        try
         {
-            throw new InvalidOperationException($"Landing page not found for PageCode: {PageCode}");
+            LandingPage = await LoadPageDataAsync(PageCode);
+
+            var redirectResult = await HandleRedirectsAsync(LandingPage);
+            if (redirectResult != null)
+            {
+                return redirectResult;
+            }
+            else
+            {
+                ConfigureRegisterForm(LandingPage!);
+                return Page();
+            }
+        }
+        catch (Exception ex)
+        {
+            return Page();
         }
 
-        ConfigureRegisterForm(landingPage);
-        LandingPage = landingPage;
     }
 
     /// <summary>
@@ -318,7 +325,10 @@ public class LandingPageModel(
             return new RegistrationResult(true, string.Empty, result);
         }
 
-        return new RegistrationResult(false, result.Message);
+        var errorMessage = string.IsNullOrEmpty(result.Message) ?
+            $"{result.ErrorCode} - {LandingPageConstants.ProcessingError}"
+            : result.Message;
+        return new RegistrationResult(false, errorMessage);
     }
 
     /// <summary>

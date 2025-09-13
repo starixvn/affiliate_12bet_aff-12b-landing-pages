@@ -5,9 +5,24 @@ using Fanex.Data.Repository;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
-public class LandingPageService(IDynamicRepository dynamicRepository) : ILandingPageService
+public class LandingPageService(IDynamicRepository dynamicRepository, IRedisService redisService) : ILandingPageService
 {
     public async Task<LandingPage> GetLandingPage(string pageCode, bool isPreview)
+    {
+        const int cacheDurationInSeconds = 86400;
+        var cacheKey = string.Format(CacheKey.LandingPage, isPreview ? 0 : 1, pageCode);
+        var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
+        var landingPage = await redisService.GetAsync<LandingPage>(cacheKey);
+        if (landingPage is null)
+        {
+            landingPage = await GetLandingPageFromDatabase(pageCode, isPreview);
+            await redisService.SetAsync(cacheKey, landingPage, slidingExpirationTime);
+        }
+
+        return landingPage!;
+    }
+
+    public async Task<LandingPage> GetLandingPageFromDatabase(string pageCode, bool isPreview)
     {
         var criteria = new GetLandingPageCriteria
         {
@@ -24,6 +39,7 @@ public class LandingPageService(IDynamicRepository dynamicRepository) : ILanding
 
         return landingPage!;
     }
+
 
     public async Task<IEnumerable<LandingPage>> GetAllLandingPages(bool isPreview)
     {
