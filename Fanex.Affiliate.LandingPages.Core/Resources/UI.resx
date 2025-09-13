@@ -258,4 +258,7 @@
   <data name="Validation_PhoneValid" xml:space="preserve">
     <value>Invalid phone number</value>
   </data>
+  <data name="Validation_Capcha" xml:space="preserve">
+    <value>You must complete the CAPTCHA verification</value>
+  </data>
 </root>

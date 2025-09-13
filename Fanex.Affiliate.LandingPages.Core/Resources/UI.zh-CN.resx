@@ -255,4 +255,10 @@
   <data name="RequiredField" xml:space="preserve">
     <value>此字段是必填的</value>
   </data>
+  <data name="Validation_PhoneValid" xml:space="preserve">
+    <value>电话号码无效</value>
+  </data>
+  <data name="Validation_Capcha" xml:space="preserve">
+    <value>您必须完成验证码验证</value>
+  </data>
 </root>

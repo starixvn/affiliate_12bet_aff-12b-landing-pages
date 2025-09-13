@@ -84,7 +84,7 @@
         {
             <div class="input-field">
                 <div class="input-info">
-                    Email cannot be changed after submission.
+                    @UI.Validation_EmailCannotChange
                 </div>
                 <div class="input-box">
                     <input asp-for="RegisterForm.Email" placeholder="@UI.Form_Email" autocomplete="email" />
@@ -102,7 +102,7 @@
         {
             <div class="input-field">
                 <div class="input-info">
-                    Please enter Affiliate ID (Optional), it cannot be changed once entered!
+                    @UI.Validation_AffiliateCannotChange
                 </div>
                 <div class="input-box">
                     <input asp-for="RegisterForm.AffCode" placeholder="@UI.Form_AffiliateCode" />

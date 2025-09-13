@@ -46,11 +46,11 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
         {
             var result = await signUpService.CheckAffiliateAsync(affCode);
             
-            if (result.ErrorCode != 0) // Invalid affiliate
+            if (result.ErrorCode != 0)
             {
                 return new JsonResult(false);
             }
-            return new JsonResult(true); // Valid affiliate
+            return new JsonResult(true);
         }
         catch (Exception ex)
         {

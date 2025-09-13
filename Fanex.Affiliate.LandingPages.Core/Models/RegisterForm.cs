@@ -36,6 +36,8 @@ public class RegisterForm
     public int CurrencyId { get; set; }
     public string UserLang { get; set; } = string.Empty;
     public int CaptchaType { get; set; }
+
+    [Required(ErrorMessageResourceName = "Validation_Capcha", ErrorMessageResourceType = typeof(UI))]
     public string ReCaptchaToken { get; set; } = string.Empty;
     public string AffClickId { get; set; } = string.Empty;
     public string AffMediaLinkId { get; set; } = string.Empty;

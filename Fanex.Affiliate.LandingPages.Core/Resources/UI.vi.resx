@@ -255,4 +255,10 @@
   <data name="RequiredField" xml:space="preserve">
     <value>Trường này là bắt buộc</value>
   </data>
+  <data name="Validation_PhoneValid" xml:space="preserve">
+    <value>Số điện thoại không hợp lệ</value>
+  </data>
+  <data name="Validation_Capcha" xml:space="preserve">
+    <value>Bạn phải hoàn thành xác minh CAPTCHA</value>
+  </data>
 </root>

@@ -255,4 +255,10 @@
   <data name="RequiredField" xml:space="preserve">
     <value>ฟิลด์นี้จำเป็นต้องกรอก</value>
   </data>
+  <data name="Validation_PhoneValid" xml:space="preserve">
+    <value>หมายเลขโทรศัพท์ไม่ถูกต้อง</value>
+  </data>
+  <data name="Validation_Capcha" xml:space="preserve">
+    <value>คุณต้องทำการยืนยัน CAPTCHA ให้เสร็จสิ้น</value>
+  </data>
 </root>

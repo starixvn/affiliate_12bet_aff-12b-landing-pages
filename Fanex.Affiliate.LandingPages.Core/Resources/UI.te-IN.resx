@@ -255,4 +255,10 @@
   <data name="RequiredField" xml:space="preserve">
     <value>ఈ ఫీల్డ్ అవసరం</value>
   </data>
+  <data name="Validation_PhoneValid" xml:space="preserve">
+    <value>చెల్లని ఫోన్ నంబర్</value>
+  </data>
+  <data name="Validation_Capcha" xml:space="preserve">
+    <value>మీరు CAPTCHA ధృవీకరణను పూర్తి చేయాలి</value>
+  </data>
 </root>
