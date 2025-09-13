@@ -17,7 +17,7 @@ public static class CultureMappingConstants
         {
             { "vn", "vi-VN" },
             { "th", "th-TH" },
-            { "cn", "zh-CN" },
+            { "cs", "zh-CN" },
             { "te", "te-IN" },
             { "en", "en-US" }
         }.ToImmutableDictionary();

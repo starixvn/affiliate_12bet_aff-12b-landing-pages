@@ -189,8 +189,16 @@ public class LandingPageModel(
         RegisterForm.CurrencyId = landingPage.CurrencyId;
         RegisterForm.AffClickId = ClickId ?? string.Empty;
         RegisterForm.AffCode = AffCode ?? string.Empty;
+        
+        var form = landingPage.Modules!.FirstOrDefault(t => t.ModuleId == (int)UiModule.RegistrationForm);
+        var formCode = form?.MediaCode ?? FormCode;
+        if (Request.Query.ContainsKey("FormCode"))
+        {
+            formCode = Request.Query["FormCode"].ToString();
+        }
+
         RegisterForm.SignUpFormConfig = SignUpFormConfigs.SupportSignUpForms
-            .FirstOrDefault(t => t.FormCode == FormCode);
+            .FirstOrDefault(t => t.FormCode == formCode);
     }
 
     /// <summary>

@@ -10,6 +10,8 @@ public class LandingPageModule
 
     public int MediaId { get; set; }
 
+    public string? MediaCode { get; set; }
+
     public string ExtraInfo { get; set; } = string.Empty;
 
     public string FileName { get; set; } = string.Empty;
