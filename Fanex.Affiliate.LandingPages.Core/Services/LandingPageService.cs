@@ -24,4 +24,25 @@ public class LandingPageService(IDynamicRepository dynamicRepository) : ILanding
 
         return landingPage!;
     }
+
+    public async Task<IEnumerable<LandingPage>> GetAllLandingPages(bool isPreview)
+    {
+        var criteria = new GetAllLandingPageCriteria
+        {
+            IsPreview = isPreview
+        };
+
+        var results = await dynamicRepository.FetchMultipleAsync<LandingPage, LandingPageModule>(criteria);
+        var landingPages = results.Item1;
+        if (landingPages != null)
+        {
+            foreach(var landingPage in landingPages)
+            {
+                landingPage.Modules = results.Item2.Where(t=> t.PageId == landingPage.PageId);
+            }
+            
+        }
+
+        return landingPages!;
+    }
 }

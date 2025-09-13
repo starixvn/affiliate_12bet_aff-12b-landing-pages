@@ -3,5 +3,6 @@
   <Function Name="Aff-LandingPage">
     <Setting Key="Aff_LandingPage_Builder_Sel" SpName="Aff_LandingPage_Builder_Sel" DbName="DBAFF12B.Affiliate_12B.wsv_afinetv" Plain="0" />
 	  <Setting Key="Aff_LandingPage_SignUp" SpName="Aff_LandingPage_SignUp" DbName="DBAFF12B.Affiliate_12B.wsv_afinetv" Plain="0" />
+	  <Setting Key="Aff_LandingPage_Builder_AllSel" SpName="Aff_LandingPage_Builder_AllSel" DbName="DBAFF12B.Affiliate_12B.wsv_afinetv" Plain="0" />
   </Function>
 </Functions>

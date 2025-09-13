@@ -56,6 +56,8 @@
                     <input asp-for="RegisterForm.PhoneNo" placeholder="@UI.Form_PhoneNumber" autocomplete="tel" />
                 </div>
             </div>
+            <input asp-for="RegisterForm.CountryCode" type="hidden" />
+            <input asp-for="RegisterForm.CurrencyId" type="hidden" />
             <span class="required-text" asp-validation-for="RegisterForm.PhoneNo"></span>
         </div>
 
@@ -66,14 +68,12 @@
                 <div class="input-box-container country-code-container">
                     <div class="input-box">
                         <span class="required-tip" aria-label="required">*</span>
-                        <input asp-for="RegisterForm.CurrencyId" type="hidden" />
                         <div class="dropdown-selected-container">
                             <div class="dropdown-item">
                                 <img src="~/images/flag-@(Model.RegisterForm.CountryCode.ToLowerInvariant()).jpg" alt="@Model.RegisterForm.CountryCode flag" class="flag-img" />
                                 @Model.RegisterForm.CountryCode
                             </div>
                         </div>
-                        <input asp-for="RegisterForm.CountryCode" type="hidden" />
                     </div>
                 </div>
             </div>
