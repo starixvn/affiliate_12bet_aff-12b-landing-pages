@@ -28,6 +28,10 @@
             height: 60px;
         }
     }
+
+    img {
+        cursor: pointer;
+    }
 }
 
 .logo-sponsor-container> :last-child.btn-register {

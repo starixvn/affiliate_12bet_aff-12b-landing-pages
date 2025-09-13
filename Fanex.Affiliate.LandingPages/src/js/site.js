@@ -7,10 +7,10 @@
 
 import $ from 'jquery';
 import 'jquery-validation';
-import 'jquery-validation-unobtrusive'; 
+import 'jquery-validation-unobtrusive';
 import { parsePhoneNumberFromString } from 'libphonenumber-js/core';
 import metadata from 'libphonenumber-js/metadata.mobile.json';
-import './capcha.js'
+import './capcha.js';
 // Constants
 const SITE_CONFIG = {
     SELECTORS: {
@@ -120,7 +120,7 @@ function setupPhoneValidation() {
         try {
             const countryCodeFieldName = `RegisterForm.${params.countryProperty}`;
             const countryCode = $(`[name='${countryCodeFieldName}']`).val();
-            
+
             if (!countryCode) {
                 return true;
             }
@@ -131,8 +131,8 @@ function setupPhoneValidation() {
             }
 
             const phoneType = phoneNumber.getType();
-            return phoneType === SITE_CONFIG.PHONE_TYPES.MOBILE || 
-                   phoneType === SITE_CONFIG.PHONE_TYPES.FIXED_LINE_OR_MOBILE;
+            return phoneType === SITE_CONFIG.PHONE_TYPES.MOBILE ||
+                phoneType === SITE_CONFIG.PHONE_TYPES.FIXED_LINE_OR_MOBILE;
         } catch (error) {
             console.error('Phone validation error:', error);
             return false;
@@ -149,7 +149,7 @@ function initializeComponents() {
     initializeInputInfoToggle();
     initializePasswordToggle();
     initializeFormScrollBack();
-    
+
     enableRemoteValidationDebounce(SITE_CONFIG.TIMEOUTS.REMOTE_VALIDATION_DEBOUNCE);
 }
 
@@ -159,7 +159,7 @@ function initializeComponents() {
  */
 function setupFormHandlers() {
     const $form = $(SITE_CONFIG.SELECTORS.REGISTER_FORM);
-    
+
     if ($form.length === 0) {
         console.warn('Register form not found');
         return;
@@ -185,7 +185,7 @@ function setupFormHandlers() {
 function handlePasswordEncoding() {
     const $passwordInput = $(SITE_CONFIG.SELECTORS.PASSWORD_INPUT);
     const $hiddenPassword = $(SITE_CONFIG.SELECTORS.HIDDEN_PASSWORD);
-    
+
     if ($passwordInput.length === 0 || $hiddenPassword.length === 0) {
         console.warn('Password input fields not found');
         return;
@@ -272,7 +272,7 @@ function scrollToElement($element, callback) {
  */
 function initializeGoTopButton() {
     const $goTopBtn = $(SITE_CONFIG.SELECTORS.GO_TOP_BTN);
-    
+
     if ($goTopBtn.length === 0) {
         return;
     }
@@ -280,20 +280,20 @@ function initializeGoTopButton() {
     function toggleGoTopButton() {
         const scrollTop = $(window).scrollTop();
         const isVisible = scrollTop > SITE_CONFIG.SCROLL_THRESHOLDS.GO_TOP_VISIBILITY;
-        
+
         $goTopBtn.css("display", isVisible ? "flex" : "none");
     }
 
     // Initial check
     toggleGoTopButton();
-    
+
     // Bind scroll event
     $(window).on("scroll.site", toggleGoTopButton);
 
     // Bind click event
     $goTopBtn.on("click.site", function () {
-        $("html, body").animate({ 
-            scrollTop: 0 
+        $("html, body").animate({
+            scrollTop: 0
         }, SITE_CONFIG.TIMEOUTS.GO_TOP_ANIMATION);
     });
 }
@@ -303,9 +303,20 @@ function initializeGoTopButton() {
  * @private
  */
 function initializeInputInfoToggle() {
-    $(document).on("click.site", SITE_CONFIG.SELECTORS.ICON_INFORMATION, function () {
-        const $inputField = $(this).closest(SITE_CONFIG.SELECTORS.INPUT_FIELD);
-        $inputField.find(SITE_CONFIG.SELECTORS.INPUT_INFO).toggleClass(SITE_CONFIG.CLASSES.ACTIVE);
+    const { INPUT_FIELD, INPUT_INFO, ICON_INFORMATION } = SITE_CONFIG.SELECTORS;
+    const { ACTIVE } = SITE_CONFIG.CLASSES;
+
+    $(document).on("click.site", ICON_INFORMATION, function (e) {
+        e.stopPropagation();
+        const $current = $(this).closest(INPUT_FIELD).find(INPUT_INFO);
+        $(INPUT_INFO).not($current).removeClass(ACTIVE);
+        $current.toggleClass(ACTIVE);
+    });
+
+    $(document).on("click.site", function (e) {
+        if (!$(e.target).is(ICON_INFORMATION) && !$(e.target).closest(INPUT_INFO).length) {
+            $(INPUT_INFO).removeClass(ACTIVE);
+        }
     });
 }
 
@@ -337,7 +348,7 @@ function initializePasswordToggle() {
  */
 function initializeFormScrollBack() {
     const $form = $(SITE_CONFIG.SELECTORS.REGISTER_FORM);
-    
+
     if ($form.length === 0) {
         return;
     }
@@ -345,14 +356,14 @@ function initializeFormScrollBack() {
     $(document).on("click.site", function (event) {
         const $target = $(event.target);
         const isInsideForm = $form.has($target).length > 0 || $form.is($target);
-        const isException = SITE_CONFIG.FORM_EXCEPTIONS.some(selector => 
+        const isException = SITE_CONFIG.FORM_EXCEPTIONS.some(selector =>
             $target.closest(selector).length > 0
         );
 
         if (!isInsideForm && !isException) {
-            $form[0].scrollIntoView({ 
-                behavior: "smooth", 
-                block: "start" 
+            $form[0].scrollIntoView({
+                behavior: "smooth",
+                block: "start"
             });
         }
     });
@@ -364,7 +375,7 @@ function initializeFormScrollBack() {
  */
 function initializeSwiperLazy() {
     const $containers = $(SITE_CONFIG.SELECTORS.SWIPER_CONTAINER);
-    
+
     if ($containers.length === 0) {
         return;
     }
@@ -380,12 +391,12 @@ function initializeSwiperLazy() {
             });
         }, { rootMargin: '50px' });
 
-        $containers.each(function() {
+        $containers.each(function () {
             observer.observe(this);
         });
     } else {
         // Fallback for older browsers
-        $containers.each(function() {
+        $containers.each(function () {
             initializeSwiperForContainer($(this));
         });
     }
@@ -398,7 +409,7 @@ function initializeSwiperLazy() {
  */
 async function initializeSwiperForContainer($container) {
     const $swiperEl = $container.find(SITE_CONFIG.SELECTORS.SWIPER).first();
-    
+
     if ($swiperEl.length === 0) {
         return;
     }
@@ -410,7 +421,7 @@ async function initializeSwiperForContainer($container) {
         // Dynamic import Swiper only when needed
         const SwiperModule = await import('swiper');
         const Swiper = SwiperModule.default || SwiperModule.Swiper;
-        
+
         const swiperInstance = new Swiper($swiperEl[0], {
             slidesPerView: SITE_CONFIG.SWIPER_CONFIG.SLIDES_PER_VIEW,
             spaceBetween: SITE_CONFIG.SWIPER_CONFIG.SPACE_BETWEEN,
@@ -423,9 +434,9 @@ async function initializeSwiperForContainer($container) {
                 clickable: true,
             },
             loop: hasMultipleSlides,
-            autoplay: hasMultipleSlides ? { 
-                delay: SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY, 
-                disableOnInteraction: false 
+            autoplay: hasMultipleSlides ? {
+                delay: SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY,
+                disableOnInteraction: false
             } : false,
         });
 
@@ -458,7 +469,7 @@ function enableRemoteValidationDebounce(delayMs) {
         if (!value) {
             if (previous) {
                 previous.old = null;
-                previous.valid = true; 
+                previous.valid = true;
             }
 
             if (currentXhr) {
@@ -480,7 +491,7 @@ function enableRemoteValidationDebounce(delayMs) {
 
         previous.old = value;
         clearTimeout(debounceTimer);
-        
+
         const validator = this;
 
         debounceTimer = setTimeout(() => {
@@ -556,12 +567,12 @@ function cleanup() {
 }
 
 // Initialize when DOM is ready
-$(document).ready(function() {
+$(document).ready(function () {
     initializeSite();
 });
 
 // Cleanup on page unload
-$(window).on('beforeunload', function() {
+$(window).on('beforeunload', function () {
     cleanup();
 });
 

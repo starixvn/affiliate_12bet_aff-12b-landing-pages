@@ -9,6 +9,7 @@
   backface-visibility: hidden;
   padding: 12px 16px;
   margin: auto;
+  cursor: pointer;
 
   @include respond-to(small-tablet) {
     padding: 16px 20px;

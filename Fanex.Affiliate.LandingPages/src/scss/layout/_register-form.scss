@@ -138,6 +138,7 @@
 
             .icon-detail {
                 margin-left: 4px;
+                cursor: pointer;
 
                 &::before {
                     font-size: 20px !important;
@@ -173,6 +174,7 @@
         box-shadow: 0px 0px 8px 0px var(--submit-btn-box-shadow);
         transform-origin: center;
         animation: cta-pulse 2s ease-in-out infinite;
+        cursor: pointer;
 
         &:before {
             background: var(--submit-btn-background-color);
