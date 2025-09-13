@@ -407,7 +407,8 @@ async function initializeSwiperForContainer($container) {
 
     try {
         // Dynamic import Swiper only when needed
-        const { Swiper } = await import('swiper');
+        const SwiperModule = await import('swiper');
+        const Swiper = SwiperModule.default || SwiperModule.Swiper;
         
         const swiperInstance = new Swiper($swiperEl[0], {
             slidesPerView: SITE_CONFIG.SWIPER_CONFIG.SLIDES_PER_VIEW,

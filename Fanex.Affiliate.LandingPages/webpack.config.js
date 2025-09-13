@@ -60,7 +60,7 @@ module.exports = (env, argv) => {
       // Add alias for better tree shaking
       alias: {
         'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
-        'swiper': path.resolve(__dirname, 'node_modules/swiper/swiper-bundle.min.js'),
+        'swiper': path.resolve(__dirname, 'node_modules/swiper'),
       }
     },
     // Performance hints
