@@ -1,7 +1,7 @@
-﻿@model string
+﻿@model (string loginLink, string imageLink)
 
 <div class="login-container">
-  <a href="#" target="_blank" rel="noopener noreferrer">
-    <img class="login-img" src="~/images/login-img.png" alt="login">
+    <a href="@Model.loginLink" target="_blank" rel="noopener noreferrer">
+    <img class="login-img" src="@Model.imageLink" alt="login">
   </a>
 </div>

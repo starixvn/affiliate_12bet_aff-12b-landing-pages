@@ -1,9 +1,9 @@
-﻿@model string
+﻿@model (string redirectLink, string imageLink)
 
 <div class="contact-us">
-    <a href="#" target="_blank" rel="noopener noreferrer" class="contact-us-link">
+    <a href="@Model.redirectLink" target="_blank" rel="noopener noreferrer" class="contact-us-link">
         <img
-        src="~/images/contact-us.png"
+        src="@Model.imageLink"
             alt="contact-us">
     </a>
 </div>

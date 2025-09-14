@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Fanex.Affiliate.LandingPages.Core;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.ContactUs;
 
 public class ContactUsViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke()
+    public IViewComponentResult Invoke(LandingPageModel model)
     {
-        const string model = "Contact Us";
-        return View("ContactUs", model);
+        var contactUs = model?.LandingPage?.Modules?.FirstOrDefault(t => t.ModuleId == (int)UiModule.ContactUs);
+        var redirectLink = contactUs?.ExtraInfo ?? string.Empty;
+        var imageLink = contactUs?.FileName ?? string.Empty;
+        return View("ContactUs", (redirectLink, imageLink));
     }
 }

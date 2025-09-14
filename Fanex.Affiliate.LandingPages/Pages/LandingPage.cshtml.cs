@@ -399,7 +399,7 @@ public class LandingPageModel(
     /// Gets the member site redirect link
     /// </summary>
     /// <returns>Member site redirect URL</returns>
-    private string GetMemberSiteRedirectLink()
+    public string GetMemberSiteRedirectLink()
     {
         var redirectLink = GetRootDomain();
         var redirectToRootDomain = configuration.GetValue<bool>(ConfigKeys.RedirectToRootDomain);
