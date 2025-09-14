@@ -49,6 +49,12 @@ public class LandingPageModel(
     [BindProperty(SupportsGet = true)]
     public string? FormCode { get; set; } = LandingPageConstants.DefaultFormCode;
 
+    [BindProperty(SupportsGet = true)]
+    public bool? IsPreView { get; set; } = false;
+
+    [BindProperty(SupportsGet = true)]
+    public int? PageId { get; set; }
+
     [BindProperty]
     public RegisterForm RegisterForm { get; set; } = new();
 
@@ -164,7 +170,7 @@ public class LandingPageModel(
     {
         try
         {
-            LandingPage = await LoadPageDataAsync(PageCode);
+            LandingPage = await LoadPageDataAsync(PageCode, IsPreView, PageId);
 
             var redirectResult = await HandleRedirectsAsync(LandingPage);
             if (redirectResult != null)
@@ -246,9 +252,9 @@ public class LandingPageModel(
     /// </summary>
     /// <param name="pageCode">Page code</param>
     /// <returns>Landing page data or null if not found</returns>
-    private async Task<LandingPage?> LoadPageDataAsync(string pageCode)
+    private async Task<LandingPage?> LoadPageDataAsync(string pageCode, bool? isPreview, int? pageId)
     {
-        var landingPage = await landingPageService.GetLandingPage(pageCode, false);
+        var landingPage = await landingPageService.GetLandingPage(pageCode, isPreview, pageId);
         if (landingPage == null)
         {
             return null;
