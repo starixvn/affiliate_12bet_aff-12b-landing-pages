@@ -8,7 +8,7 @@ public sealed class SyncLandingPageToCacheWorker(
     ILandingPageService landingPageService,
     ILogService logService) : BackgroundService
 {
-    private const int JobDelayMinute = 3;
+    private const int JobDelayMinute = 1;
     private const int InitialDelayMilliseconds = 10;
     private bool isRunning;
 
