@@ -29,4 +29,10 @@ public class LandingPageModule
     public bool IsUnique { get; set; }
 
     public string RowVer { get; set; } = string.Empty;
+
+    public string GetFullMediaLink(string rootDomain)
+    {
+        var fullLink = $"{rootDomain}/{FileName}?v={RowVer}";
+        return fullLink;
+    }
 }

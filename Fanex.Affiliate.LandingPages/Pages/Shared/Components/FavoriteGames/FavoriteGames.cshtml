@@ -1,13 +1,18 @@
-﻿@model string
+﻿@using Fanex.Affiliate.LandingPages.Core
+@using Fanex.Affiliate.LandingPages.Core.Models
+@model LandingPageModel
 
+@{
+    var modules = Model?.LandingPage?.Modules?.Where(t => t.ModuleId == (int)UiModule.FavoriteGames)!;
+}
 <div class="swiper-container">
     <div class="swiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
-            <div class="swiper-slide"><img src="~/images/fav-game01.png" alt="fav-game"></div>
-            <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
-            <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
-            <div class="swiper-slide"><img src="~/images/fav-game.png" alt="fav-game"></div>
+            @foreach (var module in modules)
+            {
+                var mediaLink = module.GetFullMediaLink(Model!.GetMediaRootDomain());
+                <div class="swiper-slide"><img src="@mediaLink" alt="fav-game"></div>
+            }
         </div>
     </div>
     <div class="swiper-button-prev"></div>

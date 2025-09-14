@@ -1,13 +1,19 @@
-﻿@model string
+﻿@using Fanex.Affiliate.LandingPages.Core
+@using Fanex.Affiliate.LandingPages.Core.Models
+@model LandingPageModel
+
+@{
+    var modules = Model?.LandingPage?.Modules?.Where(t => t.ModuleId == (int)UiModule.Provider)!;
+}
 
 <div class="swiper-container">
     <div class="swiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
-            <!-- <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
-            <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
-            <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div>
-            <div class="swiper-slide"><img src="~/images/provider.png" alt="provider"></div> -->
+            @foreach (var module in modules)
+            {
+                var mediaLink = module.GetFullMediaLink(Model!.GetMediaRootDomain());
+                <div class="swiper-slide"><img src="@mediaLink" alt="provider"></div>
+            }
         </div>
     </div>
     <div class="swiper-button-prev"></div>

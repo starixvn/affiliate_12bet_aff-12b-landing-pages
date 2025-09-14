@@ -4,9 +4,8 @@ namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.FavoriteGames;
 
 public class FavoriteGamesViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke()
+    public IViewComponentResult Invoke(LandingPageModel model)
     {
-        const string model = "Favorite Games";
         return View("FavoriteGames", model);
     }
 }

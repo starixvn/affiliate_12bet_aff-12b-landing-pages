@@ -7,3 +7,4 @@ public interface ICacheKeyService
     string GetAllLandingPageVersionKey(string isPreview);
     string GetSignUpKey();
 }
+

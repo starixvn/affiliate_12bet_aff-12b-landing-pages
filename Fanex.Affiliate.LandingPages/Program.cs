@@ -83,6 +83,14 @@ builder.Services.AddDataProtection()
     .PersistKeysToStackExchangeRedis(RedisConnectionHelper.Connection, $"{appName}:{dataProtectionKeys}")
     .SetApplicationName("Aff.12B.LandingPage");
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -104,5 +112,6 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.MapControllers();
+app.UseCors("AllowAll");
 
 await app.RunAsync();

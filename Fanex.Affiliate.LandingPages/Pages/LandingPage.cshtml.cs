@@ -25,6 +25,7 @@ public class LandingPageModel(
         public const string DefaultPath = "MemberSite:Redirect:DefaultPath";
         public const string RedirectToRootDomain = "MemberSite:Redirect:RedirectToRootDomain";
         public const string SpecificDomain = "MemberSite:Redirect:SpecificDomain";
+        public const string MediaDomain = "MediaDomain";
     }
 
     #endregion
@@ -457,6 +458,12 @@ public class LandingPageModel(
         var newPath = Url.Page(null, null, routeValues, Request.Scheme);
 
         return $"{newPath}{queryString}";
+    }
+
+    public string GetMediaRootDomain()
+    {
+        var mediaDomain = configuration[ConfigKeys.MediaDomain] ?? string.Empty;
+        return mediaDomain;
     }
 
     /// <summary>

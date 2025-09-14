@@ -32,3 +32,4 @@ public class CacheKeyService : ICacheKeyService
         return $"{_applicationName}:{CacheKey.SignUp}";
     }
 }
+

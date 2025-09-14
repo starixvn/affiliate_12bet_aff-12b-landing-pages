@@ -4,9 +4,8 @@ namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.Provider;
 
 public class ProviderViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke()
+    public IViewComponentResult Invoke(LandingPageModel model)
     {
-        const string model = "Provider";
         return View("Provider", model);
     }
 }
