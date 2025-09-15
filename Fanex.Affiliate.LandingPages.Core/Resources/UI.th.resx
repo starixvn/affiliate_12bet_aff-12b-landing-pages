@@ -124,40 +124,40 @@
     <value>12BET: แพลตฟอร์มเกมออนไลน์ที่สมบูรณ์ในอินเดียสำหรับกีฬา คาสิโน และสล็อต</value>
   </data>
   <data name="Form_QuickRegistration" xml:space="preserve">
-    <value>ลงทะเบียนด่วน</value>
+    <value>เปิดบัญชีของคุณฟรี</value>
   </data>
   <data name="Form_Register" xml:space="preserve">
-    <value>ลงทะเบียน</value>
+    <value>สมัครสมาชิก</value>
   </data>
   <data name="Form_Username" xml:space="preserve">
     <value>ชื่อผู้ใช้</value>
   </data>
   <data name="Form_Password" xml:space="preserve">
-    <value>รหัสผ่าน</value>
+    <value>รหัส</value>
   </data>
   <data name="Form_PhoneNumber" xml:space="preserve">
     <value>หมายเลขโทรศัพท์</value>
   </data>
   <data name="Form_Email" xml:space="preserve">
-    <value>อีเมล</value>
+    <value>อีเมล (ไม่บังคับ)</value>
   </data>
   <data name="Form_AffiliateCode" xml:space="preserve">
-    <value>รหัสพันธมิตร</value>
+    <value>ไอดีพันธมิตร/รหัสอ้างอิง (ทางเลือก)</value>
   </data>
   <data name="Form_Currency" xml:space="preserve">
     <value>สกุลเงิน</value>
   </data>
   <data name="Form_Captcha" xml:space="preserve">
-    <value>ใส่รหัส captcha</value>
+    <value>กรอกรหัส CAPTCHA</value>
   </data>
   <data name="Form_UsernameHelp" xml:space="preserve">
-    <value>เพื่อความปลอดภัย เราขอแนะนำให้ชื่อผู้ใช้ของคุณไม่ควรมีชื่อจริงของคุณ</value>
+    <value>เพื่อความปลอดภัยเราแนะนำให้คุณใช้ชื่อผู้ใช้ที่ไม่มีชื่อจริงของคุณ</value>
   </data>
-  <data name="Terms_Agreement" xml:space="preserve">
-    <value>โดยการคลิกปุ่มลงทะเบียน ฉันยืนยันว่าฉันอายุเกิน 18 ปี และได้อ่านและยอมรับ</value>
+  <data name="Form_TermsAgreement" xml:space="preserve">
+    <value>ฉันมีอายุ 18 ปี บริบูรณ์ ได้อ่านและยอมรับเงื่อนไขและข้อกําหนดอย่างครบถ้วนก่อนการลงทะเบียน{0}แล้ว</value>
   </data>
-  <data name="Terms_LinkText" xml:space="preserve">
-    <value>ข้อกำหนด &amp; เงื่อนไข</value>
+  <data name="Form_TermsAndConditions" xml:space="preserve">
+    <value>ข้อกำหนดและเงื่อนไข</value>
   </data>
   <data name="Mobile_DearCustomer" xml:space="preserve">
     <value>ลูกค้าที่รัก</value>
@@ -205,45 +205,39 @@
     <value>รหัสยืนยัน</value>
   </data>
   <data name="Validation_UsernameRequired" xml:space="preserve">
-    <value>ต้องระบุชื่อผู้ใช้</value>
+    <value>ต้องใส่ชื่อบัญชีผู้ใช้</value>
   </data>
-  <data name="Validation_PasswordRequired" xml:space="preserve">
-    <value>รหัสผ่านต้องมี 6-15 ตัวอักษร ประกอบด้วยตัวอักษรและตัวเลข</value>
+  <data name="Validation_PasswordLengthRequired" xml:space="preserve">
+    <value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลข</value>
   </data>
   <data name="Validation_PhoneRequired" xml:space="preserve">
-    <value>กรุณากรอกหมายเลขโทรศัพท์</value>
+    <value>โปรดใส่หมายเลขโทรศัพท์</value>
   </data>
   <data name="Validation_EmailFormat" xml:space="preserve">
-    <value>รูปแบบอีเมลไม่ถูกต้อง</value>
+    <value>รูปแบบที่อยู่อีเมลไม่ถูกต้อง</value>
   </data>
   <data name="Validation_AffiliateNotFound" xml:space="preserve">
-    <value>ไม่พบรหัสพันธมิตร</value>
+    <value>ไม่พบรหัสพันธมิตรดังกล่าว</value>
   </data>
   <data name="Validation_EmailCannotChange" xml:space="preserve">
-    <value>ไม่สามารถเปลี่ยนอีเมลหลังจากส่งแล้ว</value>
+    <value>ไม่สามารถเปลี่ยนชื่ออีเมล์ได้หลังจากกดยืนยัน</value>
   </data>
   <data name="Validation_AffiliateCannotChange" xml:space="preserve">
-    <value>กรุณากรอกรหัสพันธมิตร (ไม่บังคับ) ไม่สามารถเปลี่ยนหลังจากกรอกแล้ว!</value>
+    <value>กรุณากรอก ไอดีผู้ใช้ของพันธมิตร(ไม่บังคับ) ไม่สามารถเปลี่ยนภายหลังได้!</value>
   </data>
-  <data name="Username_NoLongerAvailable" xml:space="preserve">
+  <data name="Validation_UsernameNoLongerAvailable" xml:space="preserve">
     <value>ชื่อผู้ใช้ไม่สามารถใช้งานได้อีกต่อไป</value>
   </data>
-  <data name="Password_Required" xml:space="preserve">
-    <value>ฟิลด์รหัสผ่านจำเป็นต้องกรอก</value>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>ต้องใส่รหัสผ่าน</value>
   </data>
-  <data name="Username_Required" xml:space="preserve">
-    <value>ฟิลด์ชื่อผู้ใช้ต้องเป็นสตริงที่มีความยาวขั้นต่ำ 6 และสูงสุด 18 ตัวอักษร</value>
-  </data>
-  <data name="Password_Complexity" xml:space="preserve">
-    <value>ฟิลด์รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร ประกอบด้วยตัวอักษรและตัวเลขอย่างน้อยหนึ่งตัว</value>
+  <data name="Validation_UsernameLengthRequired" xml:space="preserve">
+    <value>ตัวอักษรและตัวเลข 6-18 ตัว (A-Z, a-z, 0-9) เท่านั้น</value>
   </data>
   <data name="Email_AlreadyExists" xml:space="preserve">
     <value>อีเมลมีอยู่แล้ว</value>
   </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>ฟิลด์หมายเลขโทรศัพท์จำเป็นต้องกรอก</value>
-  </data>
-  <data name="PhoneNumber_InvalidForCountry" xml:space="preserve">
+  <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>หมายเลขโทรศัพท์ไม่ถูกต้องสำหรับประเทศที่เลือก</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
@@ -260,5 +254,14 @@
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
     <value>คุณต้องทำการยืนยัน CAPTCHA ให้เสร็จสิ้น</value>
+  </data>
+  <data name="Validation_PasswordComplexity" xml:space="preserve">
+    <value>ฟิลด์รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร ประกอบด้วยตัวอักษรและตัวเลขอย่างน้อยหนึ่งตัว</value>
+  </data>
+  <data name="PhoneNumber_Required" xml:space="preserve">
+    <value>ฟิลด์หมายเลขโทรศัพท์จำเป็นต้องกรอก</value>
+  </data>
+  <data name="Validation_CommonError" xml:space="preserve">
+    <value>การลงทะเบียนไม่สำเร็จ กรุณาติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
   </data>
 </root>

@@ -127,7 +127,7 @@
     <value>QUICK REGISTRATION</value>
   </data>
   <data name="Form_Register" xml:space="preserve">
-    <value>Register</value>
+    <value>Win Now</value>
   </data>
   <data name="Form_Username" xml:space="preserve">
     <value>Username</value>
@@ -139,10 +139,10 @@
     <value>Phone Number</value>
   </data>
   <data name="Form_Email" xml:space="preserve">
-    <value>Email</value>
+    <value>Email (Optional)</value>
   </data>
   <data name="Form_AffiliateCode" xml:space="preserve">
-    <value>Affiliate Code</value>
+    <value>Affiliate ID/Referral (Optional)</value>
   </data>
   <data name="Form_Currency" xml:space="preserve">
     <value>Currency</value>
@@ -153,11 +153,11 @@
   <data name="Form_UsernameHelp" xml:space="preserve">
     <value>For security, we suggest that your username does not contain your real name.</value>
   </data>
-  <data name="Terms_Agreement" xml:space="preserve">
-    <value>By clicking the Register button, I hereby acknowledge that I am above 18 years old and have read and accepted your</value>
+  <data name="Form_TermsAgreement" xml:space="preserve">
+    <value>By clicking the JOIN NOW button, I hereby acknowledge that I am above 18 years old and have read and accepted your {0}.</value>
   </data>
-  <data name="Terms_LinkText" xml:space="preserve">
-    <value>terms &amp; conditions</value>
+  <data name="Form_TermsAndConditions" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
   </data>
   <data name="Mobile_DearCustomer" xml:space="preserve">
     <value>Dear Valued Customer</value>
@@ -205,9 +205,9 @@
     <value>captcha</value>
   </data>
   <data name="Validation_UsernameRequired" xml:space="preserve">
-    <value>The Username field is required.</value>
+    <value>Username is required.</value>
   </data>
-  <data name="Validation_PasswordRequired" xml:space="preserve">
+  <data name="Validation_PasswordLengthRequired" xml:space="preserve">
     <value>Password must be 6-15 characters, contain alphanumeric.</value>
   </data>
   <data name="Validation_PhoneRequired" xml:space="preserve">
@@ -225,25 +225,19 @@
   <data name="Validation_AffiliateCannotChange" xml:space="preserve">
     <value>Please enter Affiliate ID (Optional), it can not change once enter!</value>
   </data>
-  <data name="Username_NoLongerAvailable" xml:space="preserve">
+  <data name="Validation_UsernameNoLongerAvailable" xml:space="preserve">
     <value>Username is no longer available.</value>
   </data>
-  <data name="Password_Required" xml:space="preserve">
-    <value>The Password field is required.</value>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>Password is required.</value>
   </data>
-  <data name="Username_Required" xml:space="preserve">
-    <value>The field Username must be a string with a minimum length of 6 and a maximum length of 18.</value>
-  </data>
-  <data name="Password_Complexity" xml:space="preserve">
-    <value>The field Password must be at least 6 characters, contain at least one letter and one number.</value>
+  <data name="Validation_UsernameLengthRequired" xml:space="preserve">
+    <value>8-16 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
   </data>
   <data name="Email_AlreadyExists" xml:space="preserve">
     <value>Mail already exists.</value>
   </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>The Phone Number field is required.</value>
-  </data>
-  <data name="PhoneNumber_InvalidForCountry" xml:space="preserve">
+  <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>Invalid phone number for the selected country.</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
@@ -260,5 +254,14 @@
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
     <value>You must complete the CAPTCHA verification</value>
+  </data>
+  <data name="Validation_PasswordComplexity" xml:space="preserve">
+    <value>The field Password must be at least 6 characters, contain at least one letter and one number.</value>
+  </data>
+  <data name="PhoneNumber_Required" xml:space="preserve">
+    <value>The Phone Number field is required.</value>
+  </data>
+  <data name="Validation_CommonError" xml:space="preserve">
+    <value>Registration unsuccessful. Please reach out to customer service for assistance.</value>
   </data>
 </root>

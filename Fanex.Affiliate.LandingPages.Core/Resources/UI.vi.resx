@@ -127,22 +127,22 @@
     <value>ĐĂNG KÝ NHANH</value>
   </data>
   <data name="Form_Register" xml:space="preserve">
-    <value>Đăng Ký</value>
+    <value>NHẬN NGAY!</value>
   </data>
   <data name="Form_Username" xml:space="preserve">
-    <value>Tên Đăng Nhập</value>
+    <value>Tên đăng nhập</value>
   </data>
   <data name="Form_Password" xml:space="preserve">
-    <value>Mật Khẩu</value>
+    <value>Mật khẩu</value>
   </data>
   <data name="Form_PhoneNumber" xml:space="preserve">
-    <value>Số Điện Thoại</value>
+    <value>Số ĐT</value>
   </data>
   <data name="Form_Email" xml:space="preserve">
-    <value>Email</value>
+    <value>Email (Tùy chọn)</value>
   </data>
   <data name="Form_AffiliateCode" xml:space="preserve">
-    <value>Mã Liên Kết</value>
+    <value>ID Đại lý/ Người giới thiệu (Tùy chọn)</value>
   </data>
   <data name="Form_Currency" xml:space="preserve">
     <value>Tiền Tệ</value>
@@ -151,12 +151,12 @@
     <value>Nhập mã captcha</value>
   </data>
   <data name="Form_UsernameHelp" xml:space="preserve">
-    <value>Để bảo mật, chúng tôi khuyên bạn không nên sử dụng tên thật trong tên đăng nhập.</value>
+    <value>Để bảo mật, chúng tôi khuyến cáo tên đăng nhập không chứa tên thật của bạn</value>
   </data>
-  <data name="Terms_Agreement" xml:space="preserve">
-    <value>Bằng cách nhấp vào nút Đăng ký, tôi xác nhận rằng tôi trên 18 tuổi và đã đọc và chấp nhận</value>
+  <data name="Form_TermsAgreement" xml:space="preserve">
+    <value>Bằng cách nhấp vào nút NHẬN NGAY, tôi xác nhận rằng tôi đã trên 18 tuổi và đồng ý với các {0} của bạn.</value>
   </data>
-  <data name="Terms_LinkText" xml:space="preserve">
+  <data name="Form_TermsAndConditions" xml:space="preserve">
     <value>điều khoản &amp; điều kiện</value>
   </data>
   <data name="Mobile_DearCustomer" xml:space="preserve">
@@ -207,43 +207,37 @@
   <data name="Validation_UsernameRequired" xml:space="preserve">
     <value>Tên đăng nhập là bắt buộc.</value>
   </data>
-  <data name="Validation_PasswordRequired" xml:space="preserve">
-    <value>Mật khẩu phải có 6-15 ký tự, chứa chữ và số.</value>
+  <data name="Validation_PasswordLengthRequired" xml:space="preserve">
+    <value>Mật khẩu phải có từ 6-15 ký tự, bao gồm cả chữ, số và ký tự đặc biệt (!@#$%^&amp;*)</value>
   </data>
   <data name="Validation_PhoneRequired" xml:space="preserve">
-    <value>Vui lòng điền số điện thoại</value>
+    <value>Vui lòng nhập số điện thoại</value>
   </data>
   <data name="Validation_EmailFormat" xml:space="preserve">
-    <value>Định dạng email không đúng</value>
+    <value>Địa chỉ email không hợp lệ</value>
   </data>
   <data name="Validation_AffiliateNotFound" xml:space="preserve">
-    <value>Không tìm thấy mã liên kết</value>
+    <value>Tìm không thấy ID Đại lý</value>
   </data>
   <data name="Validation_EmailCannotChange" xml:space="preserve">
-    <value>Email không thể thay đổi sau khi gửi.</value>
+    <value>Không thể thay đổi Email sau khi xác nhận</value>
   </data>
   <data name="Validation_AffiliateCannotChange" xml:space="preserve">
-    <value>Vui lòng nhập Mã Liên Kết (Tùy chọn), không thể thay đổi sau khi nhập!</value>
+    <value>Vui lòng nhập ID Đại lý (tùy chọn), Thông tin không thể thay đổi sau khi đã nhập!</value>
   </data>
-  <data name="Username_NoLongerAvailable" xml:space="preserve">
+  <data name="Validation_UsernameNoLongerAvailable" xml:space="preserve">
     <value>Tên đăng nhập không còn khả dụng.</value>
   </data>
-  <data name="Password_Required" xml:space="preserve">
-    <value>Trường Mật khẩu là bắt buộc.</value>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>Mật khẩu là bắt buộc</value>
   </data>
-  <data name="Username_Required" xml:space="preserve">
-    <value>Trường Tên đăng nhập phải là chuỗi có độ dài tối thiểu 6 và tối đa 18 ký tự.</value>
-  </data>
-  <data name="Password_Complexity" xml:space="preserve">
-    <value>Trường Mật khẩu phải có ít nhất 6 ký tự, chứa ít nhất một chữ cái và một số.</value>
+  <data name="Validation_UsernameLengthRequired" xml:space="preserve">
+    <value>Tên đăng nhập phải có 6 đến 18 ký tự</value>
   </data>
   <data name="Email_AlreadyExists" xml:space="preserve">
     <value>Email đã tồn tại.</value>
   </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>Trường Số điện thoại là bắt buộc.</value>
-  </data>
-  <data name="PhoneNumber_InvalidForCountry" xml:space="preserve">
+  <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>Số điện thoại không hợp lệ cho quốc gia đã chọn.</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
@@ -260,5 +254,14 @@
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
     <value>Bạn phải hoàn thành xác minh CAPTCHA</value>
+  </data>
+  <data name="Validation_PasswordComplexity" xml:space="preserve">
+    <value>Trường Mật khẩu phải có ít nhất 6 ký tự, chứa ít nhất một chữ cái và một số.</value>
+  </data>
+  <data name="PhoneNumber_Required" xml:space="preserve">
+    <value>Trường Số điện thoại là bắt buộc.</value>
+  </data>
+  <data name="Validation_CommonError" xml:space="preserve">
+    <value>Đăng ký không thành công. Vui lòng liên hệ bộ phận chăm sóc khách hàng để được hỗ trợ.</value>
   </data>
 </root>

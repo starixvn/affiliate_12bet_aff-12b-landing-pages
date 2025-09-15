@@ -8,15 +8,15 @@ namespace Fanex.Affiliate.LandingPages.Core.Models;
 public class RegisterForm
 {
     [Required(ErrorMessageResourceName = "Validation_UsernameRequired", ErrorMessageResourceType = typeof(UI))]
-    [StringLength(18, MinimumLength = 6, ErrorMessageResourceName = "Username_Required", ErrorMessageResourceType = typeof(UI))]
-    [Remote(action: "CheckExistsUsername", controller: "SignUp", ErrorMessageResourceName = "Username_NoLongerAvailable", ErrorMessageResourceType = typeof(UI))]
+    [StringLength(18, MinimumLength = 6, ErrorMessageResourceName = "Validation_UsernameLengthRequired", ErrorMessageResourceType = typeof(UI))]
+    [Remote(action: "CheckExistsUsername", controller: "SignUp", ErrorMessageResourceName = "Validation_UsernameNoLongerAvailable", ErrorMessageResourceType = typeof(UI))]
     public string Username { get; set; } = string.Empty;
 
-    [Required(ErrorMessageResourceName = "Password_Required", ErrorMessageResourceType = typeof(UI))]
-    [StringLength(15, MinimumLength = 6)]
+    [Required(ErrorMessageResourceName = "Validation_PasswordRequired", ErrorMessageResourceType = typeof(UI))]
+    [StringLength(15, MinimumLength = 6, ErrorMessageResourceName = "Validation_PasswordLengthRequired", ErrorMessageResourceType = typeof(UI))]
     [DataType(DataType.Password)]
     [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d).{6,}$",
-        ErrorMessageResourceName = "Password_Complexity", ErrorMessageResourceType = typeof(UI))]
+        ErrorMessageResourceName = "Validation_PasswordLengthRequired", ErrorMessageResourceType = typeof(UI))]
     public string UserPwd { get; set; } = string.Empty;
 
     public string Password { get; set; } = string.Empty;
@@ -25,8 +25,8 @@ public class RegisterForm
     [Remote(action: "CheckExistsEmail", controller: "SignUp", ErrorMessageResourceName = "Email_AlreadyExists", ErrorMessageResourceType = typeof(UI))]
     public string? Email { get; set; }
 
-    [Required(ErrorMessageResourceName = "PhoneNumber_Required", ErrorMessageResourceType = typeof(UI))]
-    [PhoneNumberByCountry("CountryCode", ErrorMessageResourceName = "PhoneNumber_InvalidForCountry", ErrorMessageResourceType = typeof(UI))]
+    [Required(ErrorMessageResourceName = "Validation_PhoneRequired", ErrorMessageResourceType = typeof(UI))]
+    [PhoneNumberByCountry("CountryCode", ErrorMessageResourceName = "Validation_PhoneInvalidForCountry", ErrorMessageResourceType = typeof(UI))]
     public string PhoneNo { get; set; } = string.Empty;
 
     [Required]

@@ -114,6 +114,10 @@
                 <span class="required-text" asp-validation-for="RegisterForm.AffCode"></span>
             </div>
         }
+        else
+        {
+            <input asp-for="RegisterForm.AffCode" type="hidden" />
+        }
 
         <!-- Turnstile Captcha -->
         @if (Model.LandingPage?.IsTurnstileCaptchaEnabled == true)
@@ -152,11 +156,18 @@
         <!-- Terms and Conditions -->
         @if (formConfig.IsEnableTermsAndCondition)
         {
+            var prefixTermsAgreement = string.Empty;
+            var suffixTermsAgreement = string.Empty;
+            var termsAgreementArr = UI.Form_TermsAgreement.Split("{0}");
+            prefixTermsAgreement = termsAgreementArr[0];
+            suffixTermsAgreement = termsAgreementArr[1];
+
             <div class="terms-conditions">
-                @UI.Terms_Agreement
+                @prefixTermsAgreement
                 <a rel="noreferrer" target="_blank" href="@Model.RegisterForm.TermsConditionsURL">
-                    @UI.Terms_LinkText
-                </a>.
+                    @UI.Form_TermsAndConditions
+                </a>
+                @suffixTermsAgreement
             </div>
         }
     </div>

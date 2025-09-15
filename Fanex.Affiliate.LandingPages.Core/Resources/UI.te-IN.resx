@@ -124,25 +124,25 @@
     <value>12BET: భారతదేశంలో క్రీడలు, క్యాసినో మరియు స్లాట్ల కోసం పూర్తి ఆన్‌లైన్ గేమింగ్ ప్లాట్‌ఫారమ్</value>
   </data>
   <data name="Form_QuickRegistration" xml:space="preserve">
-    <value>త్వరిత నమోదు</value>
+    <value>రేజిస్ట్రేశన</value>
   </data>
   <data name="Form_Register" xml:space="preserve">
-    <value>నమోదు చేయండి</value>
+    <value>ఇప్పుడే చేరండి!</value>
   </data>
   <data name="Form_Username" xml:space="preserve">
-    <value>వినియోగదారు పేరు</value>
+    <value>యూజర్ నేమ్</value>
   </data>
   <data name="Form_Password" xml:space="preserve">
-    <value>పాస్‌వర్డ్</value>
+    <value>పాస్వర్డ్</value>
   </data>
   <data name="Form_PhoneNumber" xml:space="preserve">
     <value>ఫోన్ నంబర్</value>
   </data>
   <data name="Form_Email" xml:space="preserve">
-    <value>ఇమెయిల్</value>
+    <value>ఇమెయిల్ (ఆప్షనల్)</value>
   </data>
   <data name="Form_AffiliateCode" xml:space="preserve">
-    <value>అనుబంధ కోడ్</value>
+    <value>అఫిలియేట్/రిఫరల్ (ఐచ్చికం)</value>
   </data>
   <data name="Form_Currency" xml:space="preserve">
     <value>కరెన్సీ</value>
@@ -151,13 +151,13 @@
     <value>క్యాప్చా కోడ్‌ను నమోదు చేయండి</value>
   </data>
   <data name="Form_UsernameHelp" xml:space="preserve">
-    <value>భద్రత కోసం, మీ వినియోగదారు పేరులో మీ నిజమైన పేరు ఉండకూడదని మేము సూచిస్తున్నాము.</value>
+    <value>సెక్యూరిటీ కోసం, మీ యూజర్ నేమ్ లో మీ రియల్ నేమ్ ఉండకూడదని మేము సూచిస్తున్నాము.</value>
   </data>
-  <data name="Terms_Agreement" xml:space="preserve">
-    <value>నమోదు బటన్‌ను క్లిక్ చేయడం ద్వారా, నేను 18 సంవత్సరాలకు పైగా ఉన్నానని మరియు మీ</value>
+  <data name="Form_TermsAgreement" xml:space="preserve">
+    <value>"ఇప్పుడే చేరండి!"  బటన్ క్లిక్ చేయడం ద్వారా, నాకు 18 సంవత్సరాల కంటే ఎక్కువ వయస్సు ఉందని మరియు మీ నిబంధనలు &amp; షరతులను చదివి అంగీకరిస్తున్నానని ఇందుమూలంగా ధృవీకరిస్తున్నాను. {0}.</value>
   </data>
-  <data name="Terms_LinkText" xml:space="preserve">
-    <value>నిబంధనలు &amp; షరతులు</value>
+  <data name="Form_TermsAndConditions" xml:space="preserve">
+    <value>నిబంధనలు &amp; షరతులు చదివి అంగీకరించానని ఒప్పుకుంటున్నాను</value>
   </data>
   <data name="Mobile_DearCustomer" xml:space="preserve">
     <value>ప్రియమైన కస్టమర్</value>
@@ -205,45 +205,39 @@
     <value>క్యాప్చా</value>
   </data>
   <data name="Validation_UsernameRequired" xml:space="preserve">
-    <value>వినియోగదారు పేరు అవసరం.</value>
+    <value>యూజర్ నేమ్ అవసరం.</value>
   </data>
-  <data name="Validation_PasswordRequired" xml:space="preserve">
-    <value>పాస్‌వర్డ్ 6-15 అక్షరాలుగా ఉండాలి, అక్షరాలు మరియు సంఖ్యలను కలిగి ఉండాలి.</value>
+  <data name="Validation_PasswordLengthRequired" xml:space="preserve">
+    <value>పాస్‌వర్డ్ తప్పనిసరిగా 6-15 అక్షరాలు ఉండాలి, అక్షరాలు మరియు సంఖ్యలను కలిగి ఉండాలి</value>
   </data>
   <data name="Validation_PhoneRequired" xml:space="preserve">
-    <value>దయచేసి ఫోన్ ఫీల్డ్‌ను పూరించండి</value>
+    <value>దయచేసి ఫోన్ ఫీల్డ్‌ను నింపండి</value>
   </data>
   <data name="Validation_EmailFormat" xml:space="preserve">
-    <value>ఇమెయిల్ చిరునామా ఫార్మాట్ తప్పు</value>
+    <value>ఇమెయిల్ అడ్రస్ ఫార్మాట్ తప్పు</value>
   </data>
   <data name="Validation_AffiliateNotFound" xml:space="preserve">
-    <value>అనుబంధ ID కనుగొనబడలేదు</value>
+    <value>అఫిలియేట్ ID కనిపించలేదు</value>
   </data>
   <data name="Validation_EmailCannotChange" xml:space="preserve">
-    <value>సమర్పణ తర్వాత ఇమెయిల్ మార్చలేరు.</value>
+    <value>సబ్మిట్ చేసాక ఇమెయిల్ ని చేంజ్ చేయలేరు</value>
   </data>
   <data name="Validation_AffiliateCannotChange" xml:space="preserve">
-    <value>దయచేసి అనుబంధ ID (ఐచ్ఛికం) నమోదు చేయండి, ఒకసారి నమోదు చేసిన తర్వాత మార్చలేరు!</value>
+    <value>దయచేసి అఫిలియేట్ IDని ఎంటర్ చేయండి (ఆప్షనల్), ఒకసారి ఎంటర్ చేసిన తర్వాత అది మారదు!</value>
   </data>
-  <data name="Username_NoLongerAvailable" xml:space="preserve">
+  <data name="Validation_UsernameNoLongerAvailable" xml:space="preserve">
     <value>వినియోగదారు పేరు ఇకపై అందుబాటులో లేదు.</value>
   </data>
-  <data name="Password_Required" xml:space="preserve">
-    <value>పాస్‌వర్డ్ ఫీల్డ్ అవసరం.</value>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>పాస్‌వర్డ్ అవసరం.</value>
   </data>
-  <data name="Username_Required" xml:space="preserve">
-    <value>వినియోగదారు పేరు ఫీల్డ్ కనీసం 6 మరియు గరిష్టంగా 18 అక్షరాల పొడవు ఉన్న స్ట్రింగ్ అయి ఉండాలి.</value>
-  </data>
-  <data name="Password_Complexity" xml:space="preserve">
-    <value>పాస్‌వర్డ్ ఫీల్డ్ కనీసం 6 అక్షరాలుగా ఉండాలి, కనీసం ఒక అక్షరం మరియు ఒక సంఖ్యను కలిగి ఉండాలి.</value>
+  <data name="Validation_UsernameLengthRequired" xml:space="preserve">
+    <value>6-18 ఆల్ఫాన్యూమరిక్ (A-Z, a-z, 0-9) అక్షరాలు మాత్రమే.</value>
   </data>
   <data name="Email_AlreadyExists" xml:space="preserve">
     <value>ఇమెయిల్ ఇప్పటికే ఉంది.</value>
   </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>ఫోన్ నంబర్ ఫీల్డ్ అవసరం.</value>
-  </data>
-  <data name="PhoneNumber_InvalidForCountry" xml:space="preserve">
+  <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>ఎంచుకున్న దేశానికి చెల్లని ఫోన్ నంబర్.</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
@@ -260,5 +254,14 @@
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
     <value>మీరు CAPTCHA ధృవీకరణను పూర్తి చేయాలి</value>
+  </data>
+  <data name="Validation_PasswordComplexity" xml:space="preserve">
+    <value>పాస్‌వర్డ్ ఫీల్డ్ కనీసం 6 అక్షరాలుగా ఉండాలి, కనీసం ఒక అక్షరం మరియు ఒక సంఖ్యను కలిగి ఉండాలి.</value>
+  </data>
+  <data name="PhoneNumber_Required" xml:space="preserve">
+    <value>ఫోన్ నంబర్ ఫీల్డ్ అవసరం.</value>
+  </data>
+  <data name="Validation_CommonError" xml:space="preserve">
+    <value>నమోదు విఫలమైంది. సహాయం కోసం దయచేసి కస్టమర్ సేవలను సంప్రదించండి.</value>
   </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
 using Fanex.Affiliate.LandingPages.Core.Models;
+using Fanex.Affiliate.LandingPages.Core.Resources;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
@@ -10,7 +11,6 @@ public class SignUpService(Logging.ILogger logger,
     ITrackingSignUpService trackingSignUpService,
     IHttpClientFactory httpClientFactory) : ISignUpService
 {
-    private const string errorText = "Something went wrong with your sign-up. Try again later or contact support.";
     public async Task SentryErrorAsync(string errMsg, Exception exception)
     {
         await logger.ErrorAsync(errMsg, exception);
@@ -254,7 +254,7 @@ public class SignUpService(Logging.ILogger logger,
         return new SignUpResponse
         {
             ErrorCode = 9999,
-            Message = errorText,
+            Message = UI.Validation_CommonError,
             RawErrorCode = ex.StatusCode?.ToString() ?? string.Empty,
             RawMessage = ex.Message
         };
@@ -265,7 +265,7 @@ public class SignUpService(Logging.ILogger logger,
         return new SignUpResponse
         {
             ErrorCode = 9999,
-            Message = errorText,
+            Message = UI.Validation_CommonError,
             RawMessage = ex.Message
         };
     }
@@ -275,7 +275,7 @@ public class SignUpService(Logging.ILogger logger,
         return new SignUpResponse
         {
             ErrorCode = 9998,
-            Message = errorText
+            Message = UI.Validation_CommonError
         };
     }
 

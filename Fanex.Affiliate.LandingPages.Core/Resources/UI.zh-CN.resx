@@ -127,7 +127,7 @@
     <value>快速注册</value>
   </data>
   <data name="Form_Register" xml:space="preserve">
-    <value>注册</value>
+    <value>立即加入！</value>
   </data>
   <data name="Form_Username" xml:space="preserve">
     <value>用户名</value>
@@ -139,10 +139,10 @@
     <value>电话号码</value>
   </data>
   <data name="Form_Email" xml:space="preserve">
-    <value>电子邮件</value>
+    <value>邮箱地址 (选填)</value>
   </data>
   <data name="Form_AffiliateCode" xml:space="preserve">
-    <value>联盟代码</value>
+    <value>代理商 ID/参照号 (选填)</value>
   </data>
   <data name="Form_Currency" xml:space="preserve">
     <value>货币</value>
@@ -151,13 +151,13 @@
     <value>输入验证码</value>
   </data>
   <data name="Form_UsernameHelp" xml:space="preserve">
-    <value>为了安全起见，我们建议您的用户名不要包含您的真实姓名。</value>
+    <value>基于安全考量，我们建议用户名不要使用或包含您的真实姓名。</value>
   </data>
-  <data name="Terms_Agreement" xml:space="preserve">
-    <value>点击注册按钮，我确认我已年满18岁并已阅读并接受您的</value>
+  <data name="Form_TermsAgreement" xml:space="preserve">
+    <value>点击&lt;立即加入&gt;按钮，即表示本人确认已年满18周岁，并已阅读并接受12BET {0}、隐私政策、Cookies 政策及其他政策。</value>
   </data>
-  <data name="Terms_LinkText" xml:space="preserve">
-    <value>条款和条件</value>
+  <data name="Form_TermsAndConditions" xml:space="preserve">
+    <value>条款与规则</value>
   </data>
   <data name="Mobile_DearCustomer" xml:space="preserve">
     <value>亲爱的客户</value>
@@ -205,45 +205,39 @@
     <value>验证码</value>
   </data>
   <data name="Validation_UsernameRequired" xml:space="preserve">
-    <value>用户名是必填项。</value>
+    <value>请输入用户名。</value>
   </data>
-  <data name="Validation_PasswordRequired" xml:space="preserve">
-    <value>密码必须是6-15个字符，包含字母和数字。</value>
+  <data name="Validation_PasswordLengthRequired" xml:space="preserve">
+    <value>密码长度必须 6 至 15 个字符，包含字母数字。</value>
   </data>
   <data name="Validation_PhoneRequired" xml:space="preserve">
-    <value>请填写电话号码</value>
+    <value>请填写电话栏位</value>
   </data>
   <data name="Validation_EmailFormat" xml:space="preserve">
-    <value>电子邮件格式不正确</value>
+    <value>输入的邮箱地址格式有误</value>
   </data>
   <data name="Validation_AffiliateNotFound" xml:space="preserve">
-    <value>找不到联盟代码</value>
+    <value>代理商ID 无法查找</value>
   </data>
   <data name="Validation_EmailCannotChange" xml:space="preserve">
-    <value>提交后无法更改电子邮件。</value>
+    <value>提交后无法变更电子邮件地址。</value>
   </data>
   <data name="Validation_AffiliateCannotChange" xml:space="preserve">
-    <value>请输入联盟代码（可选），输入后无法更改！</value>
+    <value>请填入代理商 ID（可不填），填入后无法更换！</value>
   </data>
-  <data name="Username_NoLongerAvailable" xml:space="preserve">
+  <data name="Validation_UsernameNoLongerAvailable" xml:space="preserve">
     <value>用户名不再可用。</value>
   </data>
-  <data name="Password_Required" xml:space="preserve">
-    <value>密码字段是必填的。</value>
+  <data name="Validation_PasswordRequired" xml:space="preserve">
+    <value>请输入密码。</value>
   </data>
-  <data name="Username_Required" xml:space="preserve">
-    <value>用户名字段必须是长度在6到18个字符之间的字符串。</value>
-  </data>
-  <data name="Password_Complexity" xml:space="preserve">
-    <value>密码字段必须至少6个字符，包含至少一个字母和一个数字。</value>
+  <data name="Validation_UsernameLengthRequired" xml:space="preserve">
+    <value>仅限6到18个数字、英文字母大小写</value>
   </data>
   <data name="Email_AlreadyExists" xml:space="preserve">
     <value>邮件已存在。</value>
   </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>电话号码字段是必填的。</value>
-  </data>
-  <data name="PhoneNumber_InvalidForCountry" xml:space="preserve">
+  <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>所选国家的电话号码无效。</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
@@ -260,5 +254,14 @@
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
     <value>您必须完成验证码验证</value>
+  </data>
+  <data name="Validation_PasswordComplexity" xml:space="preserve">
+    <value>密码字段必须至少6个字符，包含至少一个字母和一个数字。</value>
+  </data>
+  <data name="PhoneNumber_Required" xml:space="preserve">
+    <value>电话号码字段是必填的。</value>
+  </data>
+  <data name="Validation_CommonError" xml:space="preserve">
+    <value>注册未成功。请联系客服以获取帮助。</value>
   </data>
 </root>

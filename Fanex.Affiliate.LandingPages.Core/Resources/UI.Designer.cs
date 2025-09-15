@@ -29,7 +29,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UI() {
+        public UI() {
         }
         
         /// <summary>
@@ -169,7 +169,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Affiliate Code.
+        ///   Looks up a localized string similar to Affiliate ID/Referral (Optional).
         /// </summary>
         public static string Form_AffiliateCode {
             get {
@@ -196,7 +196,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
+        ///   Looks up a localized string similar to Email (Optional).
         /// </summary>
         public static string Form_Email {
             get {
@@ -232,11 +232,29 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Register.
+        ///   Looks up a localized string similar to Win Now.
         /// </summary>
         public static string Form_Register {
             get {
                 return ResourceManager.GetString("Form_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By clicking the JOIN NOW button, I hereby acknowledge that I am above 18 years old and have read and accepted your {0}..
+        /// </summary>
+        public static string Form_TermsAgreement {
+            get {
+                return ResourceManager.GetString("Form_TermsAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms &amp; Conditions.
+        /// </summary>
+        public static string Form_TermsAndConditions {
+            get {
+                return ResourceManager.GetString("Form_TermsAndConditions", resourceCulture);
             }
         }
         
@@ -322,33 +340,6 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The field Password must be at least 6 characters, contain at least one letter and one number..
-        /// </summary>
-        public static string Password_Complexity {
-            get {
-                return ResourceManager.GetString("Password_Complexity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Password field is required..
-        /// </summary>
-        public static string Password_Required {
-            get {
-                return ResourceManager.GetString("Password_Required", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid phone number for the selected country..
-        /// </summary>
-        public static string PhoneNumber_InvalidForCountry {
-            get {
-                return ResourceManager.GetString("PhoneNumber_InvalidForCountry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Invalid phone number for the country {0}.
         /// </summary>
         public static string PhoneNumber_InvalidForCountryWithCode {
@@ -372,42 +363,6 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         public static string RequiredField {
             get {
                 return ResourceManager.GetString("RequiredField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to By clicking the Register button, I hereby acknowledge that I am above 18 years old and have read and accepted your.
-        /// </summary>
-        public static string Terms_Agreement {
-            get {
-                return ResourceManager.GetString("Terms_Agreement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to terms &amp; conditions.
-        /// </summary>
-        public static string Terms_LinkText {
-            get {
-                return ResourceManager.GetString("Terms_LinkText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Username is no longer available..
-        /// </summary>
-        public static string Username_NoLongerAvailable {
-            get {
-                return ResourceManager.GetString("Username_NoLongerAvailable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The field Username must be a string with a minimum length of 6 and a maximum length of 18..
-        /// </summary>
-        public static string Username_Required {
-            get {
-                return ResourceManager.GetString("Username_Required", resourceCulture);
             }
         }
         
@@ -439,6 +394,15 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration unsuccessful. Please reach out to customer service for assistance..
+        /// </summary>
+        public static string Validation_CommonError {
+            get {
+                return ResourceManager.GetString("Validation_CommonError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email cannot be changed after submission..
         /// </summary>
         public static string Validation_EmailCannotChange {
@@ -457,11 +421,38 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The field Password must be at least 6 characters, contain at least one letter and one number..
+        /// </summary>
+        public static string Validation_PasswordComplexity {
+            get {
+                return ResourceManager.GetString("Validation_PasswordComplexity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password must be 6-15 characters, contain alphanumeric..
+        /// </summary>
+        public static string Validation_PasswordLengthRequired {
+            get {
+                return ResourceManager.GetString("Validation_PasswordLengthRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is required..
         /// </summary>
         public static string Validation_PasswordRequired {
             get {
                 return ResourceManager.GetString("Validation_PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid phone number for the selected country..
+        /// </summary>
+        public static string Validation_PhoneInvalidForCountry {
+            get {
+                return ResourceManager.GetString("Validation_PhoneInvalidForCountry", resourceCulture);
             }
         }
         
@@ -484,7 +475,25 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Username field is required..
+        ///   Looks up a localized string similar to 8-16 alphanumeric (A-Z, a-z, 0-9) characters only..
+        /// </summary>
+        public static string Validation_UsernameLengthRequired {
+            get {
+                return ResourceManager.GetString("Validation_UsernameLengthRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username is no longer available..
+        /// </summary>
+        public static string Validation_UsernameNoLongerAvailable {
+            get {
+                return ResourceManager.GetString("Validation_UsernameNoLongerAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username is required..
         /// </summary>
         public static string Validation_UsernameRequired {
             get {
