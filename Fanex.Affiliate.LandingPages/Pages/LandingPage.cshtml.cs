@@ -18,18 +18,6 @@ public class LandingPageModel(
     IConfiguration configuration,
     ILogger<LandingPageModel> logger) : PageModel
 {
-    #region Configuration Keys
-
-    private static class ConfigKeys
-    {
-        public const string DefaultPath = "MemberSite:Redirect:DefaultPath";
-        public const string RedirectToRootDomain = "MemberSite:Redirect:RedirectToRootDomain";
-        public const string SpecificDomain = "MemberSite:Redirect:SpecificDomain";
-        public const string MediaDomain = "MediaDomain";
-    }
-
-    #endregion
-
     #region Properties
 
     [BindProperty(SupportsGet = true)]

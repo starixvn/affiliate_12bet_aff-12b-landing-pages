@@ -8,11 +8,12 @@ public class LoginButtonViewComponent : ViewComponent
     public IViewComponentResult Invoke(LandingPageModel model)
     {
         var memberSiteLink = model.GetMemberSiteRedirectLink();
-        var loginModule = model?.LandingPage?.Modules?.FirstOrDefault(t => t.ModuleId == (int)UiModule.LoginButton);
-        var loginPath = loginModule?.ExtraInfo ?? "login";
+        var module = model?.LandingPage?.Modules?.FirstOrDefault(t => t.ModuleId == (int)UiModule.LoginButton);
+        var loginPath = module?.ExtraInfo ?? "login";
         loginPath = loginPath.StartsWith('/') ? loginPath : $"/{loginPath}";
         var loginLink = $"{memberSiteLink}{loginPath}";
-        var imageLink = loginModule?.FileName ?? string.Empty;
-        return View("LoginButton", (loginLink, imageLink));
+        var mediaLink = module!.GetFullMediaLink(model!.GetMediaRootDomain());
+
+        return View("LoginButton", (loginLink, mediaLink));
     }
 }

@@ -7,9 +7,10 @@ public class ContactUsViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(LandingPageModel model)
     {
-        var contactUs = model?.LandingPage?.Modules?.FirstOrDefault(t => t.ModuleId == (int)UiModule.ContactUs);
-        var redirectLink = contactUs?.ExtraInfo ?? string.Empty;
-        var imageLink = contactUs!.GetFullMediaLink(model!.GetMediaRootDomain());
-        return View("ContactUs", (redirectLink, imageLink));
+        var module = model?.LandingPage?.Modules?.FirstOrDefault(t => t.ModuleId == (int)UiModule.ContactUs);
+        var mediaLink = module!.GetFullMediaLink(model!.GetMediaRootDomain());
+        var redirectLink = module?.ExtraInfo ?? string.Empty;
+
+        return View("ContactUs", (redirectLink, mediaLink));
     }
 }

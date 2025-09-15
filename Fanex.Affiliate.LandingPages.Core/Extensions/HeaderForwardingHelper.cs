@@ -25,15 +25,10 @@ public static class HeaderForwardingHelper
         ArgumentNullException.ThrowIfNull(context);
 
         var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-        // Get MemberSiteOptions from DI
         var memberSiteOptions = context.RequestServices.GetService<IOptions<MemberSiteOptions>>();
-        headers["ai-host"] = memberSiteOptions?.Value?.Host ?? string.Empty;
-
-        // Add origin-host header
+        headers["ai-host"] = memberSiteOptions?.Value?.MemberSite ?? string.Empty;
         headers["origin-host"] = $"{context.Request.Scheme}://{context.Request.Host}";
 
-        // Forward specific headers if present
         foreach (var headerName in ForwardHeaderNames)
         {
             if (context.Request.Headers.TryGetValue(headerName, out var value) && !string.IsNullOrWhiteSpace(value))

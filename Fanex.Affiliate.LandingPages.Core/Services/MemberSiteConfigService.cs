@@ -1,38 +1,30 @@
-using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
-public class MemberSiteConfigService : IMemberSiteConfigService
+public class MemberSiteConfigService(IConfiguration configuration) : IMemberSiteConfigService
 {
-    private readonly MemberSiteOptions _options;
-
-    public MemberSiteConfigService(IOptions<MemberSiteOptions> options)
-    {
-        _options = options.Value;
-    }
-
     public string GetHost()
     {
-        return _options.Host;
+        return configuration[ConfigKeys.MemberSite] ?? string.Empty;
     }
 
     public string GetAPIHost()
     {
-        return _options.APIHost;
+        return configuration[ConfigKeys.API] ?? string.Empty;
     }
 
     public string GetFullLink(string path)
     {
-        var host = _options.Host.TrimEnd('/');
+        var host = GetHost().TrimEnd('/');
         var cleanPath = path.TrimStart('/');
         return $"{host}/{cleanPath}";
     }
 
     public string GetFullApiLink(string path)
     {
-        var apiHost = _options.APIHost.TrimEnd('/');
+        var apiHost = GetAPIHost().TrimEnd('/');
         var cleanPath = path.TrimStart('/');
         return $"{apiHost}/{cleanPath}";
     }

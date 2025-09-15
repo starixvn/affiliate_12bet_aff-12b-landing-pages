@@ -40,7 +40,7 @@ builder.Services.AddSingleton<ILogService, Fanex.Affiliate.LandingPages.Core.Ser
 builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 
 // Configure MemberSite options from appsettings.json
-builder.Services.Configure<MemberSiteOptions>(builder.Configuration.GetSection("MemberSite"));
+builder.Services.Configure<MemberSiteOptions>(builder.Configuration.GetSection("DomainSettings"));
 builder.Services.AddSingleton<IMemberSiteConfigService, MemberSiteConfigService>();
 
 RedisConnectionHelper.Initialize(builder.Configuration);
