@@ -262,6 +262,8 @@ public class LandingPageModel(
     private async Task ConfigureCaptchaInfoAsync(LandingPage landingPage)
     {
         var captchaInfo = await signUpService.GetRecaptchaInfoAsync();
+        // todo: remove after testing number capcha
+        captchaInfo.Data.Type = 0;
         landingPage.CaptchaType = captchaInfo.IsTurnstileCaptchaEnabled 
             ? LandingPageConstants.TurnstileCaptchaType 
             : LandingPageConstants.NumberCaptchaType;
