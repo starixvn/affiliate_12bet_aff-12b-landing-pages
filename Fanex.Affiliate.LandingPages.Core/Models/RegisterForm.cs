@@ -55,4 +55,6 @@ public class RegisterForm
     public string ApiUrl { get; set; } = string.Empty;
 
     public SignUpFormConfig? SignUpFormConfig { get; set; }
+
+    public string TermsConditionsURL { get; set; } = string.Empty;
 }

@@ -191,7 +191,8 @@ public class LandingPageModel(
         RegisterForm.CurrencyId = landingPage.CurrencyId;
         RegisterForm.AffClickId = ClickId ?? string.Empty;
         RegisterForm.AffCode = AffCode ?? string.Empty;
-        
+        RegisterForm.TermsConditionsURL = GetTermsConditionsLink();
+
         var form = landingPage.Modules!.FirstOrDefault(t => t.ModuleId == (int)UiModule.RegistrationForm);
         var formCode = form?.MediaCode ?? FormCode;
         if (Request.Query.ContainsKey("FormCode"))
@@ -338,6 +339,13 @@ public class LandingPageModel(
         RegisterForm.UserAgent = GetRequestHeader(LandingPageConstants.UserAgentHeader);
         RegisterForm.SignUpUrl = GetCurrentUrl().ToString();
         RegisterForm.IpAddress = GetClientIpAddress();
+    }
+
+    private string GetTermsConditionsLink()
+    {
+        var termsConditionsTpl = configuration[ConfigKeys.TermsConditions] ?? string.Empty;
+        var termsConditions = string.Format(termsConditionsTpl, LanguageCode);
+        return termsConditions;
     }
 
     /// <summary>
