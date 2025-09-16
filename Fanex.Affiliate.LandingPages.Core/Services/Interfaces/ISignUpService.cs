@@ -4,13 +4,13 @@ namespace Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 public interface ISignUpService
 {
-    Task<RecaptchaInfo> GetRecaptchaInfoAsync();
+    Task<RecaptchaInfo> GetRecaptchaInfoAsync(string lang);
 
-    Task<NumberCaptchaResponse> GetNumberCaptchaAsync();
+    Task<NumberCaptchaResponse> GetNumberCaptchaAsync(string lang);
 
-    Task<ExistsEmailResponse> CheckExistsEmailAsync(string email);
+    Task<ExistsEmailResponse> CheckExistsEmailAsync(string email, string lang);
 
-    Task<AffiliateCheckResponse> CheckAffiliateAsync(string affCode);
+    Task<AffiliateCheckResponse> CheckAffiliateAsync(string affCode, string lang);
 
     Task<ExistsUserNameResponse> CheckExistsUserNameAsync(string username, string lang);
 

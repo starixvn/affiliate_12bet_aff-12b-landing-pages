@@ -17,7 +17,8 @@ public static class HeaderForwardingHelper
         "cf-connecting-ip",
         "cf-ipcountry",
         "cf-ray",
-        "cf-visitor"
+        "cf-visitor",
+        "User-Agent",
     ];
 
     public static IDictionary<string, string> BuildForwardHeaders(HttpContext context)

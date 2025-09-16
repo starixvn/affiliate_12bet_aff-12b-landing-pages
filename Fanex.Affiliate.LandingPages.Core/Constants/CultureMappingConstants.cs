@@ -47,4 +47,21 @@ public static class CultureMappingConstants
         return !string.IsNullOrWhiteSpace(languageCode) && 
                LanguageToCultureMapInternal.ContainsKey(languageCode);
     }
+
+    /// <summary>
+    /// Gets the language code for a given culture name.
+    /// </summary>
+    /// <param name="cultureName">Culture name (e.g., "vi-VN", "en-US")</param>
+    /// <returns>Language code if found, otherwise null</returns>
+    public static string GetLanguageFromCulture(string cultureName)
+    {
+        if (string.IsNullOrWhiteSpace(cultureName))
+        {
+            return string.Empty;
+        }
+
+        return LanguageToCultureMapInternal
+            .FirstOrDefault(pair => string.Equals(pair.Value, cultureName, StringComparison.OrdinalIgnoreCase))
+            .Key;
+    }
 }

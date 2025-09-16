@@ -262,7 +262,7 @@ public class LandingPageModel(
     /// <param name="landingPage">Landing page to configure</param>
     private async Task ConfigureCaptchaInfoAsync(LandingPage landingPage)
     {
-        var captchaInfo = await signUpService.GetRecaptchaInfoAsync();
+        var captchaInfo = await signUpService.GetRecaptchaInfoAsync(LanguageCode);
         landingPage.CaptchaType = captchaInfo.IsTurnstileCaptchaEnabled 
             ? LandingPageConstants.TurnstileCaptchaType 
             : LandingPageConstants.NumberCaptchaType;

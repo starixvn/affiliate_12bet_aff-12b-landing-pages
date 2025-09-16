@@ -16,12 +16,13 @@ public class SignUpService(Logging.ILogger logger,
         await logger.ErrorAsync(errMsg, exception);
     }
     
-    public async Task<RecaptchaInfo> GetRecaptchaInfoAsync()
+    public async Task<RecaptchaInfo> GetRecaptchaInfoAsync(string lang)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetRecaptchaInfo}");
+            var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetRecaptchaInfo}/{lang}";
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             request.Headers.Add("accept", "text/plain");
 
             var response = await httpClient.SendAsync(request);
@@ -42,12 +43,13 @@ public class SignUpService(Logging.ILogger logger,
         }
     }
 
-    public async Task<NumberCaptchaResponse> GetNumberCaptchaAsync()
+    public async Task<NumberCaptchaResponse> GetNumberCaptchaAsync(string lang)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetNumberCaptcha}")
+            var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetNumberCaptcha}/{lang}";
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
                 Content = new StringContent("{\"action\":\"signup\"}", System.Text.Encoding.UTF8, "application/json")
             };
@@ -75,13 +77,13 @@ public class SignUpService(Logging.ILogger logger,
         }
     }
 
-    public async Task<ExistsEmailResponse> CheckExistsEmailAsync(string email)
+    public async Task<ExistsEmailResponse> CheckExistsEmailAsync(string email, string lang)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
-            var requestUrl = $"{apiHost}{ApiPath.ExistsEmail}";
+            var requestUrl = $"{apiHost}{ApiPath.ExistsEmail}/{lang}";
 
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
@@ -109,13 +111,13 @@ public class SignUpService(Logging.ILogger logger,
         }
     }
 
-    public async Task<AffiliateCheckResponse> CheckAffiliateAsync(string affCode)
+    public async Task<AffiliateCheckResponse> CheckAffiliateAsync(string affCode, string lang)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
-            var requestUrl = $"{apiHost}{ApiPath.AffiliateCheck}";
+            var requestUrl = $"{apiHost}{ApiPath.AffiliateCheck}/{lang}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
                 Content = new StringContent(
@@ -219,7 +221,6 @@ public class SignUpService(Logging.ILogger logger,
                     "application/json")
             };
 
-            request.Headers.Add("User-Agent", registerForm.UserAgent);
             var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             

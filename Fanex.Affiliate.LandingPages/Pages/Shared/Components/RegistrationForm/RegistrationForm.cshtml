@@ -136,7 +136,7 @@
         <input asp-for="RegisterForm.CaptchaType" type="hidden" />
         <div id="numberCapcha" style="display:@(Model.LandingPage?.IsTurnstileCaptchaEnabled == true ? "none" : "block")">
             <div class="captcha-container">
-                <img id="tokenBox" alt="captcha" />
+                <img id="tokenBox" alt="captcha" style="display:none"/>
             </div>
             <div class="input-field">
                 <div class="input-box">

@@ -1,3 +1,5 @@
+using Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
+using Fanex.Affiliate.LandingPages.Core.Resources;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +14,8 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     {
         try
         {
-            var result = await signUpService.GetNumberCaptchaAsync();
+            var langCode = CultureMappingConstants.GetLanguageFromCulture(UI.Culture.ToString());
+            var result = await signUpService.GetNumberCaptchaAsync(langCode);
             return Ok(result);
         }
         catch (Exception ex)
@@ -26,7 +29,8 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     {
         try
         {
-            var result = await signUpService.CheckExistsEmailAsync(email);
+            var langCode = CultureMappingConstants.GetLanguageFromCulture(UI.Culture.ToString());
+            var result = await signUpService.CheckExistsEmailAsync(email, langCode);
             if (result.Data)
             {
                 return new JsonResult(false);
@@ -44,7 +48,8 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     {
         try
         {
-            var result = await signUpService.CheckAffiliateAsync(affCode);
+            var langCode = CultureMappingConstants.GetLanguageFromCulture(UI.Culture.ToString());
+            var result = await signUpService.CheckAffiliateAsync(affCode, langCode);
             
             if (result.ErrorCode != 0)
             {
@@ -63,8 +68,9 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     {
         try
         {
-            var result = await signUpService.CheckExistsUserNameAsync(username, "en");
-
+            var langCode = CultureMappingConstants.GetLanguageFromCulture(UI.Culture.ToString());
+            var result = await signUpService.CheckExistsUserNameAsync(username, langCode);
+            
             if (result.Data)
             {
                 return new JsonResult(false);

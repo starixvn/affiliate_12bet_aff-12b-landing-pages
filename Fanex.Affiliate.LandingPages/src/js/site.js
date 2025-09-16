@@ -87,7 +87,6 @@ function initializeSite() {
     }
 
     try {
-        //setupPhoneValidation();
         initializeComponents();
         setupFormHandlers();
         setupValidationStyles();
@@ -168,15 +167,30 @@ function setupFormHandlers() {
     $form.on("submit", function (event) {
         event.preventDefault();
         try {
+            // Cancel any pending remote validation
+            if (typeof window.cancelRemoteValidation === 'function') {
+                window.cancelRemoteValidation();
+            }
+
             if ($form.valid()) {
                 handlePasswordEncoding();
                 this.submit();
+            } else {
+                // Scroll to first error after a short delay to allow validation to complete
+                console.log("aaaaaa");
+                setTimeout(() => {
+                    const $firstError = $('.input-validation-error').first();
+                    if ($firstError.length > 0) {
+                        scrollToElement($firstError, () => $firstError.focus());
+                    }
+                }, 100);
             }
         } catch (error) {
             console.error('Form submission error:', error);
         }
     });
 }
+
 
 /**
  * Handle password encoding for security
@@ -492,6 +506,18 @@ async function initializeSwiperForContainer($container) {
 function enableRemoteValidationDebounce(delayMs) {
     let debounceTimer = null;
     let currentXhr = null;
+
+    // Store reference to cancel function globally
+    window.cancelRemoteValidation = function () {
+        if (currentXhr) {
+            currentXhr.abort();
+            currentXhr = null;
+        }
+        if (debounceTimer) {
+            clearTimeout(debounceTimer);
+            debounceTimer = null;
+        }
+    };
 
     $.validator.methods.remote = function (value, element, param) {
         const previous = this.previousValue(element);

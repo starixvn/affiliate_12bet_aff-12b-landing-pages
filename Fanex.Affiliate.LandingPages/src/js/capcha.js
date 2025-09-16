@@ -143,7 +143,8 @@ function handleNumberCaptchaSuccess(response) {
         }
 
         tokenBox.attr('src', `data:image/png;base64,${picture}`);
-        
+
+        tokenBox.css('display', 'block');
         // Schedule next refresh
         const refreshInterval = Math.min(seconds * 1000, CAPTCHA_CONFIG.TIMEOUTS.DEFAULT_REFRESH);
         refreshTimeout = setTimeout(loadNumberCaptcha, refreshInterval);

@@ -47,7 +47,7 @@ RedisConnectionHelper.Initialize(builder.Configuration);
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelper.Connection);
 builder.Services.AddSingleton<IRedisService, RedisService>();
 builder.Services.AddSingleton<ICacheKeyService, CacheKeyService>();
-builder.Services.AddSingleton<ITrackingSignUpService, TrackingSignUpService>();
+builder.Services.AddScoped<ITrackingSignUpService, TrackingSignUpService>();
 
 builder.Services.AddHostedService<RabbitMqBusHostedService>();
 builder.Services.AddSingleton<IRabbitBus, RabbitBus>();
