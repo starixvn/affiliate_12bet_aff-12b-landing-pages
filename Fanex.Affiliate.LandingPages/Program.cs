@@ -112,6 +112,19 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.MapControllers();
-app.UseCors("AllowAll");
+
+app.Use((context, next) =>
+{
+    context.Response.Headers.Remove("X-Frame-Options");
+    context.Response.Headers.ContentSecurityPolicy = "default-src 'self' blob:; frame-src *";
+
+    if (context.Request.Headers["x-forwarded-proto"] == "https")
+    {
+        context.Request.Scheme = "https";
+    }
+
+    return next();
+});
+
 
 await app.RunAsync();

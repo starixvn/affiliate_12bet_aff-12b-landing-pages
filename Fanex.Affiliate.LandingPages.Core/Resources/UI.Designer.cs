@@ -223,7 +223,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Win Now.
+        ///   Looks up a localized string similar to JOIN NOW!.
         /// </summary>
         public static string Form_Register {
             get {
