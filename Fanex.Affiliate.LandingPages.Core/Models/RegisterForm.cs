@@ -22,7 +22,7 @@ public class RegisterForm
     public string Password { get; set; } = string.Empty;
 
     [EmailAddress(ErrorMessageResourceName = "Validation_EmailFormat", ErrorMessageResourceType = typeof(UI))]
-    [Remote(action: "CheckExistsEmail", controller: "SignUp", ErrorMessageResourceName = "Email_AlreadyExists", ErrorMessageResourceType = typeof(UI))]
+    [Remote(action: "CheckExistsEmail", controller: "SignUp", ErrorMessageResourceName = "Validation_EmailAlreadyExists", ErrorMessageResourceType = typeof(UI))]
     public string? Email { get; set; }
 
     [Required(ErrorMessageResourceName = "Validation_PhoneRequired", ErrorMessageResourceType = typeof(UI))]

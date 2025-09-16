@@ -234,20 +234,14 @@
   <data name="Validation_UsernameLengthRequired" xml:space="preserve">
     <value>ตัวอักษรและตัวเลข 6-18 ตัว (A-Z, a-z, 0-9) เท่านั้น</value>
   </data>
-  <data name="Email_AlreadyExists" xml:space="preserve">
+  <data name="Validation_EmailAlreadyExists" xml:space="preserve">
     <value>อีเมลมีอยู่แล้ว</value>
   </data>
   <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>หมายเลขโทรศัพท์ไม่ถูกต้องสำหรับประเทศที่เลือก</value>
   </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value>ที่อยู่อีเมลไม่ถูกต้อง</value>
-  </data>
   <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
     <value>หมายเลขโทรศัพท์ไม่ถูกต้องสำหรับประเทศ {0}</value>
-  </data>
-  <data name="RequiredField" xml:space="preserve">
-    <value>ฟิลด์นี้จำเป็นต้องกรอก</value>
   </data>
   <data name="Validation_PhoneValid" xml:space="preserve">
     <value>หมายเลขโทรศัพท์ไม่ถูกต้อง</value>

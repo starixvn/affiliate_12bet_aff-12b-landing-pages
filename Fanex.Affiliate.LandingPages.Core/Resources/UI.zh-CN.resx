@@ -234,20 +234,14 @@
   <data name="Validation_UsernameLengthRequired" xml:space="preserve">
     <value>仅限6到18个数字、英文字母大小写</value>
   </data>
-  <data name="Email_AlreadyExists" xml:space="preserve">
+  <data name="Validation_EmailAlreadyExists" xml:space="preserve">
     <value>邮件已存在。</value>
   </data>
   <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>所选国家的电话号码无效。</value>
   </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value>无效的电子邮件地址</value>
-  </data>
   <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
     <value>国家 {0} 的电话号码无效</value>
-  </data>
-  <data name="RequiredField" xml:space="preserve">
-    <value>此字段是必填的</value>
   </data>
   <data name="Validation_PhoneValid" xml:space="preserve">
     <value>电话号码无效</value>

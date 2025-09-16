@@ -160,15 +160,6 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mail already exists..
-        /// </summary>
-        public static string Email_AlreadyExists {
-            get {
-                return ResourceManager.GetString("Email_AlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Affiliate ID/Referral (Optional).
         /// </summary>
         public static string Form_AffiliateCode {
@@ -277,15 +268,6 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid email address.
-        /// </summary>
-        public static string InvalidEmail {
-            get {
-                return ResourceManager.GetString("InvalidEmail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to We apologize for the inconvenience caused, and hope for your utmost understanding. Thank you!.
         /// </summary>
         public static string Mobile_Apologize {
@@ -358,15 +340,6 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This field is required.
-        /// </summary>
-        public static string RequiredField {
-            get {
-                return ResourceManager.GetString("RequiredField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Please enter Affiliate ID (Optional), it can not change once enter!.
         /// </summary>
         public static string Validation_AffiliateCannotChange {
@@ -399,6 +372,15 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         public static string Validation_CommonError {
             get {
                 return ResourceManager.GetString("Validation_CommonError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mail already exists..
+        /// </summary>
+        public static string Validation_EmailAlreadyExists {
+            get {
+                return ResourceManager.GetString("Validation_EmailAlreadyExists", resourceCulture);
             }
         }
         

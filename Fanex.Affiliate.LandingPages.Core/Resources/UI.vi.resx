@@ -234,20 +234,14 @@
   <data name="Validation_UsernameLengthRequired" xml:space="preserve">
     <value>Tên đăng nhập phải có 6 đến 18 ký tự</value>
   </data>
-  <data name="Email_AlreadyExists" xml:space="preserve">
+  <data name="Validation_EmailAlreadyExists" xml:space="preserve">
     <value>Email đã tồn tại.</value>
   </data>
   <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>Số điện thoại không hợp lệ cho quốc gia đã chọn.</value>
   </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value>Địa chỉ email không hợp lệ</value>
-  </data>
   <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
     <value>Số điện thoại không hợp lệ cho quốc gia {0}</value>
-  </data>
-  <data name="RequiredField" xml:space="preserve">
-    <value>Trường này là bắt buộc</value>
   </data>
   <data name="Validation_PhoneValid" xml:space="preserve">
     <value>Số điện thoại không hợp lệ</value>
