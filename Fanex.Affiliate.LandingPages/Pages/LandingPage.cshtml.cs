@@ -16,7 +16,7 @@ public class LandingPageModel(
     ILandingPageService landingPageService,
     ISignUpService signUpService,
     IConfiguration configuration,
-    ILogger<LandingPageModel> logger) : PageModel
+    ILogService logService) : PageModel
 {
     #region Properties
 
@@ -61,22 +61,15 @@ public class LandingPageModel(
     {
         try
         {
+            SetCulture();
             ValidateRequiredParameters();
-            await HandleTrackingParametersAsync();
-            return await ProcessFormDataAsync();
-        }
-        catch (ArgumentException ex)
-        {
-            logger.LogWarning(ex, "Invalid parameters for landing page: PageCode={PageCode}, LanguageCode={LanguageCode}", 
-                PageCode, LanguageCode);
-            return RedirectToErrorPage();
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "{ErrorMessage} for PageCode: {PageCode}, LanguageCode: {LanguageCode}", 
-                LandingPageConstants.LandingPageLoadError, PageCode, LanguageCode);
-            return RedirectToErrorPage();
+            await logService.SentryErrorAsync(ex);
         }
+
+        return await ProcessFormDataAsync();
     }
 
     /// <summary>
@@ -87,6 +80,7 @@ public class LandingPageModel(
     {
         try
         {
+            SetCulture();
             var errorMessage = string.Empty;
             
             if (ModelState.IsValid && RegisterForm != null)
@@ -110,16 +104,14 @@ public class LandingPageModel(
             {
                 ModelState.AddModelError(string.Empty, errorMessage);
             }
-
-            return await ProcessFormDataAsync();
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "{ErrorMessage} for PageCode: {PageCode}", 
-                LandingPageConstants.FormSubmissionError, PageCode);
+            await logService.SentryErrorAsync(ex);
             ModelState.AddModelError(string.Empty, LandingPageConstants.ProcessingError);
-            return RedirectToErrorPage();
         }
+
+        return await ProcessFormDataAsync();
     }
 
     #endregion
@@ -158,7 +150,6 @@ public class LandingPageModel(
     {
         try
         {
-            SetCulture();
             LandingPage = await LoadPageDataAsync(PageCode, IsPreView, PageId);
 
             var redirectResult = await HandleRedirectsAsync(LandingPage);
@@ -174,6 +165,7 @@ public class LandingPageModel(
         }
         catch (Exception ex)
         {
+            await logService.SentryErrorAsync(ex);
             return Page();
         }
 
@@ -202,39 +194,6 @@ public class LandingPageModel(
 
         RegisterForm.SignUpFormConfig = SignUpFormConfigs.SupportSignUpForms
             .FirstOrDefault(t => t.FormCode == formCode);
-    }
-
-    /// <summary>
-    /// Handles tracking parameters (ClickId, AffCode)
-    /// </summary>
-    private async Task HandleTrackingParametersAsync()
-    {
-        ClickId = await GetOrSetTrackingParameterAsync(LandingPageConstants.ClickIdKey, ClickId);
-        AffCode = await GetOrSetTrackingParameterAsync(LandingPageConstants.AffCodeKey, AffCode);
-    }
-
-    /// <summary>
-    /// Gets or sets a tracking parameter from TempData
-    /// </summary>
-    /// <param name="key">Parameter key</param>
-    /// <param name="currentValue">Current parameter value</param>
-    /// <returns>Parameter value</returns>
-    private async Task<string?> GetOrSetTrackingParameterAsync(string key, string? currentValue)
-    {
-        if (string.IsNullOrEmpty(currentValue))
-        {
-            if (TempData.ContainsKey(key))
-            {
-                currentValue = TempData[key]?.ToString();
-                TempData.Keep(key);
-            }
-        }
-        else
-        {
-            TempData[key] = currentValue;
-        }
-
-        return await Task.FromResult(currentValue);
     }
 
     /// <summary>
@@ -460,15 +419,6 @@ public class LandingPageModel(
     {
         var mediaDomain = configuration[ConfigKeys.MediaDomain] ?? string.Empty;
         return mediaDomain;
-    }
-
-    /// <summary>
-    /// Redirects to error page
-    /// </summary>
-    /// <returns>Redirect result</returns>
-    private IActionResult RedirectToErrorPage()
-    {
-        return Redirect("/Error");
     }
 
     /// <summary>

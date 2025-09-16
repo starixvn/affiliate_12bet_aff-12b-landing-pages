@@ -232,10 +232,10 @@
     <value>Password is required.</value>
   </data>
   <data name="Validation_UsernameLengthRequired" xml:space="preserve">
-    <value>8-16 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
+    <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
   </data>
   <data name="Validation_EmailAlreadyExists" xml:space="preserve">
-    <value>Mail already exists.</value>
+    <value>Email already exists</value>
   </data>
   <data name="Validation_PhoneInvalidForCountry" xml:space="preserve">
     <value>Invalid phone number for the selected country.</value>
@@ -243,7 +243,7 @@
   <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
     <value>Invalid phone number for the country {0}</value>
   </data>
-  <data name="Validation_PhoneValid" xml:space="preserve">
+  <data name="Validation_PhoneInvalid" xml:space="preserve">
     <value>Invalid phone number</value>
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
@@ -251,9 +251,6 @@
   </data>
   <data name="Validation_PasswordComplexity" xml:space="preserve">
     <value>The field Password must be at least 6 characters, contain at least one letter and one number.</value>
-  </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>The Phone Number field is required.</value>
   </data>
   <data name="Validation_CommonError" xml:space="preserve">
     <value>Registration unsuccessful. Please reach out to customer service for assistance.</value>

@@ -243,7 +243,7 @@
   <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
     <value>దేశం {0} కోసం చెల్లని ఫోన్ నంబర్</value>
   </data>
-  <data name="Validation_PhoneValid" xml:space="preserve">
+  <data name="Validation_PhoneInvalid" xml:space="preserve">
     <value>చెల్లని ఫోన్ నంబర్</value>
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
@@ -251,9 +251,6 @@
   </data>
   <data name="Validation_PasswordComplexity" xml:space="preserve">
     <value>పాస్‌వర్డ్ ఫీల్డ్ కనీసం 6 అక్షరాలుగా ఉండాలి, కనీసం ఒక అక్షరం మరియు ఒక సంఖ్యను కలిగి ఉండాలి.</value>
-  </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>ఫోన్ నంబర్ ఫీల్డ్ అవసరం.</value>
   </data>
   <data name="Validation_CommonError" xml:space="preserve">
     <value>నమోదు విఫలమైంది. సహాయం కోసం దయచేసి కస్టమర్ సేవలను సంప్రదించండి.</value>

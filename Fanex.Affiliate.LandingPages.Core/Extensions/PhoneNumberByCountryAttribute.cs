@@ -56,7 +56,7 @@ public sealed class PhoneNumberByCountryAttribute : ValidationAttribute, IClient
         }
 
         MergeAttribute(context.Attributes, "data-val", "true");
-        MergeAttribute(context.Attributes, "data-val-phonenocountry", ErrorMessage ?? UI.Validation_PhoneValid);
+        MergeAttribute(context.Attributes, "data-val-phonenocountry", ErrorMessage ?? UI.Validation_PhoneInvalid);
         MergeAttribute(context.Attributes, "data-val-phonenocountry-countryproperty", CountryProperty);
     }
 

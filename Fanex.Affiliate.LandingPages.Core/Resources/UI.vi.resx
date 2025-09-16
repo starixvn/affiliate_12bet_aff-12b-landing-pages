@@ -243,7 +243,7 @@
   <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
     <value>Số điện thoại không hợp lệ cho quốc gia {0}</value>
   </data>
-  <data name="Validation_PhoneValid" xml:space="preserve">
+  <data name="Validation_PhoneInvalid" xml:space="preserve">
     <value>Số điện thoại không hợp lệ</value>
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
@@ -251,9 +251,6 @@
   </data>
   <data name="Validation_PasswordComplexity" xml:space="preserve">
     <value>Trường Mật khẩu phải có ít nhất 6 ký tự, chứa ít nhất một chữ cái và một số.</value>
-  </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>Trường Số điện thoại là bắt buộc.</value>
   </data>
   <data name="Validation_CommonError" xml:space="preserve">
     <value>Đăng ký không thành công. Vui lòng liên hệ bộ phận chăm sóc khách hàng để được hỗ trợ.</value>

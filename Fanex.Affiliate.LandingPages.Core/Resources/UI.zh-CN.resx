@@ -243,7 +243,7 @@
   <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
     <value>国家 {0} 的电话号码无效</value>
   </data>
-  <data name="Validation_PhoneValid" xml:space="preserve">
+  <data name="Validation_PhoneInvalid" xml:space="preserve">
     <value>电话号码无效</value>
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
@@ -251,9 +251,6 @@
   </data>
   <data name="Validation_PasswordComplexity" xml:space="preserve">
     <value>密码字段必须至少6个字符，包含至少一个字母和一个数字。</value>
-  </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>电话号码字段是必填的。</value>
   </data>
   <data name="Validation_CommonError" xml:space="preserve">
     <value>注册未成功。请联系客服以获取帮助。</value>

@@ -243,7 +243,7 @@
   <data name="PhoneNumber_InvalidForCountryWithCode" xml:space="preserve">
     <value>หมายเลขโทรศัพท์ไม่ถูกต้องสำหรับประเทศ {0}</value>
   </data>
-  <data name="Validation_PhoneValid" xml:space="preserve">
+  <data name="Validation_PhoneInvalid" xml:space="preserve">
     <value>หมายเลขโทรศัพท์ไม่ถูกต้อง</value>
   </data>
   <data name="Validation_Capcha" xml:space="preserve">
@@ -251,9 +251,6 @@
   </data>
   <data name="Validation_PasswordComplexity" xml:space="preserve">
     <value>ฟิลด์รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร ประกอบด้วยตัวอักษรและตัวเลขอย่างน้อยหนึ่งตัว</value>
-  </data>
-  <data name="PhoneNumber_Required" xml:space="preserve">
-    <value>ฟิลด์หมายเลขโทรศัพท์จำเป็นต้องกรอก</value>
   </data>
   <data name="Validation_CommonError" xml:space="preserve">
     <value>การลงทะเบียนไม่สำเร็จ กรุณาติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>

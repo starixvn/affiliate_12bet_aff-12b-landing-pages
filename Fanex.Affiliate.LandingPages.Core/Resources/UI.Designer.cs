@@ -331,15 +331,6 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Phone Number field is required..
-        /// </summary>
-        public static string PhoneNumber_Required {
-            get {
-                return ResourceManager.GetString("PhoneNumber_Required", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Please enter Affiliate ID (Optional), it can not change once enter!.
         /// </summary>
         public static string Validation_AffiliateCannotChange {
@@ -376,7 +367,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mail already exists..
+        ///   Looks up a localized string similar to Email already exists.
         /// </summary>
         public static string Validation_EmailAlreadyExists {
             get {
@@ -430,6 +421,15 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid phone number.
+        /// </summary>
+        public static string Validation_PhoneInvalid {
+            get {
+                return ResourceManager.GetString("Validation_PhoneInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid phone number for the selected country..
         /// </summary>
         public static string Validation_PhoneInvalidForCountry {
@@ -448,16 +448,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid phone number.
-        /// </summary>
-        public static string Validation_PhoneValid {
-            get {
-                return ResourceManager.GetString("Validation_PhoneValid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 8-16 alphanumeric (A-Z, a-z, 0-9) characters only..
+        ///   Looks up a localized string similar to 6-18 alphanumeric (A-Z, a-z, 0-9) characters only..
         /// </summary>
         public static string Validation_UsernameLengthRequired {
             get {
