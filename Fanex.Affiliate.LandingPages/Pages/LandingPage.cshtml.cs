@@ -62,7 +62,6 @@ public class LandingPageModel(
         try
         {
             ValidateRequiredParameters();
-            SetCulture();
             await HandleTrackingParametersAsync();
             return await ProcessFormDataAsync();
         }
@@ -159,6 +158,7 @@ public class LandingPageModel(
     {
         try
         {
+            SetCulture();
             LandingPage = await LoadPageDataAsync(PageCode, IsPreView, PageId);
 
             var redirectResult = await HandleRedirectsAsync(LandingPage);
