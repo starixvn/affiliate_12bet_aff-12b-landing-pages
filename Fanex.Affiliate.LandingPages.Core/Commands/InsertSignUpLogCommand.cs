@@ -14,11 +14,15 @@ public class InsertSignUpLogCommand: BaseNonQueryCommand
     public string AffClickId { get; set; } = string.Empty;
     public string ReferralUrl { get; set; } = string.Empty;
     public string IP { get; set; } = string.Empty;
-    public string ExtData { get; set; }
-
+    public string ExtData { get; set; } = string.Empty;
     public long Duration { get; set; }
-    public string Status { get; set; }
-    
+    public string Status { get; set; } = string.Empty;
+    public string APITraceId { get; set; } = string.Empty;
+    public string APIErrorCode { get; set; } = string.Empty;
+    public string APIMessage { get; set; } = string.Empty;
+    public string ApiUrl { get; set; } = string.Empty;
+    public string SignUpUrl { get; set; } = string.Empty;
+    public string UserAgent { get; set; } = string.Empty;
     public override string GetSettingKey() => "Aff_LandingPage_SignUp";
 
     public override bool IsValid() => true;

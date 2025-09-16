@@ -33,6 +33,7 @@ public class TrackingSignUpService(IDynamicRepository dynamicRepository,
         var signUp = signUpRequest.SignUpData!;
         try
         {
+            var response = signUpRequest.SignUpResponeData!;
             var command = new InsertSignUpLogCommand
             {
                 Username = signUp.Username,
@@ -49,7 +50,12 @@ public class TrackingSignUpService(IDynamicRepository dynamicRepository,
                 IP = signUpRequest.IpAddress,
                 Duration = signUpRequest.Duration,
                 Status = signUpRequest.SignUpResponeData!.ErrorCode == 0 ? "success" : "error",
-                ExtData = GetExtData(signUpRequest)
+                APITraceId = response.TraceId,
+                APIErrorCode = response.ErrorCode.ToString(),
+                APIMessage = response.Message,
+                ApiUrl = signUpRequest.ApiUrl,
+                SignUpUrl = signUpRequest.SignUpUrl,
+                UserAgent = signUpRequest.UserAgent
             };
 
             await dynamicRepository.ExecuteAsync(command);
@@ -68,14 +74,5 @@ public class TrackingSignUpService(IDynamicRepository dynamicRepository,
                 ErrorMessage = ex.Message ?? string.Empty
             };
         }
-    }
-
-    private static string GetExtData(SignUpRequest signUpRequest)
-    {
-        const string extDataTpl = "TraceId:{0} ErrorCode:{1} Message:{2} SignUpUrl:{3} ApiUrl:{4} UserAgent:{5}";
-        var respone = signUpRequest.SignUpResponeData!;
-        var extData = string.Format(extDataTpl, respone.TraceId, respone.ErrorCode, 
-            respone.Message, signUpRequest.SignUpUrl, signUpRequest.ApiUrl, signUpRequest.UserAgent);
-        return extData;
     }
 }

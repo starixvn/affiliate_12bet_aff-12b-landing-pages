@@ -10,6 +10,7 @@ using Fanex.Data.Repository;
 using Fanex.Logging;
 using Fanex.Logging.Sentry.RavenClient;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using ONEbook.UM.DependencyInjection;
 using SharpRaven;
 using StackExchange.Redis;
@@ -101,17 +102,20 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+var options = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor
+};
+app.UseForwardedHeaders(options);
+
 app.UseHttpsRedirection();
 
 app.Use((context, next) =>
 {
+    var contentSecurityPolicy = builder.Configuration.GetValue<string>("DomainSettings:ContentSecurityPolicy");
     context.Response.Headers.Remove("X-Frame-Options");
-    context.Response.Headers["X-Frame-Options"] = "AllowAll";
+    context.Response.Headers.Add("Content-Security-Policy", contentSecurityPolicy);
 
-    if (context.Request.Headers["x-forwarded-proto"] == "https")
-    {
-        context.Request.Scheme = "https";
-    }
     return next();
 });
 
