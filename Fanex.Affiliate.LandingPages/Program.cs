@@ -103,6 +103,18 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.Use((context, next) =>
+{
+    context.Response.Headers.Remove("X-Frame-Options");
+    context.Response.Headers["X-Frame-Options"] = "AllowAll";
+
+    if (context.Request.Headers["x-forwarded-proto"] == "https")
+    {
+        context.Request.Scheme = "https";
+    }
+    return next();
+});
+
 app.UseRouting();
 
 app.UseRequestLocalization();
@@ -112,19 +124,5 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.MapControllers();
-
-app.Use((context, next) =>
-{
-    context.Response.Headers.Remove("X-Frame-Options");
-    context.Response.Headers.ContentSecurityPolicy = "default-src 'self' blob:; frame-src *";
-
-    if (context.Request.Headers["x-forwarded-proto"] == "https")
-    {
-        context.Request.Scheme = "https";
-    }
-
-    return next();
-});
-
 
 await app.RunAsync();
