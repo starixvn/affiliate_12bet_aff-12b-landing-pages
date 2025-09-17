@@ -102,11 +102,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-var options = new ForwardedHeadersOptions
+// Configure forwarded headers based on environment
+var forwardedHeadersOptions = new ForwardedHeadersOptions
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedHost,
+    RequireHeaderSymmetry = false
 };
-app.UseForwardedHeaders(options);
+
+forwardedHeadersOptions.KnownNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+
+app.UseForwardedHeaders(forwardedHeadersOptions);
 
 app.UseHttpsRedirection();
 
@@ -114,7 +120,7 @@ app.Use((context, next) =>
 {
     var contentSecurityPolicy = builder.Configuration.GetValue<string>("DomainSettings:ContentSecurityPolicy");
     context.Response.Headers.Remove("X-Frame-Options");
-    context.Response.Headers.Add("Content-Security-Policy", contentSecurityPolicy);
+    context.Response.Headers["Content-Security-Policy"] = contentSecurityPolicy;
 
     return next();
 });

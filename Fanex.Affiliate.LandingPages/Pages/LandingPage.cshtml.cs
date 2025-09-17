@@ -255,6 +255,7 @@ public class LandingPageModel(
         if (!string.Equals(LanguageCode, landingPage.TargetLanguageCode, StringComparison.OrdinalIgnoreCase))
         {
             var correctUrl = GetCorrectLanguageLink(landingPage.TargetLanguageCode);
+            logService.LogFileMessage(correctUrl);
             return Task.FromResult<IActionResult?>(RedirectPermanent(correctUrl));
         }
 
