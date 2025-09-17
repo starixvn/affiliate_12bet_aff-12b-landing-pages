@@ -425,7 +425,7 @@ async function initializeSwiperForContainer($container) {
     }
 
     const slideCount = $swiperEl.find(SITE_CONFIG.SELECTORS.SWIPER_SLIDE).length;
-    const hasMultipleSlides = slideCount > 1;
+    const hasMultipleSlides = slideCount >= 2;
 
     try {
         // Dynamic import Swiper bundle with all modules
@@ -442,22 +442,38 @@ async function initializeSwiperForContainer($container) {
                 el: paginationEl,
                 clickable: true,
             },
-            loop: hasMultipleSlides,
+            loop: slideCount >= 3,
             autoplay: hasMultipleSlides ? {
                 delay: SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY,
                 disableOnInteraction: false,
-                pauseOnMouseEnter: true
+                pauseOnMouseEnter: true,
+                waitForTransition: false
             } : false,
             speed: 500,
             allowTouchMove: true,
-            loopAdditionalSlides: 1,
+            loopAdditionalSlides: slideCount >= 3 ? 1 : 0,
+            loopPreventsSlide: false,
+            loopPreventsSliding: false,
         });
 
         swiperInstances.push(swiperInstance);
 
+        // Handle 2 slides manually for loop effect
+        if (slideCount === 2) {
+            swiperInstance.on('slideChange', function() {
+                // If at last slide, go to first after delay
+                if (this.activeIndex === 1) {
+                    setTimeout(() => {
+                        this.slideTo(0);
+                    }, SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY);
+                }
+            });
+        }
+
         if (hasMultipleSlides) {
             $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.MULTIPLE_SLIDES);
             $pagination.css("display", "block");
+
 
             // Force create bullets if they don't exist
             setTimeout(() => {
