@@ -1,5 +1,3 @@
-using Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
-using Fanex.Affiliate.LandingPages.Core.Resources;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +8,10 @@ namespace Fanex.Affiliate.LandingPages.Controllers;
 public class SignUpController(ISignUpService signUpService) : ControllerBase
 {
     [HttpGet("GetNumberCaptcha")]
-    public async Task<IActionResult> GetNumberCaptcha()
+    public async Task<IActionResult> GetNumberCaptcha(string langCode)
     {
         try
         {
-            var langCode = CultureMappingConstants.GetLanguageFromCulture(UI.Culture.ToString());
             var result = await signUpService.GetNumberCaptchaAsync(langCode);
             return Ok(result);
         }
@@ -25,11 +22,11 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     }
 
     [HttpGet("ExistsEmail")]
-    public async Task<IActionResult> CheckExistsEmail([FromQuery(Name = "RegisterForm.Email")] string email)
+    public async Task<IActionResult> CheckExistsEmail([FromQuery(Name = "RegisterForm.Email")] string email,
+        [FromQuery(Name = "RegisterForm.UserLang")] string langCode)
     {
         try
         {
-            var langCode = CultureMappingConstants.GetLanguageFromCulture(UI.Culture.ToString());
             var result = await signUpService.CheckExistsEmailAsync(email, langCode);
             if (result.Data)
             {
@@ -44,11 +41,11 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     }
 
     [HttpGet("AffiliateCheck")]
-    public async Task<IActionResult> CheckAffiliate([FromQuery(Name = "RegisterForm.AffCode")] string affCode)
+    public async Task<IActionResult> CheckAffiliate([FromQuery(Name = "RegisterForm.AffCode")] string affCode,
+        [FromQuery(Name = "RegisterForm.UserLang")] string langCode)
     {
         try
         {
-            var langCode = CultureMappingConstants.GetLanguageFromCulture(UI.Culture.ToString());
             var result = await signUpService.CheckAffiliateAsync(affCode, langCode);
             
             if (result.ErrorCode != 0)
@@ -64,11 +61,11 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     }
 
     [HttpGet("ExistsUsername")]
-    public async Task<IActionResult> CheckExistsUsername([FromQuery(Name = "RegisterForm.Username")] string username)
+    public async Task<IActionResult> CheckExistsUsername([FromQuery(Name = "RegisterForm.Username")] string username,
+        [FromQuery(Name = "RegisterForm.UserLang")] string langCode)
     {
         try
         {
-            var langCode = CultureMappingConstants.GetLanguageFromCulture(UI.Culture.ToString());
             var result = await signUpService.CheckExistsUserNameAsync(username, langCode);
             
             if (result.Data)

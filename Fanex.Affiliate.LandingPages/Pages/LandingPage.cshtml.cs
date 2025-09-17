@@ -1,4 +1,5 @@
-﻿using Fanex.Affiliate.LandingPages.Core;
+﻿using System.Globalization;
+using Fanex.Affiliate.LandingPages.Core;
 using Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services;
@@ -62,7 +63,6 @@ public class LandingPageModel(
     {
         try
         {
-            SetCulture();
             ValidateRequiredParameters();
         }
         catch (Exception ex)
@@ -81,7 +81,6 @@ public class LandingPageModel(
     {
         try
         {
-            SetCulture();
             var errorMessage = string.Empty;
             
             if (ModelState.IsValid && RegisterForm != null)
@@ -136,15 +135,6 @@ public class LandingPageModel(
         }
     }
 
-    /// <summary>
-    /// Sets culture based on language code
-    /// </summary>
-    private void SetCulture()
-    {
-        var lang = CultureMappingConstants.IsLanguageSupported(LanguageCode) ? LanguageCode
-            : CultureMappingConstants.DefaultLanguage;
-        LandingPageCultureService.SetCulture(lang);
-    }
 
     /// <summary>
     /// Configures form data by loading landing page information
@@ -180,6 +170,10 @@ public class LandingPageModel(
     /// <param name="landingPage">Landing page data</param>
     private void ConfigureRegisterForm(LandingPage landingPage)
     {
+        var currentCulture = CultureInfo.CurrentUICulture.Name;
+        var languageCode = CultureMappingConstants.GetLanguageFromCulture(currentCulture);
+        
+        RegisterForm.UserLang = languageCode;
         RegisterForm.CaptchaType = landingPage.CaptchaType;
         RegisterForm.AreaCode = $"+{landingPage.DialCode}";
         RegisterForm.CountryCode = landingPage.TargetCountryCode;
@@ -224,7 +218,10 @@ public class LandingPageModel(
     /// <param name="landingPage">Landing page to configure</param>
     private async Task ConfigureCaptchaInfoAsync(LandingPage landingPage)
     {
-        var captchaInfo = await signUpService.GetRecaptchaInfoAsync(LanguageCode);
+        var currentCulture = CultureInfo.CurrentUICulture.Name;
+        var languageCode = CultureMappingConstants.GetLanguageFromCulture(currentCulture);
+        
+        var captchaInfo = await signUpService.GetRecaptchaInfoAsync(languageCode);
         landingPage.CaptchaType = captchaInfo.IsTurnstileCaptchaEnabled 
             ? LandingPageConstants.TurnstileCaptchaType 
             : LandingPageConstants.NumberCaptchaType;
@@ -299,7 +296,9 @@ public class LandingPageModel(
     private void ConfigureRegistrationForm()
     {
         RegisterForm.UserPwd = RegisterForm.Password;
-        RegisterForm.UserLang = LanguageCode;
+        var currentCulture = CultureInfo.CurrentUICulture.Name;
+        var languageCode = CultureMappingConstants.GetLanguageFromCulture(currentCulture);
+        RegisterForm.UserLang = languageCode;
         RegisterForm.AffClickId = ClickId ?? string.Empty;
         RegisterForm.ReferralUrl = GetRequestHeader(LandingPageConstants.RefererHeader);
         RegisterForm.UserAgent = GetRequestHeader(LandingPageConstants.UserAgentHeader);
@@ -310,7 +309,10 @@ public class LandingPageModel(
     private string GetTermsConditionsLink()
     {
         var termsConditionsTpl = configuration[ConfigKeys.TermsConditions] ?? string.Empty;
-        var termsConditions = string.Format(termsConditionsTpl, LanguageCode);
+        var currentCulture = CultureInfo.CurrentUICulture.Name;
+        var languageCode = CultureMappingConstants.GetLanguageFromCulture(currentCulture);
+        
+        var termsConditions = string.Format(termsConditionsTpl, languageCode);
         return termsConditions;
     }
 

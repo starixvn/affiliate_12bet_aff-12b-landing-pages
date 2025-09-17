@@ -1,3 +1,4 @@
+using System.Globalization;
 using Fanex.Affiliate.LandingPages.Core;
 using Fanex.Affiliate.LandingPages.Core.Extensions;
 using Fanex.Affiliate.LandingPages.Core.Models;
@@ -11,6 +12,7 @@ using Fanex.Logging;
 using Fanex.Logging.Sentry.RavenClient;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Localization;
 using ONEbook.UM.DependencyInjection;
 using SharpRaven;
 using StackExchange.Redis;
@@ -22,13 +24,6 @@ builder.Services.AddRazorPages().AddViewLocalization()
     .AddDataAnnotationsLocalization();
 
 builder.Services.AddControllers();
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCultures = new[] { "en-US", "vi-VN", "th-TH", "zh-CN", "te-IN" };
-    options.SetDefaultCulture("en-US")
-           .AddSupportedCultures(supportedCultures)
-           .AddSupportedUICultures(supportedCultures);
-});
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<ForwardHeadersHandler>();
@@ -94,15 +89,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-// Configure forwarded headers based on environment
 var forwardedHeadersOptions = new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedHost,
@@ -116,6 +108,19 @@ app.UseForwardedHeaders(forwardedHeadersOptions);
 
 app.UseHttpsRedirection();
 
+var supportedCultures = new[] { "en-US", "vi-VN", "th-TH", "zh-CN", "te-IN" };
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US"),
+    SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList(),
+    SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList()
+};
+
+localizationOptions.RequestCultureProviders = new[]
+{
+    new CustomRouteDataRequestCultureProvider()
+};
+
 app.Use((context, next) =>
 {
     var contentSecurityPolicy = builder.Configuration.GetValue<string>("DomainSettings:ContentSecurityPolicy");
@@ -126,10 +131,8 @@ app.Use((context, next) =>
 });
 
 app.UseRouting();
-
-app.UseRequestLocalization();
+app.UseRequestLocalization(localizationOptions);
 app.MapStaticAssets();
-// Configure routing for both Razor Pages and MVC
 app.MapRazorPages()
    .WithStaticAssets();
 

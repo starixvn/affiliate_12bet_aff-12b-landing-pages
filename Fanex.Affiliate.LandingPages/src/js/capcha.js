@@ -25,7 +25,8 @@ const CAPTCHA_CONFIG = {
         TOKEN_BOX: '#tokenBox',
         RECAPTCHA_TOKEN: '#RegisterForm_ReCaptchaToken',
         NUMBER_CAPTCHA: '#numberCapcha',
-        TURNSTILE_WIDGET: '#turnstile_widget'
+        TURNSTILE_WIDGET: '#turnstile_widget',
+        LANGUAGE_CODE: '#RegisterForm_UserLang'
     }
 };
 
@@ -80,6 +81,23 @@ function getCaptchaType() {
 }
 
 /**
+ * Get language code from form
+ * @returns {string} Language code
+ * @private
+ */
+function getLanguageCode() {
+    const languageElement = $(CAPTCHA_CONFIG.SELECTORS.LANGUAGE_CODE);
+    
+    if (languageElement.length === 0) {
+        console.warn('Language code element not found, using default');
+        return 'en'; // Default fallback
+    }
+
+    const languageCode = languageElement.val();
+    return languageCode || 'en'; // Fallback to 'en' if empty
+}
+
+/**
  * Bind event handlers
  * @private
  */
@@ -101,11 +119,17 @@ function bindEvents() {
 function loadNumberCaptcha() {
     clearRefreshTimeout();
     
+    // Get language code from form
+    const languageCode = getLanguageCode();
+    
     $.ajax({
         url: CAPTCHA_CONFIG.API_ENDPOINTS.NUMBER_CAPTCHA,
         method: 'GET',
         dataType: 'json',
-        timeout: 10000
+        timeout: 10000,
+        data: {
+            'langCode': languageCode
+        }
     })
     .done(function(response) {
         handleNumberCaptchaSuccess(response);
