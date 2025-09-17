@@ -70,7 +70,8 @@
         display: inline-block;
         cursor: pointer;
 
-        &-active {
+        &-active,
+        &[aria-current="true"] {
             opacity: 1;
         }
     }

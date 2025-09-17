@@ -29,8 +29,6 @@ const SITE_CONFIG = {
         SWIPER_CONTAINER: '.swiper-container',
         SWIPER: '.swiper',
         SWIPER_SLIDE: '.swiper-slide',
-        SWIPER_BUTTON_NEXT: '.swiper-button-next',
-        SWIPER_BUTTON_PREV: '.swiper-button-prev',
         SWIPER_PAGINATION: '.swiper-pagination'
     },
     CLASSES: {
@@ -42,7 +40,7 @@ const SITE_CONFIG = {
         SCROLL_ANIMATION: 500,
         GO_TOP_ANIMATION: 400,
         REMOTE_VALIDATION_DEBOUNCE: 500,
-        SWIPER_AUTOPLAY_DELAY: 3000
+        SWIPER_AUTOPLAY_DELAY: 2500
     },
     SCROLL_THRESHOLDS: {
         GO_TOP_VISIBILITY: 200,
@@ -58,8 +56,6 @@ const SITE_CONFIG = {
     },
     FORM_EXCEPTIONS: [
         '.scroll-to-top',
-        '.swiper-button-next',
-        '.swiper-button-prev',
         '.swiper-pagination'
     ],
     PHONE_TYPES: {
@@ -432,8 +428,8 @@ async function initializeSwiperForContainer($container) {
     const hasMultipleSlides = slideCount > 1;
 
     try {
-        // Dynamic import Swiper only when needed
-        const SwiperModule = await import('swiper');
+        // Dynamic import Swiper bundle with all modules
+        const SwiperModule = await import('swiper/swiper-bundle.mjs');
         const Swiper = SwiperModule.default || SwiperModule.Swiper;
 
         const paginationEl = $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION)[0];
@@ -442,10 +438,6 @@ async function initializeSwiperForContainer($container) {
         const swiperInstance = new Swiper($swiperEl[0], {
             slidesPerView: SITE_CONFIG.SWIPER_CONFIG.SLIDES_PER_VIEW,
             spaceBetween: SITE_CONFIG.SWIPER_CONFIG.SPACE_BETWEEN,
-            navigation: {
-                nextEl: $container.find(SITE_CONFIG.SELECTORS.SWIPER_BUTTON_NEXT)[0],
-                prevEl: $container.find(SITE_CONFIG.SELECTORS.SWIPER_BUTTON_PREV)[0],
-            },
             pagination: {
                 el: paginationEl,
                 clickable: true,
@@ -459,13 +451,6 @@ async function initializeSwiperForContainer($container) {
             speed: 500,
             allowTouchMove: true,
             loopAdditionalSlides: 1,
-            on: {
-                slideChange: function () {
-                    const realIndex = this.realIndex;
-                    $pagination.find('.swiper-pagination-bullet').removeClass('swiper-pagination-bullet-active');
-                    $pagination.find(`.swiper-pagination-bullet[data-slide="${realIndex}"]`).addClass('swiper-pagination-bullet-active');
-                }
-            }
         });
 
         swiperInstances.push(swiperInstance);
