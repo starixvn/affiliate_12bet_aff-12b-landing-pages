@@ -1,9 +1,8 @@
-﻿@using Fanex.Affiliate.LandingPages.Core
-@using Fanex.Affiliate.LandingPages.Core.Models
+﻿@using Fanex.Affiliate.LandingPages.Core.Models
 @model LandingPageModel
 
 @{
-    var modules = Model?.LandingPage?.Modules?.Where(t => t.ModuleId == (int)UiModule.FavoriteGames)!;
+    var modules = Model!.LandingPage!.CurrentModules!;
 }
 <div class="swiper-container">
     <div class="swiper">

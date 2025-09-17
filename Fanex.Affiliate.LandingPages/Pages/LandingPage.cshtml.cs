@@ -141,7 +141,9 @@ public class LandingPageModel(
     /// </summary>
     private void SetCulture()
     {
-        LandingPageCultureService.SetCulture(LanguageCode);
+        var lang = CultureMappingConstants.IsLanguageSupported(LanguageCode) ? LanguageCode
+            : CultureMappingConstants.DefaultLanguage;
+        LandingPageCultureService.SetCulture(lang);
     }
 
     /// <summary>
@@ -253,13 +255,12 @@ public class LandingPageModel(
             return Task.FromResult<IActionResult?>(Redirect(redirectLink));
         }
 
-        if (!string.Equals(LanguageCode, landingPage.TargetLanguageCode, StringComparison.OrdinalIgnoreCase)
-            && !CultureMappingConstants.IsLanguageSupported(landingPage.TargetLanguageCode)
-                && !string.Equals(LanguageCode, CultureMappingConstants.DefaultLanguage, StringComparison.OrdinalIgnoreCase))
+        var languageCode = CultureMappingConstants.IsLanguageSupported(landingPage.TargetLanguageCode)
+                   ? landingPage.TargetLanguageCode
+                   : CultureMappingConstants.DefaultLanguage;
+
+        if (!string.Equals(LanguageCode, languageCode, StringComparison.OrdinalIgnoreCase))
         {
-            var languageCode = CultureMappingConstants.IsLanguageSupported(landingPage.TargetLanguageCode)
-                ? landingPage.TargetLanguageCode
-                : CultureMappingConstants.DefaultLanguage;
             var correctUrl = GetCorrectLanguageLink(languageCode);
             return Task.FromResult<IActionResult?>(RedirectPermanent(correctUrl));
         }

@@ -1,17 +1,17 @@
-﻿@model string
-<!-- 
-<img class="hero-img"
-     src="@Model"
-     alt="hero-img"> -->
+﻿@using Fanex.Affiliate.LandingPages.Core.Models
+@model LandingPageModel
+@{
+    var modules = Model!.LandingPage!.CurrentModules!;
+}
 
 <div class="swiper-container hero-img">
     <div class="swiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide"><img src="~/images/hero-img.png" alt="hero-img"></div>
-          <!-- <div class="swiper-slide"><img src="~/images/hero-img.png" alt="hero-img"></div>
-          <div class="swiper-slide"><img src="~/images/hero-img.png" alt="hero-img"></div>
-          <div class="swiper-slide"><img src="~/images/hero-img.png" alt="hero-img"></div>
-          <div class="swiper-slide"><img src="~/images/hero-img.png" alt="hero-img"></div> -->
+            @foreach (var module in modules)
+            {
+                var mediaLink = module.GetFullMediaLink(Model!.GetMediaRootDomain());
+                <div class="swiper-slide"><img src="@mediaLink" alt="hero-img"></div>
+            }
      </div>
     </div>
     <div class="swiper-pagination"></div>

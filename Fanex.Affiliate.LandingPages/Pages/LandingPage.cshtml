@@ -1,5 +1,6 @@
 ﻿@page "/p1/{languageCode}/{PageCode}"
 @using Fanex.Affiliate.LandingPages.Core
+@using Fanex.Affiliate.LandingPages.Core.Models
 @model Fanex.Affiliate.LandingPages.Pages.LandingPageModel
 
 @{
@@ -9,11 +10,14 @@
 
 @if (Model?.LandingPage?.Modules?.Any() == true)
 {
-    foreach (var module in Model.LandingPage.Modules)
+    IEnumerable<IGrouping<int, LandingPageModule>> components = Model?.LandingPage?.Modules.GroupBy(testc => testc.OrderId)!;
+
+    foreach (var module in components)
     {
-        var moduleName = Enum.GetName(typeof(UiModule), module.ModuleId);
+        var moduleName = Enum.GetName(typeof(UiModule), module.FirstOrDefault()!.ModuleId);
         if (!string.IsNullOrWhiteSpace(moduleName))
         {
+            Model!.LandingPage.CurrentModules = module;
             @await Component.InvokeAsync(moduleName, Model)
         }
     }
