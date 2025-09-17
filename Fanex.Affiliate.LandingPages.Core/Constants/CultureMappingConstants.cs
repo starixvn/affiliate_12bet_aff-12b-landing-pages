@@ -8,7 +8,8 @@ namespace Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
 public static class CultureMappingConstants
 {
     public const string DefaultCulture = "en-US";
-    
+    public const string DefaultLanguage = "en";
+
     /// <summary>
     /// Maps language codes to culture names
     /// </summary>
