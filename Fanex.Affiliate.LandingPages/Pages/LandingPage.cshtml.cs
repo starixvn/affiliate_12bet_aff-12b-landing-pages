@@ -49,6 +49,7 @@ public class LandingPageModel(
 
     public LandingPage? LandingPage { get; set; }
 
+
     #endregion
 
     #region Public Methods
@@ -252,7 +253,9 @@ public class LandingPageModel(
             return Task.FromResult<IActionResult?>(Redirect(redirectLink));
         }
 
-        if (!string.Equals(LanguageCode, landingPage.TargetLanguageCode, StringComparison.OrdinalIgnoreCase))
+        if (!string.Equals(LanguageCode, landingPage.TargetLanguageCode, StringComparison.OrdinalIgnoreCase)
+            && !CultureMappingConstants.IsLanguageSupported(landingPage.TargetLanguageCode)
+                && !string.Equals(LanguageCode, CultureMappingConstants.DefaultLanguage, StringComparison.OrdinalIgnoreCase))
         {
             var languageCode = CultureMappingConstants.IsLanguageSupported(landingPage.TargetLanguageCode)
                 ? landingPage.TargetLanguageCode
