@@ -173,7 +173,6 @@ function setupFormHandlers() {
                 this.submit();
             } else {
                 // Scroll to first error after a short delay to allow validation to complete
-                console.log("aaaaaa");
                 setTimeout(() => {
                     const $firstError = $('.input-validation-error').first();
                     if ($firstError.length > 0) {
@@ -597,6 +596,14 @@ function cleanup() {
 // Initialize when DOM is ready
 $(document).ready(function () {
     initializeSite();
+    
+    // Check for validation summary errors (like captcha failures) after page load
+    setTimeout(() => {
+        const $validationSummary = $('.validation-summary-errors');
+        if ($validationSummary.length > 0) {
+            scrollToElement($validationSummary);
+        }
+    }, 100);
 });
 
 // Cleanup on page unload
