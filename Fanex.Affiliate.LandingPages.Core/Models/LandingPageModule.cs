@@ -32,7 +32,8 @@ public class LandingPageModule
 
     public string GetFullMediaLink(string rootDomain)
     {
-        var fullLink = $"{rootDomain}/{FileName}?v={RowVer}";
+        var fileName = Uri.EscapeDataString(FileName);
+        var fullLink = $"{rootDomain}/{fileName}?v={RowVer}";
         return fullLink;
     }
 }

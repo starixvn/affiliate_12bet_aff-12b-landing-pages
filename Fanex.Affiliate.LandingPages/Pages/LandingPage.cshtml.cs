@@ -363,7 +363,7 @@ public class LandingPageModel(
     {
         var redirectLink = GetMemberSiteRedirectLink();
         var defaultPath = configuration[ConfigKeys.DefaultPath] ?? LandingPageConstants.DefaultPath;
-        return $"{redirectLink}/{LanguageCode}/{defaultPath}";
+        return $"{redirectLink}/{defaultPath}";
     }
 
     /// <summary>
