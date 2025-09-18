@@ -23,9 +23,14 @@ builder.Services.AddHostedService<SignUpLogDLQWorker>();
 builder.Services.AddHostedService<SignUpLogRedisStorageWorker>();
 builder.Services.AddHostedService<SyncLandingPageToCacheWorker>();
 
-var rabbitMqConnectionString = builder.Configuration.GetValue<string>("RabbitMQConnectionString");
+// Configure RabbitMQ
+var rabbitMqConnectionString = builder.Configuration["RabbitMQConnectionString"];
+if (!string.IsNullOrEmpty(rabbitMqConnectionString))
+{
+    builder.Services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnectionString));
+}
+
 builder.Services.AddHttpClient();
-builder.Services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnectionString));
 builder.Services.AddOneBookUmForService(builder.Configuration);
 builder.Services.AddSingleton<IMaintenanceService, MaintenanceService>();
 builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
@@ -39,18 +44,22 @@ builder.Services.AddSingleton<Fanex.Logging.ILogger, Fanex.Logging.Logger>();
 builder.Services.AddSingleton<ILogService, Fanex.Affiliate.LandingPages.Core.Services.LogService>();
 builder.Services.AddSingleton<IRabbitBus, Fanex.Affiliate.LandingPages.Core.Services.RabbitBus>();
 
+// Configure logging
 var env = builder.Configuration["Sentry:Environment"];
 var backEndDsn = builder.Configuration["Sentry:Dsn"];
 var category = builder.Configuration["Sentry:LogCategory"];
 
-LogManager.SetDefaultLogCategory(category).Use(new List<ILogEngine>
+if (!string.IsNullOrEmpty(backEndDsn) && !string.IsNullOrEmpty(category))
+{
+    LogManager.SetDefaultLogCategory(category).Use(new List<ILogEngine>
+    {
+        new SentryLogging(new SentryEngineOptions
         {
-            new SentryLogging(new SentryEngineOptions
-            {
-                Dsn = new Dsn(backEndDsn),
-                Environment = env
-            })
-        });
+            Dsn = new Dsn(backEndDsn),
+            Environment = env
+        })
+    });
+}
 
 DbSettingProviderManager
     .StartNewSession()
@@ -70,26 +79,25 @@ static void RouteToAction(WebApplication host)
     {
         var logService = host.Services.GetRequiredService<Fanex.Logging.ILogger>();
         await logService.ErrorAsync("Consumer Test Sentry");
-
         return "Consumer Test sentry!";
     });
     host.MapGet("/OnDQLQueueConsumer", async () =>
     {
         var redisService = host.Services.GetRequiredService<IRedisService>();
         var result = await redisService.SetAsync(Constants.TurnOnErrorQueueConsumer, true);
-        return result;
+        return Results.Ok(result);
     });
 
     host.MapGet("/OffDQLQueueConsumer", async () =>
     {
         var redisService = host.Services.GetRequiredService<IRedisService>();
         var result = await redisService.SetAsync(Constants.TurnOnErrorQueueConsumer, false);
-        return result;
+        return Results.Ok(result);
     });
 
     host.MapGet("/healthz", (HttpContext context) =>
     {
         var whoami = WhoamiHelper.GetContent(context);
-        return Results.Content(whoami);
+        return Results.Text(whoami);
     });
 }

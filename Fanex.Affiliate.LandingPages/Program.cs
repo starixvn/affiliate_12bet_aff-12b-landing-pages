@@ -39,6 +39,12 @@ builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 builder.Services.Configure<MemberSiteOptions>(builder.Configuration.GetSection("DomainSettings"));
 builder.Services.AddSingleton<IMemberSiteConfigService, MemberSiteConfigService>();
 
+// Configure thread pool settings
+const short DefaultWorkerThreads = 300;
+const short DefaultCompletionPortThreads = 300;
+_ = ThreadPool.SetMinThreads(DefaultWorkerThreads, DefaultCompletionPortThreads);
+
+// Initialize Redis connection
 RedisConnectionHelper.Initialize(builder.Configuration);
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelper.Connection);
 builder.Services.AddSingleton<IRedisService, RedisService>();
@@ -49,35 +55,39 @@ builder.Services.AddHostedService<RabbitMqBusHostedService>();
 builder.Services.AddSingleton<IRabbitBus, RabbitBus>();
 
 builder.Services.AddOneBookUmForService(builder.Configuration);
-// Configure thread pool settings
-const short DefaultWorkerThreads = 300;
-const short DefaultCompletionPortThreads = 300;
-_ = ThreadPool.SetMinThreads(DefaultWorkerThreads, DefaultCompletionPortThreads);
 
+// Configure logging
 var env = builder.Configuration["Sentry:Environment"];
 var backEndDsn = builder.Configuration["Sentry:Dsn"];
 var category = builder.Configuration["Sentry:LogCategory"];
-LogManager.SetDefaultLogCategory(category).Use(new List<ILogEngine>
+
+if (!string.IsNullOrEmpty(backEndDsn) && !string.IsNullOrEmpty(category))
+{
+    LogManager.SetDefaultLogCategory(category).Use(new List<ILogEngine>
+    {
+        new SentryLogging(new SentryEngineOptions
         {
-            new SentryLogging(new SentryEngineOptions
-            {
-                Dsn = new Dsn(backEndDsn),
-                Environment = env
-            })
-        });
+            Dsn = new Dsn(backEndDsn),
+            Environment = env
+        })
+    });
+}
 
 DbSettingProviderManager
     .StartNewSession()
     .Register(builder.Configuration)
     .Run();
-
-RedisConnectionHelper.Initialize(builder.Configuration);
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelper.Connection);
-const string dataProtectionKeys = "DataProtectionKeys";
+// Configure data protection
+const string DataProtectionKeys = "DataProtectionKeys";
+const string ApplicationName = "Aff.12B.LandingPage";
 var appName = builder.Configuration.GetValue<string>("fanex.caching.redis:ApplicationName");
-builder.Services.AddDataProtection()
-    .PersistKeysToStackExchangeRedis(RedisConnectionHelper.Connection, $"{appName}:{dataProtectionKeys}")
-    .SetApplicationName("Aff.12B.LandingPage");
+
+if (!string.IsNullOrEmpty(appName))
+{
+    builder.Services.AddDataProtection()
+        .PersistKeysToStackExchangeRedis(RedisConnectionHelper.Connection, $"{appName}:{DataProtectionKeys}")
+        .SetApplicationName(ApplicationName);
+}
 
 builder.Services.AddCors(options =>
 {
@@ -119,37 +129,30 @@ var localizationOptions = new RequestLocalizationOptions
 localizationOptions.RequestCultureProviders = new[]
 {
     new CustomRouteDataRequestCultureProvider()
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 app.Use((context, next) =>
 {
     var contentSecurityPolicy = builder.Configuration.GetValue<string>("DomainSettings:ContentSecurityPolicy");
     context.Response.Headers.Remove("X-Frame-Options");
-    context.Response.Headers["Content-Security-Policy"] = contentSecurityPolicy;
+    
+    if (!string.IsNullOrEmpty(contentSecurityPolicy))
+    {
+        context.Response.Headers["Content-Security-Policy"] = contentSecurityPolicy;
+    }
+    
     return next();
 });
 
 app.UseRouting();
-app.MapGet("/", (HttpContext context) =>
+app.MapGet("/", () =>
 {
     return Results.Content("Landing Pages...");
 });
 app.MapGet("/healthz", (HttpContext context) =>
 {
     var whoami = WhoamiHelper.GetContent(context);
-    return Results.Content(whoami);
+    return Results.Text(whoami);
 });
 app.UseRequestLocalization(localizationOptions);
 app.MapStaticAssets();
