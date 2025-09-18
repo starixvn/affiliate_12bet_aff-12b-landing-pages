@@ -4,6 +4,12 @@
 @mixin respond-to($breakpoint) {
   $size: map.get($breakpoints, $breakpoint);
 
+  @if $breakpoint ==small-phone {
+    @media (max-width: $size) {
+      @content;
+    }
+  }
+
   @if $breakpoint ==phone {
     @media (max-width: $size) {
       @content;

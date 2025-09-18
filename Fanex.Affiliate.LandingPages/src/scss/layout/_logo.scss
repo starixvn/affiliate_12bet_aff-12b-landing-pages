@@ -13,6 +13,12 @@
         height: 40px;
     }
 
+    @include respond-to(small-phone) {
+        img {
+            height: 30px;
+        }
+    }
+
     @include respond-to(small-tablet) {
         padding: 24px 20px;
 

@@ -11,7 +11,8 @@
 }
 
 $breakpoints: (
-  phone: 576px,        // Small mobile
+  small-phone: 330px,   // Small mobile
+  phone: 576px,        // mobile
   small-tablet: 768px, // iPad portrait
   tablet: 1024px,      // iPad landscape
   desktop: 1440px      // Large desktop
