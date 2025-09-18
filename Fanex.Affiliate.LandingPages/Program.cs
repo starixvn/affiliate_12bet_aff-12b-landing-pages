@@ -5,7 +5,7 @@ using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Redis;
 using Fanex.Affiliate.LandingPages.Core.Services;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
-using Fanex.Affiliate.Link.Workers;
+using Fanex.Affiliate.LandingPages.Workers;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using Fanex.Logging;
@@ -119,6 +119,18 @@ var localizationOptions = new RequestLocalizationOptions
 localizationOptions.RequestCultureProviders = new[]
 {
     new CustomRouteDataRequestCultureProvider()
+
+
+
+
+
+
+
+
+
+
+
+
 };
 
 app.Use((context, next) =>
@@ -126,11 +138,19 @@ app.Use((context, next) =>
     var contentSecurityPolicy = builder.Configuration.GetValue<string>("DomainSettings:ContentSecurityPolicy");
     context.Response.Headers.Remove("X-Frame-Options");
     context.Response.Headers["Content-Security-Policy"] = contentSecurityPolicy;
-
     return next();
 });
 
 app.UseRouting();
+app.MapGet("/", (HttpContext context) =>
+{
+    return Results.Content("Landing Pages...");
+});
+app.MapGet("/healthz", (HttpContext context) =>
+{
+    var whoami = WhoamiHelper.GetContent(context);
+    return Results.Content(whoami);
+});
 app.UseRequestLocalization(localizationOptions);
 app.MapStaticAssets();
 app.MapRazorPages()

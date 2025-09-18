@@ -2,7 +2,7 @@
 using EasyNetQ;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
-namespace Fanex.Affiliate.Link.Workers;
+namespace Fanex.Affiliate.LandingPages.Workers;
 
 public class RabbitMqBusHostedService : BackgroundService
 {

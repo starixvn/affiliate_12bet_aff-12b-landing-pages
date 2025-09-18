@@ -1,6 +1,7 @@
 using EasyNetQ;
 using Fanex.Affiliate.LandingPages.Consumer;
 using Fanex.Affiliate.LandingPages.Core;
+using Fanex.Affiliate.LandingPages.Core.Extensions;
 using Fanex.Affiliate.LandingPages.Core.Redis;
 using Fanex.Affiliate.LandingPages.Core.Services;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
@@ -9,6 +10,7 @@ using Fanex.Data.Repository;
 using Fanex.Logging;
 using Fanex.Logging.Sentry.RavenClient;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using ONEbook.UM.DependencyInjection;
 using ONEbook.UM.Services;
 using SharpRaven;
@@ -83,5 +85,11 @@ static void RouteToAction(WebApplication host)
         var redisService = host.Services.GetRequiredService<IRedisService>();
         var result = await redisService.SetAsync(Constants.TurnOnErrorQueueConsumer, false);
         return result;
+    });
+
+    host.MapGet("/healthz", (HttpContext context) =>
+    {
+        var whoami = WhoamiHelper.GetContent(context);
+        return Results.Content(whoami);
     });
 }
