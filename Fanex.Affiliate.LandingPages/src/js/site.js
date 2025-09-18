@@ -417,18 +417,17 @@ function initializeSwiperLazy() {
  * @param {jQuery} $container - Container element
  * @private
  */
+
 async function initializeSwiperForContainer($container) {
     const $swiperEl = $container.find(SITE_CONFIG.SELECTORS.SWIPER).first();
-
-    if ($swiperEl.length === 0) {
-        return;
-    }
+    if ($swiperEl.length === 0) return;
 
     const slideCount = $swiperEl.find(SITE_CONFIG.SELECTORS.SWIPER_SLIDE).length;
-    const hasMultipleSlides = slideCount >= 2;
+    const slidesPerView = SITE_CONFIG.SWIPER_CONFIG.SLIDES_PER_VIEW || 1;
+    const slidesPerGroup = 1;
+    const canLoop = slideCount >= (slidesPerView + slidesPerGroup);
 
     try {
-        // Dynamic import Swiper bundle with all modules
         const SwiperModule = await import('swiper/swiper-bundle.mjs');
         const Swiper = SwiperModule.default || SwiperModule.Swiper;
 
@@ -436,60 +435,31 @@ async function initializeSwiperForContainer($container) {
         const $pagination = $container.find(SITE_CONFIG.SELECTORS.SWIPER_PAGINATION);
 
         const swiperInstance = new Swiper($swiperEl[0], {
-            slidesPerView: SITE_CONFIG.SWIPER_CONFIG.SLIDES_PER_VIEW,
+            slidesPerView: slidesPerView,
             spaceBetween: SITE_CONFIG.SWIPER_CONFIG.SPACE_BETWEEN,
             pagination: {
                 el: paginationEl,
                 clickable: true,
             },
-            loop: slideCount >= 3,
-            autoplay: hasMultipleSlides ? {
+            loop: canLoop,
+            loopAdditionalSlides: canLoop && slideCount <= slidesPerView ? 1 : 0,
+            autoplay: slideCount > 1 ? {
                 delay: SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
                 waitForTransition: false
             } : false,
             speed: 500,
-            allowTouchMove: true,
-            loopAdditionalSlides: slideCount >= 3 ? 1 : 0,
+            allowTouchMove: slideCount > 1,
             loopPreventsSlide: false,
-            loopPreventsSliding: false,
+            loopPreventsSliding: false
         });
 
         swiperInstances.push(swiperInstance);
 
-        // Handle 2 slides manually for loop effect
-        if (slideCount === 2) {
-            swiperInstance.on('slideChange', function() {
-                // If at last slide, go to first after delay
-                if (this.activeIndex === 1) {
-                    setTimeout(() => {
-                        this.slideTo(0);
-                    }, SITE_CONFIG.TIMEOUTS.SWIPER_AUTOPLAY_DELAY);
-                }
-            });
-        }
-
-        if (hasMultipleSlides) {
+        if (slideCount > 1) {
             $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.MULTIPLE_SLIDES);
             $pagination.css("display", "block");
-
-
-            // Force create bullets if they don't exist
-            setTimeout(() => {
-                const bullets = $pagination.find('.swiper-pagination-bullet');
-                if (bullets.length === 0) {
-                    for (let i = 0; i < slideCount; i++) {
-                        $pagination.append(`<span class="swiper-pagination-bullet ${i === 0 ? 'swiper-pagination-bullet-active' : ''}" data-slide="${i}"></span>`);
-                    }
-
-                    // Add click handlers for manual bullets
-                    $pagination.find('.swiper-pagination-bullet').on('click', function () {
-                        const slideIndex = parseInt($(this).data('slide'));
-                        swiperInstance.slideTo(slideIndex);
-                    });
-                }
-            }, 100);
         } else {
             $pagination.css("display", "none");
             $swiperEl.css("padding-bottom", SITE_CONFIG.SWIPER_CONFIG.PADDING_BOTTOM.SINGLE_SLIDE);
@@ -498,6 +468,7 @@ async function initializeSwiperForContainer($container) {
         console.error('Swiper initialization error:', error);
     }
 }
+
 
 /**
  * Enable remote validation with debounce
