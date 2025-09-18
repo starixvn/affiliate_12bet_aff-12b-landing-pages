@@ -1,7 +1,6 @@
 using EasyNetQ;
 using Fanex.Affiliate.LandingPages.Consumer;
 using Fanex.Affiliate.LandingPages.Core;
-using Fanex.Affiliate.LandingPages.Core.Extensions;
 using Fanex.Affiliate.LandingPages.Core.Redis;
 using Fanex.Affiliate.LandingPages.Core.Services;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
@@ -93,11 +92,5 @@ static void RouteToAction(WebApplication host)
         var redisService = host.Services.GetRequiredService<IRedisService>();
         var result = await redisService.SetAsync(Constants.TurnOnErrorQueueConsumer, false);
         return Results.Ok(result);
-    });
-
-    host.MapGet("/healthz", (HttpContext context) =>
-    {
-        var whoami = WhoamiHelper.GetContent(context);
-        return Results.Text(whoami);
     });
 }

@@ -149,11 +149,7 @@ app.MapGet("/", () =>
 {
     return Results.Content("Landing Pages...");
 });
-app.MapGet("/healthz", (HttpContext context) =>
-{
-    var whoami = WhoamiHelper.GetContent(context);
-    return Results.Text(whoami);
-});
+
 app.UseRequestLocalization(localizationOptions);
 app.MapStaticAssets();
 app.MapRazorPages()
