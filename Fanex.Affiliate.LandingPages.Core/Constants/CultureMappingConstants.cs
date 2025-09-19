@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 
-namespace Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
+namespace Fanex.Affiliate.LandingPages.Core.Constants;
 
 /// <summary>
 /// Culture mapping constants for language codes

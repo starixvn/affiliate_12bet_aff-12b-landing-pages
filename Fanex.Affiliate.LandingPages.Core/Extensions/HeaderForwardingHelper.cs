@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Fanex.Affiliate.LandingPages.Core.Models;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 
 namespace Fanex.Affiliate.LandingPages.Core.Extensions;
 public static class HeaderForwardingHelper
@@ -28,7 +29,7 @@ public static class HeaderForwardingHelper
         var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         var memberSiteOptions = context.RequestServices.GetService<IOptions<MemberSiteOptions>>();
         headers["ai-host"] = memberSiteOptions?.Value?.MemberSite ?? string.Empty;
-        headers["origin-host"] = $"{context.Request.Scheme}://{context.Request.Host}";
+        headers["origin-host"] = $"{LandingPageConstants.HttpsScheme}://{context.Request.Host}";
 
         foreach (var headerName in ForwardHeaderNames)
         {

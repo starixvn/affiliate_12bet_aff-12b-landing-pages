@@ -1,6 +1,6 @@
-﻿namespace Fanex.Affiliate.LandingPages.Core;
+﻿namespace Fanex.Affiliate.LandingPages.Core.Constants;
 
-public static class Constants
+public static class Settings
 {
     public const string QueueIdentify = "12b.user.signup";
     public const string CacheRedisQueueName = "Aff.12B.LandingPage.SignUp";

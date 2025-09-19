@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using Fanex.Affiliate.LandingPages.Core;
-using Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
@@ -41,6 +41,9 @@ public class LandingPageModel(
 
     [BindProperty(SupportsGet = true)]
     public bool? IsPreView { get; set; } = false;
+
+    [BindProperty(SupportsGet = true)]
+    public bool? Refresh { get; set; } = false;
 
     [BindProperty(SupportsGet = true)]
     public int? PageId { get; set; }
@@ -143,7 +146,7 @@ public class LandingPageModel(
     {
         try
         {
-            LandingPage = await LoadPageDataAsync(PageCode, IsPreView, PageId);
+            LandingPage = await LoadPageDataAsync(PageCode, Refresh, IsPreView, PageId);
 
             var redirectResult = await HandleRedirectsAsync(LandingPage);
             if (redirectResult != null)
@@ -198,9 +201,9 @@ public class LandingPageModel(
     /// </summary>
     /// <param name="pageCode">Page code</param>
     /// <returns>Landing page data or null if not found</returns>
-    private async Task<LandingPage?> LoadPageDataAsync(string pageCode, bool? isPreview, int? pageId)
+    private async Task<LandingPage?> LoadPageDataAsync(string pageCode, bool? refresh, bool? isPreview, int? pageId)
     {
-        var landingPage = await landingPageService.GetLandingPage(pageCode, isPreview, pageId);
+        var landingPage = await landingPageService.GetLandingPage(pageCode, refresh, isPreview, pageId);
         if (landingPage == null)
         {
             return null;
@@ -400,10 +403,10 @@ public class LandingPageModel(
         if (parts.Length >= LandingPageConstants.MinimumDomainParts)
         {
             var rootDomain = string.Join(".", parts[^2], parts[^1]);
-            return $"{request.Scheme}://{rootDomain}";
+            return $"{LandingPageConstants.HttpsScheme}://{rootDomain}";
         }
 
-        return $"{request.Scheme}://{host}";
+        return $"{LandingPageConstants.HttpsScheme}://{host}";
     }
 
     /// <summary>
@@ -419,7 +422,7 @@ public class LandingPageModel(
         };
 
         var queryString = Request.QueryString.HasValue ? Request.QueryString.Value : string.Empty;
-        var newPath = Url.Page(null, null, routeValues, Request.Scheme);
+        var newPath = Url.Page(null, null, routeValues, LandingPageConstants.HttpsScheme);
 
         return $"{newPath}{queryString}";
     }
@@ -439,25 +442,13 @@ public class LandingPageModel(
         var request = HttpContext.Request;
         var uriBuilder = new UriBuilder
         {
-            Scheme = request.Scheme,
+            Scheme = LandingPageConstants.HttpsScheme,
             Host = request.Host.Host,
-            Port = request.Host.Port ?? GetDefaultPort(request.Scheme),
+            Port = request.Host.Port ?? LandingPageConstants.HttpsPort,
             Path = request.Path,
             Query = request.QueryString.HasValue ? request.QueryString.Value : string.Empty
         };
         return uriBuilder.Uri;
-    }
-
-    /// <summary>
-    /// Gets the default port for a scheme
-    /// </summary>
-    /// <param name="scheme">URL scheme</param>
-    /// <returns>Default port number</returns>
-    private static int GetDefaultPort(string scheme)
-    {
-        return string.Equals(scheme, LandingPageConstants.HttpsScheme, StringComparison.OrdinalIgnoreCase) 
-            ? LandingPageConstants.HttpsPort 
-            : LandingPageConstants.HttpPort;
     }
 
     /// <summary>

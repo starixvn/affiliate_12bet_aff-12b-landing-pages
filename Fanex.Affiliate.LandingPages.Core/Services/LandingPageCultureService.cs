@@ -1,5 +1,5 @@
 using System.Globalization;
-using Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Resources;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;

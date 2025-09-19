@@ -1,4 +1,4 @@
-namespace Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
+namespace Fanex.Affiliate.LandingPages.Core.Constants;
 
 /// <summary>
 /// Constants for Landing Page functionality
@@ -29,7 +29,6 @@ public static class LandingPageConstants
     
     // URL schemes
     public const string HttpsScheme = "https";
-    public const string HttpScheme = "http";
     
     // Ports
     public const int HttpsPort = 443;

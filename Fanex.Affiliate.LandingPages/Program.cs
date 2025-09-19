@@ -1,5 +1,5 @@
 using System.Globalization;
-using Fanex.Affiliate.LandingPages.Core;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Extensions;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Redis;
@@ -27,8 +27,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<ForwardHeadersHandler>();
-builder.Services.AddProxyWithForwardHeadersHttpClient(Constants.UseProxyWithForwardHeaders, builder.Configuration);
-builder.Services.AddProxyHttpClient(Constants.UseProxy, builder.Configuration);
+builder.Services.AddProxyWithForwardHeadersHttpClient(Settings.UseProxyWithForwardHeaders, builder.Configuration);
+builder.Services.AddProxyHttpClient(Settings.UseProxy, builder.Configuration);
 builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
 builder.Services.AddScoped<ISignUpService, SignUpService>();
 builder.Services.AddScoped<ILandingPageService, LandingPageService>();

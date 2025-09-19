@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using EasyNetQ.Topology;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Newtonsoft.Json;
 
@@ -34,7 +35,7 @@ public class RabbitBus(ILogService logService) : IRabbitBus
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
                     await advancedBus.PublishAsync(
                            exchange.Value,
-                           routingKey: $"{Constants.QueueIdentify}.routing",
+                           routingKey: $"{Settings.QueueIdentify}.routing",
                            mandatory: true,
                        new Message<T>(model)
                        ).ConfigureAwait(false);
@@ -59,8 +60,8 @@ public class RabbitBus(ILogService logService) : IRabbitBus
 
     public async Task RegisterQueueAsync()
     {
-        exchange = await advancedBus.ExchangeDeclareAsync(Constants.MainExchangeName, ExchangeType.Direct);
-        var queue = await advancedBus!.QueueDeclareAsync(Constants.MainQueueName, c =>
+        exchange = await advancedBus.ExchangeDeclareAsync(Settings.MainExchangeName, ExchangeType.Direct);
+        var queue = await advancedBus!.QueueDeclareAsync(Settings.MainQueueName, c =>
         {
             c.AsDurable(true);
             c.AsExclusive(false);
@@ -68,7 +69,7 @@ public class RabbitBus(ILogService logService) : IRabbitBus
             c.WithArgument("x-queue-type", "quorum");
         });
 
-        await advancedBus.BindAsync(exchange.Value, queue, Constants.RoutingKey);
+        await advancedBus.BindAsync(exchange.Value, queue, Settings.RoutingKey);
     }
 
     public async Task<Dictionary<string, object>> GetConnectionInfoAsync()
@@ -93,9 +94,9 @@ public class RabbitBus(ILogService logService) : IRabbitBus
                     info["ConnectionType"] = "EasyNetQ.IAdvancedBus";
                 }
 
-                var mainQueueStatus = await advancedBus.GetQueueStatsAsync(Constants.MainQueueName);
-                var retryQueueStatus = await advancedBus.GetQueueStatsAsync(Constants.RetryQueueName);
-                var errorQueueStatus = await advancedBus.GetQueueStatsAsync(Constants.ErrorQueueName);
+                var mainQueueStatus = await advancedBus.GetQueueStatsAsync(Settings.MainQueueName);
+                var retryQueueStatus = await advancedBus.GetQueueStatsAsync(Settings.RetryQueueName);
+                var errorQueueStatus = await advancedBus.GetQueueStatsAsync(Settings.ErrorQueueName);
                 info["mainQueueStatus.ConsumersCount"] = mainQueueStatus.ConsumersCount;
                 info["mainQueueStatus.MessagesCount"] = mainQueueStatus.MessagesCount;
                 info["retryQueueStatus.ConsumersCount"] = retryQueueStatus.ConsumersCount;

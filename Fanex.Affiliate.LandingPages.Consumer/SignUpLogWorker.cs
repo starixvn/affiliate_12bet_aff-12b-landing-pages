@@ -1,7 +1,7 @@
 ﻿using EasyNetQ;
 using EasyNetQ.Consumer;
 using EasyNetQ.Topology;
-using Fanex.Affiliate.LandingPages.Core;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using ONEbook.UM.Services;
@@ -122,14 +122,14 @@ public sealed class SignUpLogWorker(
             errorMessage = $"Moving message to dead-letter queue after {retry} retries.";
             var errorMsg = new Message<SignUpRequest>(message.Body);
             errorMsg.Properties.Headers["x-retry"] = retry;
-            await bus.Advanced.PublishAsync(errorExchange, Constants.RoutingKey, false, errorMsg);
+            await bus.Advanced.PublishAsync(errorExchange, Settings.RoutingKey, false, errorMsg);
         }
         else
         {
             errorMessage = $"Retrying message. Attempt {retry}.";
             var retryMsg = new Message<SignUpRequest>(message.Body);
             retryMsg.Properties.Headers["x-retry"] = retry;
-            await bus.Advanced.PublishAsync(retryExchange, Constants.RoutingKey, false, retryMsg);
+            await bus.Advanced.PublishAsync(retryExchange, Settings.RoutingKey, false, retryMsg);
         }
 
         return errorMessage;
@@ -139,36 +139,36 @@ public sealed class SignUpLogWorker(
     {
         await Task.Delay(InitialDelayMilliseconds, stoppingToken).ConfigureAwait(false);
         // Setup exchanges and queues
-        var mainExchange = await bus.Advanced.ExchangeDeclareAsync(Constants.MainExchangeName, ExchangeType.Direct);
-        retryExchange = await bus.Advanced.ExchangeDeclareAsync(Constants.RetryExchangeName, ExchangeType.Direct);
-        errorExchange = await bus.Advanced.ExchangeDeclareAsync(Constants.ErrorExchangeName, ExchangeType.Direct);
+        var mainExchange = await bus.Advanced.ExchangeDeclareAsync(Settings.MainExchangeName, ExchangeType.Direct);
+        retryExchange = await bus.Advanced.ExchangeDeclareAsync(Settings.RetryExchangeName, ExchangeType.Direct);
+        errorExchange = await bus.Advanced.ExchangeDeclareAsync(Settings.ErrorExchangeName, ExchangeType.Direct);
 
-        mainQueue = await bus.Advanced.QueueDeclareAsync(Constants.MainQueueName, c => c
+        mainQueue = await bus.Advanced.QueueDeclareAsync(Settings.MainQueueName, c => c
             .AsDurable(true)
             .AsExclusive(false)
             .AsAutoDelete(false)
             .WithArgument("x-queue-type", "quorum")
         );
 
-        var retryQueue = await bus.Advanced.QueueDeclareAsync(Constants.RetryQueueName, c => c
+        var retryQueue = await bus.Advanced.QueueDeclareAsync(Settings.RetryQueueName, c => c
             .AsDurable(true)
             .AsExclusive(false)
             .AsAutoDelete(false)
             .WithArgument("x-queue-type", "quorum")
-            .WithArgument("x-dead-letter-exchange", Constants.MainExchangeName)
+            .WithArgument("x-dead-letter-exchange", Settings.MainExchangeName)
             .WithArgument("x-message-ttl", timeToReQueue)
         );
 
-        var errorQueue = await bus.Advanced.QueueDeclareAsync(Constants.ErrorQueueName, c => c
+        var errorQueue = await bus.Advanced.QueueDeclareAsync(Settings.ErrorQueueName, c => c
             .AsDurable(true)
             .AsExclusive(false)
             .AsAutoDelete(false)
             .WithArgument("x-queue-type", "quorum")
         );
         
-        await bus.Advanced.BindAsync(mainExchange, mainQueue, Constants.RoutingKey);
-        await bus.Advanced.BindAsync(retryExchange, retryQueue, Constants.RoutingKey);
-        await bus.Advanced.BindAsync(errorExchange, errorQueue, Constants.RoutingKey);
+        await bus.Advanced.BindAsync(mainExchange, mainQueue, Settings.RoutingKey);
+        await bus.Advanced.BindAsync(retryExchange, retryQueue, Settings.RoutingKey);
+        await bus.Advanced.BindAsync(errorExchange, errorQueue, Settings.RoutingKey);
 
         StartConsumer();
 

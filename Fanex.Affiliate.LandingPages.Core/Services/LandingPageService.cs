@@ -9,17 +9,22 @@ public class LandingPageService(IDynamicRepository dynamicRepository, IRedisServ
 {
     private const int cacheDurationInSeconds = 86400;
 
-    public async Task<LandingPage?> GetLandingPage(string pageCode, bool? isPreview, int? pageId = null)
+    public async Task<LandingPage?> GetLandingPage(string pageCode, bool? refresh, bool? isPreview, int? pageId = null)
     {
         var isPreviewValue = (isPreview.HasValue && isPreview.Value);
         var cacheKey = isPreviewValue
-            ? cacheKeyService.GetLandingPagePreviewKey(pageCode, pageId ?? 0)
-            : cacheKeyService.GetLandingPageKey(pageCode);
-        var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
-        var landingPage = await redisService.GetAsync<LandingPage>(cacheKey);
+                ? cacheKeyService.GetLandingPagePreviewKey(pageCode, pageId ?? 0)
+                : cacheKeyService.GetLandingPageKey(pageCode);
+        LandingPage? landingPage = null;
+        if (!refresh.HasValue || !refresh.Value)
+        {
+            landingPage = await redisService.GetAsync<LandingPage>(cacheKey);
+        }
+        
         if (landingPage is null)
         {
             landingPage = await GetLandingPageFromDatabase(pageCode, isPreviewValue, pageId);
+            var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
             await redisService.SetAsync(cacheKey, landingPage, slidingExpirationTime);
         }
 

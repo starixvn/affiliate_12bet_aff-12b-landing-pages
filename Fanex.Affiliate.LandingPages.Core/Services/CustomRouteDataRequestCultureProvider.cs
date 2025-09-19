@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Localization;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Microsoft.AspNetCore.Http;
-using Fanex.Affiliate.LandingPages.Core.LandingPageConstants;
+using Microsoft.AspNetCore.Localization;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 

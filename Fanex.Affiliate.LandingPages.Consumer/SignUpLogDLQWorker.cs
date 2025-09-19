@@ -1,7 +1,7 @@
 ﻿using EasyNetQ;
 using EasyNetQ.Consumer;
 using EasyNetQ.Topology;
-using Fanex.Affiliate.LandingPages.Core;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using ONEbook.UM.Services;
@@ -74,7 +74,7 @@ public sealed class SignUpLogDLQWorker(
 
     private async Task<bool> IsTurnOffConsumer()
     {
-        var isEnableConsumeFromCache = await redisService.GetAsync<bool>(Constants.TurnOnErrorQueueConsumer);
+        var isEnableConsumeFromCache = await redisService.GetAsync<bool>(Settings.TurnOnErrorQueueConsumer);
         return IsCurrentlyUnderMaintenance() || !isEnableConsumeFromCache;
     }
 
@@ -115,15 +115,15 @@ public sealed class SignUpLogDLQWorker(
     {
         await Task.Delay(InitialDelayMilliseconds, stoppingToken).ConfigureAwait(false);
         // Setup exchanges and queues
-        var errorExchange = await bus.Advanced.ExchangeDeclareAsync(Constants.ErrorExchangeName, ExchangeType.Direct);
-        errorQueue = await bus.Advanced.QueueDeclareAsync(Constants.ErrorQueueName, c => c
+        var errorExchange = await bus.Advanced.ExchangeDeclareAsync(Settings.ErrorExchangeName, ExchangeType.Direct);
+        errorQueue = await bus.Advanced.QueueDeclareAsync(Settings.ErrorQueueName, c => c
             .AsDurable(true)
             .AsExclusive(false)
             .AsAutoDelete(false)
             .WithArgument("x-queue-type", "quorum")
         );
         
-        await bus.Advanced.BindAsync(errorExchange, errorQueue, Constants.RoutingKey);
+        await bus.Advanced.BindAsync(errorExchange, errorQueue, Settings.RoutingKey);
 
         StartConsumer();
 

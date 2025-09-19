@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Resources;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
@@ -20,7 +21,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
+            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetRecaptchaInfo}/{lang}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             request.Headers.Add("accept", "text/plain");
@@ -47,7 +48,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
+            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetNumberCaptcha}/{lang}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
@@ -81,7 +82,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
+            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.ExistsEmail}/{lang}";
 
@@ -115,7 +116,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
+            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.AffiliateCheck}/{lang}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
@@ -148,7 +149,7 @@ public class SignUpService(Logging.ILogger logger,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
+            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.ExistsUserName}/{lang}";
 
@@ -212,7 +213,7 @@ public class SignUpService(Logging.ILogger logger,
         var signUpRequest = GetSignUpRequest(registerForm);
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Constants.UseProxyWithForwardHeaders);
+            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var request = new HttpRequestMessage(HttpMethod.Post, registerForm.ApiUrl)
             {
                 Content = new StringContent(

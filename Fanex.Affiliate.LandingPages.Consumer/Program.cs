@@ -1,6 +1,6 @@
 using EasyNetQ;
 using Fanex.Affiliate.LandingPages.Consumer;
-using Fanex.Affiliate.LandingPages.Core;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Redis;
 using Fanex.Affiliate.LandingPages.Core.Services;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
@@ -83,14 +83,14 @@ static void RouteToAction(WebApplication host)
     host.MapGet("/OnDQLQueueConsumer", async () =>
     {
         var redisService = host.Services.GetRequiredService<IRedisService>();
-        var result = await redisService.SetAsync(Constants.TurnOnErrorQueueConsumer, true);
+        var result = await redisService.SetAsync(Settings.TurnOnErrorQueueConsumer, true);
         return Results.Ok(result);
     });
 
     host.MapGet("/OffDQLQueueConsumer", async () =>
     {
         var redisService = host.Services.GetRequiredService<IRedisService>();
-        var result = await redisService.SetAsync(Constants.TurnOnErrorQueueConsumer, false);
+        var result = await redisService.SetAsync(Settings.TurnOnErrorQueueConsumer, false);
         return Results.Ok(result);
     });
 }
