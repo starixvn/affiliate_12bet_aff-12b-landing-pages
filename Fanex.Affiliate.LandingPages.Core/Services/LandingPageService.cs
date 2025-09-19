@@ -55,17 +55,12 @@ public class LandingPageService(IDynamicRepository dynamicRepository, IRedisServ
         return landingPage!;
     }
 
-    public async Task SyncAllLandingPageToCache(bool isPreview)
+    public async Task SyncAllLandingPageToCache()
     {
-        var landingPages = await GetAllLandingPages(isPreview);
-        //todo: remove when db not dup
-        landingPages = landingPages
-            .GroupBy(lp => lp.PageCode)
-            .Select(g => g.First())
-            .ToList();
-        // end
-        var landingPageVersions = landingPages.ToDictionary(t => t.PageCode, t => t.RowVer);
-        var oldLandingPageVersions = await redisService.GetAsync<Dictionary<string, string>>(cacheKeyService.GetAllLandingPageVersionKey(isPreview.ToString()));
+        var cacheKeyAll = cacheKeyService.GetAllLandingPageVersionKey();
+        var landingPages = await GetAllLandingPages(false);
+        var landingPageVersions = landingPages.ToDictionary(t => t.PageCode, t => t.RowVer); 
+        var oldLandingPageVersions = await redisService.GetAsync<Dictionary<string, string>>(cacheKeyAll);
         var changedLandingPages = new List<LandingPage>();
 
         if (oldLandingPageVersions == null)
@@ -86,14 +81,11 @@ public class LandingPageService(IDynamicRepository dynamicRepository, IRedisServ
         if (changedLandingPages.Any())
         {
             var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
-            var cacheKeyAll = cacheKeyService.GetAllLandingPageVersionKey(isPreview.ToString());
             await redisService.SetAsync(cacheKeyAll, landingPageVersions, slidingExpirationTime);
 
             foreach (var landingPage in changedLandingPages)
             {
-                var cacheKey = isPreview
-                ? cacheKeyService.GetLandingPagePreviewKey(landingPage.PageCode, landingPage.PageId)
-                : cacheKeyService.GetLandingPageKey(landingPage.PageCode);
+                var cacheKey = cacheKeyService.GetLandingPageKey(landingPage.PageCode);
                 await redisService.SetAsync(cacheKey, landingPage, slidingExpirationTime);
             }
         }

@@ -8,5 +8,5 @@ public interface ILandingPageService
 
     Task<IEnumerable<LandingPage>> GetAllLandingPages(bool isPreview);
 
-    Task SyncAllLandingPageToCache(bool isPreview);
+    Task SyncAllLandingPageToCache();
 }

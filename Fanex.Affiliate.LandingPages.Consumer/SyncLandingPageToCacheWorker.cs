@@ -28,8 +28,7 @@ public sealed class SyncLandingPageToCacheWorker(
         isRunning = true;
         try
         {
-            await landingPageService.SyncAllLandingPageToCache(isPreview: false);
-            await landingPageService.SyncAllLandingPageToCache(isPreview: true);
+            await landingPageService.SyncAllLandingPageToCache();
         }
         catch (Exception ex)
         {

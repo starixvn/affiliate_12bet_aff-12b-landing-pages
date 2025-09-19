@@ -22,9 +22,9 @@ public class CacheKeyService : ICacheKeyService
         return $"{_applicationName}:LandingPagePreview_{pageCode}_{pageId}";
     }
 
-    public string GetAllLandingPageVersionKey(string isPreview)
+    public string GetAllLandingPageVersionKey()
     {
-        return $"{_applicationName}:AllLandingPageVersion_{isPreview}";
+        return $"{_applicationName}:AllLandingPageVersion";
     }
 
     public string GetSignUpKey()
