@@ -245,9 +245,10 @@
         margin-top: 12px;
     }
 
-    .cf-turnstile .theme-dark #content {
-        border-color: #807A52 !important;
+    .cf-turnstile>div {
+        width: 100%;
     }
+
 
     .dropdown-container {
         display: none;
