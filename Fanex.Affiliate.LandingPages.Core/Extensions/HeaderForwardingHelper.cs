@@ -27,8 +27,8 @@ public static class HeaderForwardingHelper
         ArgumentNullException.ThrowIfNull(context);
 
         var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var memberSiteOptions = context.RequestServices.GetService<IOptions<MemberSiteOptions>>();
-        headers["ai-host"] = memberSiteOptions?.Value?.MemberSite ?? string.Empty;
+        var memberSiteOptions = context.RequestServices.GetService<IOptions<DomainSettings>>();
+        headers["ai-host"] = memberSiteOptions?.Value?.MainMemberSite ?? string.Empty;
         headers["origin-host"] = $"{LandingPageConstants.HttpsScheme}://{context.Request.Host}";
 
         foreach (var headerName in ForwardHeaderNames)

@@ -5,31 +5,36 @@ namespace Fanex.Affiliate.LandingPages.Core.Services;
 
 public class CacheKeyService : ICacheKeyService
 {
-    private readonly string _applicationName;
+    private readonly string applicationName;
 
     public CacheKeyService(IConfiguration configuration)
     {
-        _applicationName = configuration["fanex.caching.redis:ApplicationName"] ?? "Aff.12B.LandingPage.Dev";
+        applicationName = configuration["fanex.caching.redis:ApplicationName"] ?? "Aff.12B.LandingPage.Dev";
     }
 
     public string GetLandingPageKey(string pageCode)
     {
-        return $"{_applicationName}:LandingPage_{pageCode}";
+        return $"{applicationName}:{CacheKey.LandingPage}_{pageCode}";
     }
 
     public string GetLandingPagePreviewKey(string pageCode, int pageId)
     {
-        return $"{_applicationName}:LandingPagePreview_{pageCode}_{pageId}";
+        return $"{applicationName}:{CacheKey.LandingPagePreview}_{pageCode}_{pageId}";
     }
 
     public string GetAllLandingPageVersionKey()
     {
-        return $"{_applicationName}:AllLandingPageVersion";
+        return $"{applicationName}:{CacheKey.AllLandingPageVersion}";
     }
 
     public string GetSignUpKey()
     {
-        return $"{_applicationName}:{CacheKey.SignUp}";
+        return $"{applicationName}:{CacheKey.SignUp}";
+    }
+
+    public string GetRecaptchaInfoKey(string langCode)
+    {
+        return $"{applicationName}:{CacheKey.RecaptchaInfo}_{langCode}";
     }
 }
 

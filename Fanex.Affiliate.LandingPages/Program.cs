@@ -5,6 +5,7 @@ using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Redis;
 using Fanex.Affiliate.LandingPages.Core.Services;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
+using Fanex.Affiliate.LandingPages.Middleware;
 using Fanex.Affiliate.LandingPages.Workers;
 using Fanex.Data;
 using Fanex.Data.Repository;
@@ -36,8 +37,8 @@ builder.Services.AddSingleton<ILogService, Fanex.Affiliate.LandingPages.Core.Ser
 builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 
 // Configure MemberSite options from appsettings.json
-builder.Services.Configure<MemberSiteOptions>(builder.Configuration.GetSection("DomainSettings"));
-builder.Services.AddSingleton<IMemberSiteConfigService, MemberSiteConfigService>();
+builder.Services.Configure<DomainSettings>(builder.Configuration.GetSection("DomainSettings"));
+builder.Services.AddSingleton<IDomainSettingService, DomainSettingService>();
 
 // Configure thread pool settings
 const short DefaultWorkerThreads = 300;
@@ -101,7 +102,7 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler();
     app.UseHsts();
 }
 
@@ -145,10 +146,17 @@ app.Use((context, next) =>
 });
 
 app.UseRouting();
-app.MapGet("/", () =>
+
+if (app.Environment.IsDevelopment())
 {
-    return Results.Content("Landing Pages...");
-});
+    app.MapGet("/", context =>
+    {
+        context.Response.Redirect("/p1/en/LPFULL");
+        return Task.CompletedTask;
+    });
+}
+
+app.UseMiddleware<NotFoundMiddleware>();
 
 app.UseRequestLocalization(localizationOptions);
 app.MapStaticAssets();

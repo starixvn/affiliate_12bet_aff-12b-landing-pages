@@ -16,6 +16,7 @@ namespace Fanex.Affiliate.LandingPages.Pages;
 public class LandingPageModel(
     ILandingPageService landingPageService,
     ISignUpService signUpService,
+    IDomainSettingService domainSettingService,
     IConfiguration configuration,
     ILogService logService) : PageModel
 {
@@ -184,6 +185,8 @@ public class LandingPageModel(
         RegisterForm.AffClickId = ClickId ?? string.Empty;
         RegisterForm.AffCode = AffCode ?? string.Empty;
         RegisterForm.TermsConditionsURL = GetTermsConditionsLink();
+        RegisterForm.IsTurnstileCaptchaEnabled = landingPage.IsTurnstileCaptchaEnabled;
+        RegisterForm.TurnstileSiteKey = landingPage.TurnstileSiteKey;
 
         var form = landingPage.Modules!.FirstOrDefault(t => t.ModuleId == (int)UiModule.RegistrationForm);
         var formCode = form?.MediaCode ?? FormCode;
@@ -279,8 +282,8 @@ public class LandingPageModel(
             return new RegistrationResult(false, LandingPageConstants.RegistrationFormNotAvailable);
         }
 
-        ConfigureRegistrationForm();
-        var result = await signUpService.SignUpAsync(RegisterForm);
+        var registerData = ProcessDataSubmitForm(RegisterForm);
+        var result = await signUpService.SignUpAsync(registerData);
         
         if (result.ErrorCode == 0)
         {
@@ -294,19 +297,17 @@ public class LandingPageModel(
     }
 
     /// <summary>
-    /// Configures the registration form with request data
+    /// Process the registration form with request data
     /// </summary>
-    private void ConfigureRegistrationForm()
+    private RegisterForm ProcessDataSubmitForm(RegisterForm registerForm)
     {
-        RegisterForm.UserPwd = RegisterForm.Password;
-        var currentCulture = CultureInfo.CurrentUICulture.Name;
-        var languageCode = CultureMappingConstants.GetLanguageFromCulture(currentCulture);
-        RegisterForm.UserLang = languageCode;
-        RegisterForm.AffClickId = ClickId ?? string.Empty;
-        RegisterForm.ReferralUrl = GetRequestHeader(LandingPageConstants.RefererHeader);
-        RegisterForm.UserAgent = GetRequestHeader(LandingPageConstants.UserAgentHeader);
-        RegisterForm.SignUpUrl = GetCurrentUrl().ToString();
-        RegisterForm.IpAddress = GetClientIpAddress();
+        registerForm.UserPwd = registerForm.Password;
+        registerForm.AffClickId = ClickId ?? string.Empty;
+        registerForm.ReferralUrl = GetRequestHeader(LandingPageConstants.RefererHeader);
+        registerForm.UserAgent = GetRequestHeader(LandingPageConstants.UserAgentHeader);
+        registerForm.SignUpUrl = GetCurrentUrl().ToString();
+        registerForm.IpAddress = domainSettingService.GetClientIpAddress(HttpContext);
+        return registerForm;
     }
 
     private string GetTermsConditionsLink()
@@ -449,26 +450,6 @@ public class LandingPageModel(
             Query = request.QueryString.HasValue ? request.QueryString.Value : string.Empty
         };
         return uriBuilder.Uri;
-    }
-
-    /// <summary>
-    /// Gets the client IP address from request headers or connection
-    /// </summary>
-    /// <returns>Client IP address</returns>
-    private string GetClientIpAddress()
-    {
-        var headers = HttpContext.Request.Headers;
-        if (headers.TryGetValue(LandingPageConstants.XForwardedForHeader, out var forwardedFor) && 
-            !string.IsNullOrWhiteSpace(forwardedFor))
-        {
-            var ip = forwardedFor.ToString().Split(',')[0].Trim();
-            if (!string.IsNullOrEmpty(ip))
-            {
-                return ip;
-            }
-        }
-
-        return HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
     }
 
     /// <summary>

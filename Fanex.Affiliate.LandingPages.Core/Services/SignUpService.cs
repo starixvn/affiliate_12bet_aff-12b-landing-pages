@@ -7,22 +7,35 @@ using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
-public class SignUpService(Logging.ILogger logger, 
-    IMemberSiteConfigService memberSiteConfigService,
+public class SignUpService(ILogService logService, 
+    IDomainSettingService memberSiteConfigService,
     ITrackingSignUpService trackingSignUpService,
+    IRedisService redisService,
+    ICacheKeyService cacheKeyService,
     IHttpClientFactory httpClientFactory) : ISignUpService
 {
-    public async Task SentryErrorAsync(string errMsg, Exception exception)
+    private const int cacheDurationInSeconds = 86400;
+
+    public async Task<RecaptchaInfo> GetRecaptchaInfoAsync(string langCode)
     {
-        await logger.ErrorAsync(errMsg, exception);
+        var cacheKey = cacheKeyService.GetRecaptchaInfoKey(langCode);
+        var recaptchaInfo = await redisService.GetAsync<RecaptchaInfo>(cacheKey);
+        if (recaptchaInfo == null)
+        {
+            recaptchaInfo = await GetRecaptchaInfoFromAPIAsync(langCode);
+            var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
+            await redisService.SetAsync(cacheKey, recaptchaInfo, slidingExpirationTime);
+        }
+
+        return recaptchaInfo;
     }
-    
-    public async Task<RecaptchaInfo> GetRecaptchaInfoAsync(string lang)
+
+    private async Task<RecaptchaInfo> GetRecaptchaInfoFromAPIAsync(string langCode)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
-            var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetRecaptchaInfo}/{lang}";
+            var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetRecaptchaInfo}/{langCode}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             request.Headers.Add("accept", "text/plain");
 
@@ -39,17 +52,17 @@ public class SignUpService(Logging.ILogger logger,
         }
         catch (Exception ex)
         {
-            await logger.ErrorAsync("Error getting RecaptchaInfo", ex);
+            await logService.SentryErrorAsync("Error getting RecaptchaInfo", ex);
             return new RecaptchaInfo();
         }
     }
 
-    public async Task<NumberCaptchaResponse> GetNumberCaptchaAsync(string lang)
+    public async Task<NumberCaptchaResponse> GetNumberCaptchaAsync(string langCode)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
-            var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetNumberCaptcha}/{lang}";
+            var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetNumberCaptcha}/{langCode}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
                 Content = new StringContent("{\"action\":\"signup\"}", System.Text.Encoding.UTF8, "application/json")
@@ -70,7 +83,7 @@ public class SignUpService(Logging.ILogger logger,
         }
         catch (Exception ex)
         {
-            await logger.ErrorAsync("Error getting NumberCaptcha", ex);
+            await logService.SentryErrorAsync("Error getting NumberCaptcha", ex);
             return new NumberCaptchaResponse
             {
                 Data = new NumberCaptchaData()
@@ -78,13 +91,13 @@ public class SignUpService(Logging.ILogger logger,
         }
     }
 
-    public async Task<ExistsEmailResponse> CheckExistsEmailAsync(string email, string lang)
+    public async Task<ExistsEmailResponse> CheckExistsEmailAsync(string email, string langCode)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
-            var requestUrl = $"{apiHost}{ApiPath.ExistsEmail}/{lang}";
+            var requestUrl = $"{apiHost}{ApiPath.ExistsEmail}/{langCode}";
 
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
@@ -107,18 +120,18 @@ public class SignUpService(Logging.ILogger logger,
         }
         catch (Exception ex)
         {
-            await logger.ErrorAsync("Error checking ExistsEmail", ex);
+            await logService.SentryErrorAsync("Error checking ExistsEmail", ex);
             return new ExistsEmailResponse();
         }
     }
 
-    public async Task<AffiliateCheckResponse> CheckAffiliateAsync(string affCode, string lang)
+    public async Task<AffiliateCheckResponse> CheckAffiliateAsync(string affCode, string langCode)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
-            var requestUrl = $"{apiHost}{ApiPath.AffiliateCheck}/{lang}";
+            var requestUrl = $"{apiHost}{ApiPath.AffiliateCheck}/{langCode}";
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
                 Content = new StringContent(
@@ -140,18 +153,18 @@ public class SignUpService(Logging.ILogger logger,
         }
         catch (Exception ex)
         {
-            await logger.ErrorAsync("Error checking Affiliate", ex);
+            await logService.SentryErrorAsync("Error checking Affiliate", ex);
             return new AffiliateCheckResponse();
         }
     }
 
-    public async Task<ExistsUserNameResponse> CheckExistsUserNameAsync(string username, string lang)
+    public async Task<ExistsUserNameResponse> CheckExistsUserNameAsync(string username, string langCode)
     {
         try
         {
             using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
-            var requestUrl = $"{apiHost}{ApiPath.ExistsUserName}/{lang}";
+            var requestUrl = $"{apiHost}{ApiPath.ExistsUserName}/{langCode}";
 
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
             {
@@ -174,7 +187,7 @@ public class SignUpService(Logging.ILogger logger,
         }
         catch (Exception ex)
         {
-            await logger.ErrorAsync("Error checking ExistsUserName", ex);
+            await logService.SentryErrorAsync("Error checking ExistsUserName", ex);
             return new ExistsUserNameResponse();
         }
     }
@@ -239,12 +252,12 @@ public class SignUpService(Logging.ILogger logger,
         }
         catch (HttpRequestException ex)
         {
-            await logger.ErrorAsync("Error SignUpAsync", ex);
+            await logService.SentryErrorAsync("Error SignUpAsync", ex);
             result = GetSignUpHttpRequestException(ex);
         }
         catch (Exception ex)
         {
-            await logger.ErrorAsync("Error SignUpAsync", ex);
+            await logService.SentryErrorAsync("Error SignUpAsync", ex);
             result =  GetSignUpExceptionException(ex);
         }
 

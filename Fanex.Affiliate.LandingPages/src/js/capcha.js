@@ -172,7 +172,7 @@ function handleNumberCaptchaSuccess(response) {
         // Schedule next refresh
         const refreshInterval = Math.min(seconds * 1000, CAPTCHA_CONFIG.TIMEOUTS.DEFAULT_REFRESH);
         refreshTimeout = setTimeout(loadNumberCaptcha, refreshInterval);
-        
+
         console.log('Number captcha loaded successfully');
     } catch (error) {
         console.error('Error processing number captcha response:', error);
@@ -277,6 +277,7 @@ window.onTurnstileError = function(errorCode) {
         
         // Show number captcha as fallback
         $(CAPTCHA_CONFIG.SELECTORS.NUMBER_CAPTCHA).show();
+        $(CAPTCHA_CONFIG.SELECTORS.RECAPTCHA_TOKEN).val('');
         $(CAPTCHA_CONFIG.SELECTORS.TURNSTILE_WIDGET).hide();
         
         // Reset captcha type to number captcha

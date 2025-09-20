@@ -2,5 +2,9 @@
 
 public static class CacheKey
 {
-    public const string SignUp = "Aff.12B.SignUp";
+    public const string SignUp = "SignUp";
+    public const string AllLandingPageVersion = "AllLandingPageVersion";
+    public const string LandingPage = "LandingPage";
+    public const string LandingPagePreview = "LandingPagePreview";
+    public const string RecaptchaInfo = "RecaptchaInfo";
 }
