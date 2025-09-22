@@ -1,6 +1,9 @@
-﻿@model Fanex.Affiliate.LandingPages.Core.Models.RegisterForm;
+﻿@page "/form/{languageCode}"
+@model Fanex.Affiliate.LandingPages.Pages.FormTemplateModel
 @using Fanex.Affiliate.LandingPages.Core.Resources
 @{
+    ViewData["Title"] = UI.PageTitle_LandingPage;
+    Layout = "Shared/_Layout.cshtml";
     var formConfig = Model.SignUpFormConfig!;
 }
 
@@ -124,12 +127,12 @@
         @if (Model.IsTurnstileCaptchaEnabled)
         {
             <div id="turnstile_widget" class="cf-turnstile"
-                 data-sitekey="@Model.TurnstileSiteKey"
-                 data-theme="dark"
-                 data-size="flexible"
-                 data-callback="onTurnstileSuccess"
-                 data-error-callback="onTurnstileError"
-                 data-expired-callback="onTurnstileExpired">
+             data-sitekey="3x00000000000000000000FF"
+            data-theme="dark"
+            data-size="flexible"
+            data-callback="onTurnstileSuccess"
+            data-error-callback="onTurnstileError"
+            data-expired-callback="onTurnstileExpired">
             </div>
         }
 
@@ -137,7 +140,7 @@
         <input asp-for="CaptchaType" type="hidden" />
         <div id="numberCapcha" style="display:@(Model.IsTurnstileCaptchaEnabled ? "none" : "block")">
             <div class="captcha-container">
-                <img id="tokenBox" alt="captcha" style="display:none" />
+                <img id="tokenBox" alt="captcha" style="display:none"/>
             </div>
             <div class="input-field">
                 <div class="input-box">

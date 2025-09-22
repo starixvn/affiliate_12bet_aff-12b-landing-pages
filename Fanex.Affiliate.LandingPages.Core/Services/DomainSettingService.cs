@@ -18,9 +18,9 @@ public class DomainSettingService(IOptions<DomainSettings> options) : IDomainSet
         return options.Value.API ?? string.Empty;
     }
 
-    public string GetCurrentMemberSiteHost(string rootDomain)
+    public string GetCurrentMemberSiteHost(HttpRequest request)
     {
-        var redirectLink = rootDomain;
+        var redirectLink = GetRootDomain(request);
         if (!options.Value.Redirect.RedirectToRootDomain)
         {
             var specificDomain = options.Value.Redirect.SpecificDomain;
@@ -33,15 +33,15 @@ public class DomainSettingService(IOptions<DomainSettings> options) : IDomainSet
         return redirectLink;
     }
 
-    public string GetCurrentMemberSiteHost(string rootDomain, string langCode)
+    public string GetCurrentMemberSiteHost(HttpRequest request, string langCode)
     {
-        var redirectLink = GetCurrentMemberSiteHost(rootDomain);
+        var redirectLink = GetCurrentMemberSiteHost(request);
         return $"{redirectLink}/{langCode}";
     }
 
-    public string GetMemberSiteLinkWithPath(string rootDomain, string langCode, string path)
+    public string GetMemberSiteLinkWithPath(HttpRequest request, string langCode, string path)
     {
-        var host = GetCurrentMemberSiteHost(rootDomain, langCode).TrimEnd('/');
+        var host = GetCurrentMemberSiteHost(request, langCode).TrimEnd('/');
         var cleanPath = path.TrimStart('/');
         return $"{host}/{cleanPath}";
     }
@@ -67,6 +67,19 @@ public class DomainSettingService(IOptions<DomainSettings> options) : IDomainSet
         return $"{LandingPageConstants.HttpsScheme}://{host}";
     }
 
+    public string GetCurrentLandingPageDomain(HttpRequest request)
+    {
+        var uriBuilder = new UriBuilder
+        {
+            Scheme = LandingPageConstants.HttpsScheme,
+            Host = request.Host.Host,
+            Port = request.Host.Port ?? LandingPageConstants.HttpsPort,
+            Path = request.Path,
+            Query = request.QueryString.HasValue ? request.QueryString.Value : string.Empty
+        };
+        return uriBuilder.Uri.ToString();
+    }
+
     public string GetClientIpAddress(HttpContext httpContext)
     {
         var realIp = httpContext.Request.Headers["x-actual-ip"].FirstOrDefault();
@@ -84,6 +97,24 @@ public class DomainSettingService(IOptions<DomainSettings> options) : IDomainSet
         }
 
         return httpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+    }
+
+    public string GetUnderMaintenanceLink()
+    {
+        return options.Value.MemberSiteUM ?? string.Empty;
+    }
+
+    public string GetTermsConditionsLink(string langCode)
+    {
+        var termsConditionsTpl = options.Value.TermsConditions;
+        var termsConditions = string.Format(termsConditionsTpl, langCode);
+        return termsConditions;
+    }
+
+    public string GetMediaRootDomain()
+    {
+        var mediaDomain = options.Value.MediaSite;
+        return mediaDomain;
     }
 }
 

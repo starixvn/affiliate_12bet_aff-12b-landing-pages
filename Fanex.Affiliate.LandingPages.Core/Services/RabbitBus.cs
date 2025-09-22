@@ -79,7 +79,7 @@ public class RabbitBus(ILogService logService) : IRabbitBus
             ["IsConnected"] = IsConnected,
             ["HasAdvancedBus"] = advancedBus != null,
             ["HasExchange"] = exchange.HasValue,
-            ["LastCheck"] = DateTimeOffset.Now.DateTime.ToString("yyyy-MM-dd HH:mm:ss")
+            ["LastCheck"] = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")
         };
 
         if (advancedBus != null)

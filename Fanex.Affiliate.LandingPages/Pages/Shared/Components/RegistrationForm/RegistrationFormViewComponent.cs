@@ -6,6 +6,6 @@ public class RegistrationFormViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(LandingPageModel model)
     {
-        return View("RegistrationForm", model);
+        return View("RegistrationForm", model.RegisterForm);
     }
 }

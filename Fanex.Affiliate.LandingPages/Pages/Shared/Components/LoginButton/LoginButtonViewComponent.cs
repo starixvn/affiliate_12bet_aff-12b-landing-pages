@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Affiliate.LandingPages.Pages.Shared.Components.LoginButton;
 
-public class LoginButtonViewComponent : ViewComponent
+public class LoginButtonViewComponent(IDomainSettingService domainSettingService) : ViewComponent
 {
     public IViewComponentResult Invoke(LandingPageModel model)
     {
-        var memberSiteLink = model.GetMemberSiteRedirectLink();
         var module = model.LandingPage!.CurrentModules?.FirstOrDefault();
         var loginPath = module?.ExtraInfo ?? "login";
-        loginPath = loginPath.StartsWith('/') ? loginPath : $"/{loginPath}";
-        var loginLink = $"{memberSiteLink}{loginPath}";
-        var mediaLink = module!.GetFullMediaLink(model!.GetMediaRootDomain());
+        var loginLink = domainSettingService.GetMemberSiteLinkWithPath(HttpContext.Request, model.LanguageCode, loginPath);
+        var mediaLink = module!.GetFullMediaLink(model.MediaRootDomain);
 
         return View("LoginButton", (loginLink, mediaLink));
     }

@@ -16,8 +16,8 @@ const SITE_CONFIG = {
     SELECTORS: {
         REGISTER_FORM: '#register-form',
         GO_TOP_BTN: '#goTopBtn',
-        PASSWORD_INPUT: '#RegisterForm_UserPwd',
-        HIDDEN_PASSWORD: '#RegisterForm_Password',
+        PASSWORD_INPUT: '#UserPwd',
+        HIDDEN_PASSWORD: '#Password',
         INPUT_VALIDATION_ERROR: '.input-validation-error',
         VALIDATION_SUMMARY: '.validation-summary-errors, .validation-summary-valid.text-danger',
         INPUT_FIELD: '.input-field',
@@ -113,7 +113,7 @@ function setupPhoneValidation() {
         }
 
         try {
-            const countryCodeFieldName = `RegisterForm.${params.countryProperty}`;
+            const countryCodeFieldName = `${params.countryProperty}`;
             const countryCode = $(`[name='${countryCodeFieldName}']`).val();
 
             if (!countryCode) {

@@ -9,7 +9,7 @@
         <div class="swiper-wrapper">
             @foreach (var module in modules)
             {
-                var mediaLink = module.GetFullMediaLink(Model!.GetMediaRootDomain());
+                var mediaLink = module.GetFullMediaLink(Model.MediaRootDomain);
                 <div class="swiper-slide"><img src="@mediaLink" alt="fav-game"></div>
             }
         </div>

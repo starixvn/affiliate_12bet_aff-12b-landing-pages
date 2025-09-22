@@ -36,5 +36,10 @@ public class CacheKeyService : ICacheKeyService
     {
         return $"{applicationName}:{CacheKey.RecaptchaInfo}_{langCode}";
     }
+
+    public string GetUnderMaintainInfoKey()
+    {
+        return $"{applicationName}:{CacheKey.UnderMaintainInfo}";
+    }
 }
 

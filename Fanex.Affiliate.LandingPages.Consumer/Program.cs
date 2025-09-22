@@ -76,9 +76,9 @@ static void RouteToAction(WebApplication host)
     host.MapGet("/", () => "Affiliate.Link.Consumer running!");
     host.MapGet("/sentry", async () =>
     {
-        var logService = host.Services.GetRequiredService<Fanex.Logging.ILogger>();
-        await logService.ErrorAsync("Consumer Test Sentry");
-        return "Consumer Test sentry!";
+        var logService = host.Services.GetRequiredService<ILogService>();
+        await logService.SentryErrorAsync("Landing Page Consumer Test Sentry");
+        return "Landing Page Consumer Test sentry!";
     });
     host.MapGet("/OnDQLQueueConsumer", async () =>
     {

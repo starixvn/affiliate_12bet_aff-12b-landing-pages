@@ -21,12 +21,12 @@ const CAPTCHA_CONFIG = {
         TURNSTILE: 2
     },
     SELECTORS: {
-        CAPTCHA_TYPE: '#RegisterForm_CaptchaType',
+        CAPTCHA_TYPE: '#CaptchaType',
         TOKEN_BOX: '#tokenBox',
-        RECAPTCHA_TOKEN: '#RegisterForm_ReCaptchaToken',
+        RECAPTCHA_TOKEN: '#ReCaptchaToken',
         NUMBER_CAPTCHA: '#numberCapcha',
         TURNSTILE_WIDGET: '#turnstile_widget',
-        LANGUAGE_CODE: '#RegisterForm_UserLang'
+        LANGUAGE_CODE: '#UserLang'
     }
 };
 
@@ -120,7 +120,7 @@ function loadNumberCaptcha() {
     clearRefreshTimeout();
     
     // Get language code from form
-    const languageCode = getLanguageCode();
+    const langCode = getLanguageCode();
     
     $.ajax({
         url: CAPTCHA_CONFIG.API_ENDPOINTS.NUMBER_CAPTCHA,
@@ -128,7 +128,7 @@ function loadNumberCaptcha() {
         dataType: 'json',
         timeout: 10000,
         data: {
-            'langCode': languageCode
+            'userLang': langCode
         }
     })
     .done(function(response) {

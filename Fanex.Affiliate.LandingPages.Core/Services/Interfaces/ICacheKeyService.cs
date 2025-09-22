@@ -7,5 +7,7 @@ public interface ICacheKeyService
     string GetAllLandingPageVersionKey();
     string GetSignUpKey();
     string GetRecaptchaInfoKey(string langCode);
+
+    string GetUnderMaintainInfoKey();
 }
 

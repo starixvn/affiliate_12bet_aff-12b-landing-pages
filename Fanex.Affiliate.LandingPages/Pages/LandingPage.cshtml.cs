@@ -17,7 +17,6 @@ public class LandingPageModel(
     ILandingPageService landingPageService,
     ISignUpService signUpService,
     IDomainSettingService domainSettingService,
-    IConfiguration configuration,
     ILogService logService) : PageModel
 {
     #region Properties
@@ -54,6 +53,13 @@ public class LandingPageModel(
 
     public LandingPage? LandingPage { get; set; }
 
+    public string MediaRootDomain 
+    { 
+        get 
+        {
+            return domainSettingService.GetMediaRootDomain();
+        }
+    }
 
     #endregion
 
@@ -184,10 +190,10 @@ public class LandingPageModel(
         RegisterForm.CurrencyId = landingPage.CurrencyId;
         RegisterForm.AffClickId = ClickId ?? string.Empty;
         RegisterForm.AffCode = AffCode ?? string.Empty;
-        RegisterForm.TermsConditionsURL = GetTermsConditionsLink();
+        RegisterForm.TermsConditionsURL = domainSettingService.GetTermsConditionsLink(languageCode);
         RegisterForm.IsTurnstileCaptchaEnabled = landingPage.IsTurnstileCaptchaEnabled;
         RegisterForm.TurnstileSiteKey = landingPage.TurnstileSiteKey;
-
+        
         var form = landingPage.Modules!.FirstOrDefault(t => t.ModuleId == (int)UiModule.RegistrationForm);
         var formCode = form?.MediaCode ?? FormCode;
         if (Request.Query.ContainsKey("FormCode"))
@@ -254,7 +260,7 @@ public class LandingPageModel(
     {
         if (landingPage == null)
         {
-            var redirectLink = GetDefaultMemberSiteLink();
+            var redirectLink = domainSettingService.GetCurrentMemberSiteHost(HttpContext.Request, LanguageCode);
             return Task.FromResult<IActionResult?>(Redirect(redirectLink));
         }
 
@@ -305,19 +311,9 @@ public class LandingPageModel(
         registerForm.AffClickId = ClickId ?? string.Empty;
         registerForm.ReferralUrl = GetRequestHeader(LandingPageConstants.RefererHeader);
         registerForm.UserAgent = GetRequestHeader(LandingPageConstants.UserAgentHeader);
-        registerForm.SignUpUrl = GetCurrentUrl().ToString();
+        registerForm.SignUpUrl = domainSettingService.GetCurrentLandingPageDomain(HttpContext.Request);
         registerForm.IpAddress = domainSettingService.GetClientIpAddress(HttpContext);
         return registerForm;
-    }
-
-    private string GetTermsConditionsLink()
-    {
-        var termsConditionsTpl = configuration[ConfigKeys.TermsConditions] ?? string.Empty;
-        var currentCulture = CultureInfo.CurrentUICulture.Name;
-        var languageCode = CultureMappingConstants.GetLanguageFromCulture(currentCulture);
-        
-        var termsConditions = string.Format(termsConditionsTpl, languageCode);
-        return termsConditions;
     }
 
     /// <summary>
@@ -328,7 +324,7 @@ public class LandingPageModel(
     private async Task<IActionResult> HandleSuccessfulRegistrationAsync(RegistrationResult result)
     {
         AppendSetCookie(result.Response!);
-        var redirectLink = GetMemberSiteRedirectLink();
+        var redirectLink = domainSettingService.GetCurrentMemberSiteHost(HttpContext.Request, LanguageCode);
         return await Task.FromResult(Redirect(redirectLink));
     }
 
@@ -360,57 +356,6 @@ public class LandingPageModel(
     }
 
     /// <summary>
-    /// Gets the default member site link
-    /// </summary>
-    /// <returns>Default member site URL</returns>
-    private string GetDefaultMemberSiteLink()
-    {
-        var redirectLink = GetMemberSiteRedirectLink();
-        var defaultPath = configuration[ConfigKeys.DefaultPath] ?? LandingPageConstants.DefaultPath;
-        return $"{redirectLink}/{defaultPath}";
-    }
-
-    /// <summary>
-    /// Gets the member site redirect link
-    /// </summary>
-    /// <returns>Member site redirect URL</returns>
-    public string GetMemberSiteRedirectLink()
-    {
-        var redirectLink = GetRootDomain();
-        var redirectToRootDomain = configuration.GetValue<bool>(ConfigKeys.RedirectToRootDomain);
-
-        if (!redirectToRootDomain)
-        {
-            var specificDomain = configuration[ConfigKeys.SpecificDomain];
-            if (!string.IsNullOrEmpty(specificDomain))
-            {
-                redirectLink = specificDomain;
-            }
-        }
-
-        return $"{redirectLink}/{LanguageCode}";
-    }
-
-    /// <summary>
-    /// Gets the root domain from the current request
-    /// </summary>
-    /// <returns>Root domain URL</returns>
-    private string GetRootDomain()
-    {
-        var request = HttpContext.Request;
-        var host = request.Host.Host;
-        var parts = host.Split('.', StringSplitOptions.RemoveEmptyEntries);
-
-        if (parts.Length >= LandingPageConstants.MinimumDomainParts)
-        {
-            var rootDomain = string.Join(".", parts[^2], parts[^1]);
-            return $"{LandingPageConstants.HttpsScheme}://{rootDomain}";
-        }
-
-        return $"{LandingPageConstants.HttpsScheme}://{host}";
-    }
-
-    /// <summary>
     /// Gets the correct language link for redirects
     /// </summary>
     /// <param name="targetLanguageCode">Target language code</param>
@@ -426,30 +371,6 @@ public class LandingPageModel(
         var newPath = Url.Page(null, null, routeValues, LandingPageConstants.HttpsScheme);
 
         return $"{newPath}{queryString}";
-    }
-
-    public string GetMediaRootDomain()
-    {
-        var mediaDomain = configuration[ConfigKeys.MediaDomain] ?? string.Empty;
-        return mediaDomain;
-    }
-
-    /// <summary>
-    /// Gets the current request URL
-    /// </summary>
-    /// <returns>Current URL</returns>
-    private Uri GetCurrentUrl()
-    {
-        var request = HttpContext.Request;
-        var uriBuilder = new UriBuilder
-        {
-            Scheme = LandingPageConstants.HttpsScheme,
-            Host = request.Host.Host,
-            Port = request.Host.Port ?? LandingPageConstants.HttpsPort,
-            Path = request.Path,
-            Query = request.QueryString.HasValue ? request.QueryString.Value : string.Empty
-        };
-        return uriBuilder.Uri;
     }
 
     /// <summary>

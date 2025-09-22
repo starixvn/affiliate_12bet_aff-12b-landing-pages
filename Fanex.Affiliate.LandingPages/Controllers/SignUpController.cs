@@ -8,11 +8,11 @@ namespace Fanex.Affiliate.LandingPages.Controllers;
 public class SignUpController(ISignUpService signUpService) : ControllerBase
 {
     [HttpGet("GetNumberCaptcha")]
-    public async Task<IActionResult> GetNumberCaptcha(string langCode)
+    public async Task<IActionResult> GetNumberCaptcha(string userLang)
     {
         try
         {
-            var result = await signUpService.GetNumberCaptchaAsync(langCode);
+            var result = await signUpService.GetNumberCaptchaAsync(userLang);
             return Ok(result);
         }
         catch (Exception ex)
@@ -22,12 +22,11 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     }
 
     [HttpGet("ExistsEmail")]
-    public async Task<IActionResult> CheckExistsEmail([FromQuery(Name = "RegisterForm.Email")] string email,
-        [FromQuery(Name = "RegisterForm.UserLang")] string langCode)
+    public async Task<IActionResult> CheckExistsEmail(string email, string userLang)
     {
         try
         {
-            var result = await signUpService.CheckExistsEmailAsync(email, langCode);
+            var result = await signUpService.CheckExistsEmailAsync(email, userLang);
             if (result.Data)
             {
                 return new JsonResult(false);
@@ -41,12 +40,11 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     }
 
     [HttpGet("AffiliateCheck")]
-    public async Task<IActionResult> CheckAffiliate([FromQuery(Name = "RegisterForm.AffCode")] string affCode,
-        [FromQuery(Name = "RegisterForm.UserLang")] string langCode)
+    public async Task<IActionResult> CheckAffiliate(string affCode, string userLang)
     {
         try
         {
-            var result = await signUpService.CheckAffiliateAsync(affCode, langCode);
+            var result = await signUpService.CheckAffiliateAsync(affCode, userLang);
             
             if (result.ErrorCode != 0)
             {
@@ -61,12 +59,11 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
     }
 
     [HttpGet("ExistsUsername")]
-    public async Task<IActionResult> CheckExistsUsername([FromQuery(Name = "RegisterForm.Username")] string username,
-        [FromQuery(Name = "RegisterForm.UserLang")] string langCode)
+    public async Task<IActionResult> CheckExistsUsername(string username, string userLang)
     {
         try
         {
-            var result = await signUpService.CheckExistsUserNameAsync(username, langCode);
+            var result = await signUpService.CheckExistsUserNameAsync(username, userLang);
             
             if (result.Data)
             {

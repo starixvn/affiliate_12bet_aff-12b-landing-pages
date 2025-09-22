@@ -8,16 +8,24 @@ public interface IDomainSettingService
 
     string GetAPIHost();
 
-    string GetCurrentMemberSiteHost(string rootDomain);
+    string GetCurrentMemberSiteHost(HttpRequest request);
 
-    string GetCurrentMemberSiteHost(string rootDomain, string langCode);
+    string GetCurrentMemberSiteHost(HttpRequest request, string langCode);
 
-    string GetMemberSiteLinkWithPath(string rootDomain, string langCode, string path);
+    string GetMemberSiteLinkWithPath(HttpRequest request, string langCode, string path);
 
     string GetApiLink(string path);
 
     string GetRootDomain(HttpRequest request);
 
+    string GetCurrentLandingPageDomain(HttpRequest request);
+
     string GetClientIpAddress(HttpContext httpContext);
+
+    string GetUnderMaintenanceLink();
+
+    string GetTermsConditionsLink(string langCode);
+
+    string GetMediaRootDomain();
 }
 

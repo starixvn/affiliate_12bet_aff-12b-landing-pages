@@ -14,6 +14,7 @@ using Fanex.Logging.Sentry.RavenClient;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ONEbook.UM.DependencyInjection;
 using SharpRaven;
 using StackExchange.Redis;
@@ -51,6 +52,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp => RedisConnectionHelpe
 builder.Services.AddSingleton<IRedisService, RedisService>();
 builder.Services.AddSingleton<ICacheKeyService, CacheKeyService>();
 builder.Services.AddScoped<ITrackingSignUpService, TrackingSignUpService>();
+builder.Services.TryAddTransient<IUnderMaintenanceService, UnderMaintenanceService>();
 
 builder.Services.AddHostedService<RabbitMqBusHostedService>();
 builder.Services.AddSingleton<IRabbitBus, RabbitBus>();
@@ -102,7 +104,6 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler();
     app.UseHsts();
 }
 
@@ -147,16 +148,7 @@ app.Use((context, next) =>
 
 app.UseRouting();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapGet("/", context =>
-    {
-        context.Response.Redirect("/p1/en/LPFULL");
-        return Task.CompletedTask;
-    });
-}
-
-app.UseMiddleware<NotFoundMiddleware>();
+app.UseMiddleware<UnderMaintenanceMiddleware>();
 
 app.UseRequestLocalization(localizationOptions);
 app.MapStaticAssets();

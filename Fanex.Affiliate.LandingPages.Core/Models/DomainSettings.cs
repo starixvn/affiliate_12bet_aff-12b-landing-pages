@@ -6,6 +6,14 @@ public class DomainSettings
 
     public string API { get; set; } = string.Empty;
 
+    public string MediaSite { get; set; } = string.Empty;
+
+    public string TermsConditions { get; set; } = string.Empty;
+
+    public string ContentSecurityPolicy { get; set; } = string.Empty;
+
+    public string MemberSiteUM { get; set; } = string.Empty;
+
     public RedirectSettings Redirect { get; set; } = new RedirectSettings();
 }
 

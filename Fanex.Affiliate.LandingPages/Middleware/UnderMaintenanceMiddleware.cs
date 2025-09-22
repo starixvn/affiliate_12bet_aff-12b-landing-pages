@@ -2,8 +2,9 @@ using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 namespace Fanex.Affiliate.LandingPages.Middleware;
 
-public class NotFoundMiddleware(RequestDelegate next,
+public class UnderMaintenanceMiddleware(RequestDelegate next,
     IDomainSettingService domainSettingService,
+    IUnderMaintenanceService underMaintainService,
     ILogService logService)
 {
     public async Task InvokeAsync(HttpContext context)
@@ -14,6 +15,8 @@ public class NotFoundMiddleware(RequestDelegate next,
         {
             await HandleNotFoundAsync(context);
         }
+
+        await HandleCheckMaintenanceAsync(context);
     }
 
     private async Task HandleNotFoundAsync(HttpContext context)
@@ -24,17 +27,37 @@ public class NotFoundMiddleware(RequestDelegate next,
             return;
         }
 
+        await HandleRedirectAsync(context, requestPath, "404 Not Found");
+    }
+
+    private async Task HandleCheckMaintenanceAsync(HttpContext context)
+    {
+        var requestPath = context.Request.Path.Value ?? string.Empty;
+        if (ShouldIgnorePath(requestPath))
+        {
+            return;
+        }
+
+        var currentDomain = domainSettingService.GetCurrentLandingPageDomain(context.Request);
+        var isUnderMaintenance = await underMaintainService.GetIsUnderMaintenanceByDomainAsync(currentDomain);
+        if (isUnderMaintenance)
+        {
+            await HandleRedirectAsync(context, requestPath, "Under Maintenance");
+        }
+    }
+    private async Task HandleRedirectAsync(HttpContext context, string requestPath, string errorTitle)
+    {
         var requestMethod = context.Request.Method;
         var userAgent = context.Request.Headers.UserAgent.ToString();
         var referer = context.Request.Headers.Referer.ToString();
         var remoteIp = GetClientIpAddress(context);
+        var currentDomain = domainSettingService.GetCurrentLandingPageDomain(context.Request);
 
         await logService.SentryInfoAsync(
-            $"404 Not Found: {requestMethod} {requestPath} from IP {remoteIp} with User-Agent: " +
-            $"{userAgent} and Referer: {referer}");
+            $"{errorTitle}: {requestMethod} {currentDomain} {requestPath} from IP {remoteIp} with User-Agent: " +
+                $"{userAgent} and Referer: {referer}");
 
-        var rootDomain = domainSettingService.GetRootDomain(context.Request);
-        var redirectLink = domainSettingService.GetCurrentMemberSiteHost(rootDomain);
+        var redirectLink = domainSettingService.GetCurrentMemberSiteHost(context.Request);
         context.Response.Redirect(redirectLink);
     }
 
@@ -63,8 +86,7 @@ public class NotFoundMiddleware(RequestDelegate next,
         }
 
         // Ignore health check endpoints
-        if (path.Equals("/healthz", StringComparison.OrdinalIgnoreCase) ||
-            path.Equals("/headers", StringComparison.OrdinalIgnoreCase))
+        if (path.Equals("/healthz", StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }

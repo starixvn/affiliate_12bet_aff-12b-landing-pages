@@ -1,7 +1,7 @@
-﻿@model Fanex.Affiliate.LandingPages.Pages.LandingPageModel
+﻿@model Fanex.Affiliate.LandingPages.Core.Models.RegisterForm;
 @using Fanex.Affiliate.LandingPages.Core.Resources
 @{
-    var formConfig = Model.RegisterForm.SignUpFormConfig!;
+    var formConfig = Model.SignUpFormConfig!;
 }
 
 <form id="register-form" class="register-form @formConfig.CssClass" method="post" autocomplete="off">
@@ -16,20 +16,20 @@
             </div>
             <div class="input-box">
                 <span class="required-tip" aria-label="@UI.A11y_Required">*</span>
-                <input asp-for="RegisterForm.Username" placeholder="@UI.Form_Username" autocomplete="username" />
+                <input asp-for="Username" placeholder="@UI.Form_Username" autocomplete="username" />
                 <div class="icon-area" aria-hidden="true">
                     <i class="icon-detail icon-check-mark"></i>
                     <i class="icon-detail icon-info"></i>
                 </div>
             </div>
-            <span class="required-text" asp-validation-for="RegisterForm.Username"></span>
+            <span class="required-text" asp-validation-for="Username"></span>
         </div>
 
         <!-- Password -->
         <div class="input-field">
             <div class="input-box">
                 <span class="required-tip" aria-label="@UI.A11y_Required">*</span>
-                <input asp-for="RegisterForm.UserPwd" placeholder="@UI.Form_Password" type="password" autocomplete="new-password" />
+                <input asp-for="UserPwd" placeholder="@UI.Form_Password" type="password" autocomplete="new-password" />
                 <div class="icon-area" aria-hidden="true">
                     <i class="icon-detail icon-check-mark"></i>
                     <i class="icon-detail icon-eye"></i>
@@ -37,8 +37,8 @@
 
                 </div>
             </div>
-            <input asp-for="RegisterForm.Password" type="hidden" />
-            <span class="required-text" asp-validation-for="RegisterForm.UserPwd"></span>
+            <input asp-for="Password" type="hidden" />
+            <span class="required-text" asp-validation-for="UserPwd"></span>
         </div>
 
         <!-- Phone Number -->
@@ -47,19 +47,19 @@
                 <div class="input-box">
                     <span class="required-tip" aria-label="required">*</span>
                     <div class="dropdown-selected-container">
-                        <div class="dropdown-item">@Model.RegisterForm.AreaCode</div>
-                        <input asp-for="RegisterForm.AreaCode" type="hidden" />
+                        <div class="dropdown-item">@Model.AreaCode</div>
+                        <input asp-for="AreaCode" type="hidden" />
                     </div>
                 </div>
                 <div class="input-box">
                     <span class="required-tip" aria-label="@UI.A11y_Required">*</span>
-                    <input asp-for="RegisterForm.PhoneNo" placeholder="@UI.Form_PhoneNumber" autocomplete="tel" />
+                    <input asp-for="PhoneNo" placeholder="@UI.Form_PhoneNumber" autocomplete="tel" />
                 </div>
             </div>
-            <input asp-for="RegisterForm.CountryCode" type="hidden" />
-            <input asp-for="RegisterForm.CurrencyId" type="hidden" />
-            <input asp-for="RegisterForm.UserLang" type="hidden" />
-            <span class="required-text" asp-validation-for="RegisterForm.PhoneNo"></span>
+            <input asp-for="CountryCode" type="hidden" />
+            <input asp-for="CurrencyId" type="hidden" />
+            <input asp-for="UserLang" type="hidden" />
+            <span class="required-text" asp-validation-for="PhoneNo"></span>
         </div>
 
         <!-- Country & Currency -->
@@ -71,8 +71,8 @@
                         <span class="required-tip" aria-label="required">*</span>
                         <div class="dropdown-selected-container">
                             <div class="dropdown-item">
-                                <img src="~/images/flags/@(Model.RegisterForm.CountryCode.ToLowerInvariant()).png" alt="country flag" class="flag-img" />
-                                @Model.RegisterForm.CountryCode
+                                <img src="~/images/flags/@(Model.CountryCode.ToLowerInvariant()).png" alt="country flag" class="flag-img" />
+                                @Model.CountryCode
                             </div>
                         </div>
                     </div>
@@ -88,13 +88,13 @@
                     @UI.Validation_EmailCannotChange
                 </div>
                 <div class="input-box">
-                    <input asp-for="RegisterForm.Email" placeholder="@UI.Form_Email" autocomplete="email" />
+                    <input asp-for="Email" placeholder="@UI.Form_Email" autocomplete="email" />
                     <div class="icon-area" aria-hidden="true">
                         <i class="icon-detail icon-check-mark"></i>
                         <i class="icon-detail icon-info"></i>
                     </div>
                 </div>
-                <span class="required-text" asp-validation-for="RegisterForm.Email"></span>
+                <span class="required-text" asp-validation-for="Email"></span>
             </div>
         }
 
@@ -106,25 +106,25 @@
                     @UI.Validation_AffiliateCannotChange
                 </div>
                 <div class="input-box">
-                    <input asp-for="RegisterForm.AffCode" placeholder="@UI.Form_AffiliateCode" />
+                    <input asp-for="AffCode" placeholder="@UI.Form_AffiliateCode" />
                     <div class="icon-area" aria-hidden="true">
                         <i class="icon-detail icon-check-mark"></i>
                         <i class="icon-detail icon-info"></i>
                     </div>
                 </div>
-                <span class="required-text" asp-validation-for="RegisterForm.AffCode"></span>
+                <span class="required-text" asp-validation-for="AffCode"></span>
             </div>
         }
         else
         {
-            <input asp-for="RegisterForm.AffCode" type="hidden" />
+            <input asp-for="AffCode" type="hidden" />
         }
 
         <!-- Turnstile Captcha -->
-        @if (Model.LandingPage?.IsTurnstileCaptchaEnabled == true)
+        @if (Model.IsTurnstileCaptchaEnabled)
         {
             <div id="turnstile_widget" class="cf-turnstile"
-            data-sitekey="@Model.LandingPage.TurnstileSiteKey"
+            data-sitekey="@Model.TurnstileSiteKey"
             data-theme="dark"
             data-size="flexible"
             data-callback="onTurnstileSuccess"
@@ -134,14 +134,14 @@
         }
 
         <!-- Fallback Captcha -->
-        <input asp-for="RegisterForm.CaptchaType" type="hidden" />
-        <div id="numberCapcha" style="display:@(Model.LandingPage?.IsTurnstileCaptchaEnabled == true ? "none" : "block")">
+        <input asp-for="CaptchaType" type="hidden" />
+        <div id="numberCapcha" style="display:@(Model.IsTurnstileCaptchaEnabled ? "none" : "block")">
             <div class="captcha-container">
                 <img id="tokenBox" alt="captcha" style="display:none"/>
             </div>
             <div class="input-field">
                 <div class="input-box">
-                    <input asp-for="RegisterForm.ReCaptchaToken" placeholder="@UI.Form_Captcha" autocomplete="off" />
+                    <input asp-for="ReCaptchaToken" placeholder="@UI.Form_Captcha" autocomplete="off" />
                     <div class="icon-area" aria-hidden="true">
                         <i class="icon-detail icon-check-mark"></i>
                     </div>
@@ -165,7 +165,7 @@
 
             <div class="terms-conditions">
                 @prefixTermsAgreement
-                <a rel="noreferrer" target="_blank" href="@Model.RegisterForm.TermsConditionsURL">
+                <a rel="noreferrer" target="_blank" href="@Model.TermsConditionsURL">
                     @UI.Form_TermsAndConditions
                 </a>
                 @suffixTermsAgreement
