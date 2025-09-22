@@ -12,7 +12,7 @@ public class UnderMaintenanceService(ILogService logService,
     ICacheKeyService cacheKeyService,
     IHttpClientFactory httpClientFactory) : IUnderMaintenanceService
 {
-    private const int cacheDurationInSeconds = 3600;
+    private const int cacheDurationInSeconds = 60;
 
     public async Task<ScheduleMaintenance> GetUnderMaintenanceInfoAsync()
     {
@@ -45,7 +45,7 @@ public class UnderMaintenanceService(ILogService logService,
             var scheduleMaintenance = JsonSerializer.Deserialize<ScheduleMaintenance>(jsonContent, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
-                Converters = { new DateTimeConverter() }
+                Converters = { new DateTimeConverter(), new UnixTimestampConverter() }
             });
 
             return scheduleMaintenance ?? new ScheduleMaintenance();
@@ -71,8 +71,8 @@ public class UnderMaintenanceService(ILogService logService,
             return false;
         }
 
-        var currentTime = DateTimeOffset.UtcNow.AddHours(8);
-
-        return currentTime > scheduleMaintenance.DateTimeStart && currentTime < scheduleMaintenance.DateTimeEnd;
+        var nowUtcSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        var isUnderMaintenance = nowUtcSeconds >= scheduleMaintenance.UTCTimeStart && nowUtcSeconds <= scheduleMaintenance.UTCTimeEnd;
+        return isUnderMaintenance;
     }
 }

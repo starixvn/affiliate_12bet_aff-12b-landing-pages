@@ -9,14 +9,29 @@ public class UnderMaintenanceMiddleware(RequestDelegate next,
 {
     public async Task InvokeAsync(HttpContext context)
     {
+        var requestPath = context.Request.Path.Value ?? string.Empty;
+        var enableCheckUnderMaintenance = domainSettingService.GetEnableCheckUnderMaintenance();
+        if (!ShouldIgnorePath(requestPath) 
+            && requestPath.StartsWith("/p1/", StringComparison.OrdinalIgnoreCase)
+            && enableCheckUnderMaintenance)
+        {
+            var currentDomain = context.Request.Host.ToString();
+            var isUnderMaintenance = await underMaintainService.GetIsUnderMaintenanceByDomainAsync(currentDomain);
+            if (isUnderMaintenance)
+            {
+                await HandleRedirectAsync(context, requestPath, "Under Maintenance");
+                return; // Don't continue processing if under maintenance
+            }
+        }
+
+        // Process the request
         await next(context);
 
+        // Handle 404 errors AFTER processing
         if (context.Response.StatusCode == 404)
         {
             await HandleNotFoundAsync(context);
         }
-
-        await HandleCheckMaintenanceAsync(context);
     }
 
     private async Task HandleNotFoundAsync(HttpContext context)
@@ -30,23 +45,13 @@ public class UnderMaintenanceMiddleware(RequestDelegate next,
         await HandleRedirectAsync(context, requestPath, "404 Not Found");
     }
 
-    private async Task HandleCheckMaintenanceAsync(HttpContext context)
+    private async Task HandleRedirectAsync(HttpContext context, string requestPath, string errorTitle)
     {
-        var requestPath = context.Request.Path.Value ?? string.Empty;
-        if (ShouldIgnorePath(requestPath))
+        if (context.Response.HasStarted)
         {
             return;
         }
 
-        var currentDomain = domainSettingService.GetCurrentLandingPageDomain(context.Request);
-        var isUnderMaintenance = await underMaintainService.GetIsUnderMaintenanceByDomainAsync(currentDomain);
-        if (isUnderMaintenance)
-        {
-            await HandleRedirectAsync(context, requestPath, "Under Maintenance");
-        }
-    }
-    private async Task HandleRedirectAsync(HttpContext context, string requestPath, string errorTitle)
-    {
         var requestMethod = context.Request.Method;
         var userAgent = context.Request.Headers.UserAgent.ToString();
         var referer = context.Request.Headers.Referer.ToString();

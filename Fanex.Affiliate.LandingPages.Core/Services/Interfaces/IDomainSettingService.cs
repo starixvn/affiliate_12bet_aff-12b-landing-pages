@@ -24,6 +24,8 @@ public interface IDomainSettingService
 
     string GetUnderMaintenanceLink();
 
+    bool GetEnableCheckUnderMaintenance();
+
     string GetTermsConditionsLink(string langCode);
 
     string GetMediaRootDomain();

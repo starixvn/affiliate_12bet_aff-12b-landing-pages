@@ -104,6 +104,11 @@ public class DomainSettingService(IOptions<DomainSettings> options) : IDomainSet
         return options.Value.MemberSiteUM ?? string.Empty;
     }
 
+    public bool GetEnableCheckUnderMaintenance()
+    {
+        return options.Value.EnableCheckMemberSiteUM;
+    }
+
     public string GetTermsConditionsLink(string langCode)
     {
         var termsConditionsTpl = options.Value.TermsConditions;

@@ -233,7 +233,7 @@ public class LandingPageModel(
         var currentCulture = CultureInfo.CurrentUICulture.Name;
         var languageCode = CultureMappingConstants.GetLanguageFromCulture(currentCulture);
 
-        var currentDomain = domainSettingService.GetCurrentLandingPageDomain(HttpContext.Request);
+        var currentDomain = HttpContext.Request.Host.ToString();
         var captchaInfo = await signUpService.GetRecaptchaInfoAsync(languageCode, currentDomain);
         landingPage.CaptchaType = captchaInfo.IsTurnstileCaptchaEnabled 
             ? LandingPageConstants.TurnstileCaptchaType 

@@ -14,6 +14,8 @@ public class DomainSettings
 
     public string MemberSiteUM { get; set; } = string.Empty;
 
+    public bool EnableCheckMemberSiteUM { get; set; }
+
     public RedirectSettings Redirect { get; set; } = new RedirectSettings();
 }
 
