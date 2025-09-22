@@ -6,7 +6,7 @@ public interface ICacheKeyService
     string GetLandingPagePreviewKey(string pageCode, int pageId);
     string GetAllLandingPageVersionKey();
     string GetSignUpKey();
-    string GetRecaptchaInfoKey(string langCode);
+    string GetRecaptchaInfoKey(string langCode, string domain);
 
     string GetUnderMaintainInfoKey();
 }

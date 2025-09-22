@@ -32,9 +32,9 @@ public class CacheKeyService : ICacheKeyService
         return $"{applicationName}:{CacheKey.SignUp}";
     }
 
-    public string GetRecaptchaInfoKey(string langCode)
+    public string GetRecaptchaInfoKey(string langCode, string domain)
     {
-        return $"{applicationName}:{CacheKey.RecaptchaInfo}_{langCode}";
+        return $"{applicationName}:{CacheKey.RecaptchaInfo}_{langCode}_{domain}";
     }
 
     public string GetUnderMaintainInfoKey()

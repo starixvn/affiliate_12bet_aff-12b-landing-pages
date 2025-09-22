@@ -16,9 +16,9 @@ public class SignUpService(ILogService logService,
 {
     private const int cacheDurationInSeconds = 86400;
 
-    public async Task<RecaptchaInfo> GetRecaptchaInfoAsync(string langCode)
+    public async Task<RecaptchaInfo> GetRecaptchaInfoAsync(string langCode, string domain)
     {
-        var cacheKey = cacheKeyService.GetRecaptchaInfoKey(langCode);
+        var cacheKey = cacheKeyService.GetRecaptchaInfoKey(langCode, domain);
         var recaptchaInfo = await redisService.GetAsync<RecaptchaInfo>(cacheKey);
         if (recaptchaInfo == null)
         {

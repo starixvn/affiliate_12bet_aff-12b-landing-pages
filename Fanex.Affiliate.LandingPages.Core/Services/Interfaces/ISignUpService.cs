@@ -4,7 +4,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 public interface ISignUpService
 {
-    Task<RecaptchaInfo> GetRecaptchaInfoAsync(string langCode);
+    Task<RecaptchaInfo> GetRecaptchaInfoAsync(string langCode, string domain);
 
     Task<NumberCaptchaResponse> GetNumberCaptchaAsync(string langCode);
 
