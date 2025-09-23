@@ -274,7 +274,7 @@ public class LandingPageModel(
         if (!string.Equals(LanguageCode, languageCode, StringComparison.OrdinalIgnoreCase))
         {
             var correctUrl = GetCorrectLanguageLink(languageCode);
-            return Task.FromResult<IActionResult?>(RedirectPermanent($"{correctUrl}{queryString}"));
+            return Task.FromResult<IActionResult?>(RedirectPermanent(correctUrl));
         }
 
         return Task.FromResult<IActionResult?>(null);
