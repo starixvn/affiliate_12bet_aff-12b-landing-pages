@@ -22,7 +22,7 @@ builder.Services.AddHostedService<SignUpLogWorker>();
 builder.Services.AddHostedService<SignUpLogDLQWorker>();
 builder.Services.AddHostedService<SignUpLogRedisStorageWorker>();
 builder.Services.AddHostedService<SyncLandingPageToCacheWorker>();
-builder.Services.AddHostedService<SyncUnderMaintenanceInfoToCacheWorker>();
+// builder.Services.AddHostedService<SyncUnderMaintenanceInfoToCacheWorker>();
 
 // Configure RabbitMQ
 var rabbitMqConnectionString = builder.Configuration["RabbitMQConnectionString"];
