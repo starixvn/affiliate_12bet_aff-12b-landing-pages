@@ -367,7 +367,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 12BET: The Complete Online Gaming Platform in India for Sports, Casino, and Slots.
+        ///   Looks up a localized string similar to Sign up for 12BET today and enjoy sports betting, casino games, slots, and lottery all in one place!.
         /// </summary>
         public static string PageTitle_LandingPage {
             get {
