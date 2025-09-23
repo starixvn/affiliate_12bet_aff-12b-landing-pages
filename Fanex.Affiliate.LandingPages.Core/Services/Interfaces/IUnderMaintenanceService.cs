@@ -6,5 +6,7 @@ public interface IUnderMaintenanceService
 {
     Task<ScheduleMaintenance> GetUnderMaintenanceInfoAsync();
 
+    Task<ScheduleMaintenance> SyncUnderMaintenanceInfoAsync();
+
     Task<bool> GetIsUnderMaintenanceByDomainAsync(string domain);
 }

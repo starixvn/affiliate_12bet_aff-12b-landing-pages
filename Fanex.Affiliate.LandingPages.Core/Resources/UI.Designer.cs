@@ -29,7 +29,7 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public UI() {
+        internal UI() {
         }
         
         /// <summary>
@@ -264,6 +264,60 @@ namespace Fanex.Affiliate.LandingPages.Core.Resources {
         public static string Form_UsernameHelp {
             get {
                 return ResourceManager.GetString("Form_UsernameHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Experience Comprehensive Betting with 12BET: Enjoy sports betting, live casino games, slots, e-sports, and lottery, betting exchange, all in one place. Take advantage of exciting promotions, easy deposits and withdrawals, and a secure &amp; trustworthy platform.
+        /// </summary>
+        public static string Meta_Description {
+            get {
+                return ResourceManager.GetString("Meta_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 12bet, betting exchange, 12bet promotions, 12bet login, 12bet deposit, 12bet withdrawals, 12bet secure, 12bet Malaysia.
+        /// </summary>
+        public static string Meta_Keywords {
+            get {
+                return ResourceManager.GetString("Meta_Keywords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Experience Comprehensive Betting with 12BET: Enjoy sports betting, live casino games, slots, e-sports, and lottery, betting exchange, all in one place. Take advantage of exciting promotions, easy deposits and withdrawals, and a secure &amp; trustworthy platform.
+        /// </summary>
+        public static string Meta_OgDescription {
+            get {
+                return ResourceManager.GetString("Meta_OgDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 12BET: The Complete Online Gaming Platform in India for Sports, Casino, and Slots.
+        /// </summary>
+        public static string Meta_OgTitle {
+            get {
+                return ResourceManager.GetString("Meta_OgTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Experience Comprehensive Betting with 12BET: Enjoy sports betting, live casino games, slots, e-sports, and lottery, betting exchange, all in one place. Take advantage of exciting promotions, easy deposits and withdrawals, and a secure &amp; trustworthy platform.
+        /// </summary>
+        public static string Meta_TwitterDescription {
+            get {
+                return ResourceManager.GetString("Meta_TwitterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 12BET: The Complete Online Gaming Platform in India for Sports, Casino, and Slots.
+        /// </summary>
+        public static string Meta_TwitterTitle {
+            get {
+                return ResourceManager.GetString("Meta_TwitterTitle", resourceCulture);
             }
         }
         

@@ -255,4 +255,22 @@
   <data name="Validation_CommonError" xml:space="preserve">
     <value>注册未成功。请联系客服以获取帮助。</value>
   </data>
+  <data name="Meta_Description" xml:space="preserve">
+    <value>立即注册 12BET，享受全面的在线博彩体验，包括体育、真人赌场、老虎机、博彩交易所和彩票。解锁专属于新会员的独家促销，轻松存款和取款！</value>
+  </data>
+  <data name="Meta_Keywords" xml:space="preserve">
+    <value>12BET 登录, 12BET 注册, 12BET 中国, 12BET 注册, 12BET 存款, 12BET 提现</value>
+  </data>
+  <data name="Meta_TwitterTitle" xml:space="preserve">
+    <value>今天注册 12BET，享受体育博彩、赌场游戏、老虎机和彩票一站式体验！</value>
+  </data>
+  <data name="Meta_TwitterDescription" xml:space="preserve">
+    <value>立即注册 12BET，享受全面的在线博彩体验，包括体育、真人赌场、老虎机、博彩交易所和彩票。解锁专属于新会员的独家促销，轻松存款和取款！</value>
+  </data>
+  <data name="Meta_OgTitle" xml:space="preserve">
+    <value>今天注册 12BET，享受体育博彩、赌场游戏、老虎机和彩票一站式体验！</value>
+  </data>
+  <data name="Meta_OgDescription" xml:space="preserve">
+    <value>立即注册 12BET，享受全面的在线博彩体验，包括体育、真人赌场、老虎机、博彩交易所和彩票。解锁专属于新会员的独家促销，轻松存款和取款！</value>
+  </data>
 </root>

@@ -12,19 +12,22 @@ public class UnderMaintenanceService(ILogService logService,
     ICacheKeyService cacheKeyService,
     IHttpClientFactory httpClientFactory) : IUnderMaintenanceService
 {
-    private const int cacheDurationInSeconds = 60;
+    private const int cacheDurationInSeconds = 120;
 
     public async Task<ScheduleMaintenance> GetUnderMaintenanceInfoAsync()
     {
         var cacheKey = cacheKeyService.GetUnderMaintainInfoKey();
         var scheduleMaintenance = await redisService.GetAsync<ScheduleMaintenance>(cacheKey);
-        if (scheduleMaintenance is null)
-        {
-            scheduleMaintenance = await GetMaintenanceInfoFromApiAsync();
-            var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
-            await redisService.SetAsync(cacheKey, scheduleMaintenance, slidingExpirationTime);
-        }
+        scheduleMaintenance ??= await SyncUnderMaintenanceInfoAsync();
+        return scheduleMaintenance;
+    }
 
+    public async Task<ScheduleMaintenance> SyncUnderMaintenanceInfoAsync()
+    {
+        var cacheKey = cacheKeyService.GetUnderMaintainInfoKey();
+        var scheduleMaintenance = await GetMaintenanceInfoFromApiAsync();
+        var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
+        await redisService.SetAsync(cacheKey, scheduleMaintenance, slidingExpirationTime);
         return scheduleMaintenance;
     }
 
@@ -33,14 +36,11 @@ public class UnderMaintenanceService(ILogService logService,
         try
         {
             var underMaintenanceLink = memberSiteConfigService.GetUnderMaintenanceLink();
-
             using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var request = new HttpRequestMessage(HttpMethod.Get, underMaintenanceLink);
             request.Headers.Add("accept", "application/json");
-
             var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
-
             var jsonContent = await response.Content.ReadAsStringAsync();
             var scheduleMaintenance = JsonSerializer.Deserialize<ScheduleMaintenance>(jsonContent, new JsonSerializerOptions
             {
