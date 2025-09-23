@@ -1,3 +1,4 @@
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 namespace Fanex.Affiliate.LandingPages.Middleware;
@@ -62,8 +63,11 @@ public class UnderMaintenanceMiddleware(RequestDelegate next,
             $"{errorTitle}: {requestMethod} {currentDomain} {requestPath} from IP {remoteIp} with User-Agent: " +
                 $"{userAgent} and Referer: {referer}");
 
-        var redirectLink = domainSettingService.GetCurrentMemberSiteHost(context.Request);
-        context.Response.Redirect(redirectLink);
+        // Extract language code from p1/langcode pattern
+        var languageCode = ExtractLanguageCodeFromPath(requestPath);
+        var redirectLink = domainSettingService.GetCurrentMemberSiteJoin(context.Request, languageCode);
+        var queryString = context.Request.QueryString.HasValue ? context.Request.QueryString.Value : string.Empty;
+        context.Response.Redirect($"{redirectLink}{queryString}");
     }
 
     private static bool ShouldIgnorePath(string path)
@@ -103,6 +107,30 @@ public class UnderMaintenanceMiddleware(RequestDelegate next,
         }
 
         return false;
+    }
+
+    private static string ExtractLanguageCodeFromPath(string requestPath)
+    {
+        // Extract language code from p1/langcode pattern
+        // Example: /p1/en -> en, /p1/vn -> vn, /p1/th -> th
+        if (string.IsNullOrEmpty(requestPath) || !requestPath.StartsWith("/p1/", StringComparison.OrdinalIgnoreCase))
+        {
+            return string.Empty;
+        }
+
+        var pathSegments = requestPath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        if (pathSegments.Length >= 2)
+        {
+            var languageCode = pathSegments[1];
+            
+            // Check if language code is supported in LanguageToCultureMapInternal
+            if (CultureMappingConstants.IsLanguageSupported(languageCode))
+            {
+                return languageCode;
+            }
+        }
+
+        return string.Empty;
     }
 
     private static string GetClientIpAddress(HttpContext context)

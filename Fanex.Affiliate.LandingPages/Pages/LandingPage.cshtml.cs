@@ -156,7 +156,7 @@ public class LandingPageModel(
             LandingPage = await LoadPageDataAsync(PageCode, Refresh, IsPreView, PageId);
 
             var redirectResult = await HandleRedirectsAsync(LandingPage);
-            if (redirectResult != null)
+            if (redirectResult is not null)
             {
                 return redirectResult;
             }
@@ -213,7 +213,7 @@ public class LandingPageModel(
     private async Task<LandingPage?> LoadPageDataAsync(string pageCode, bool? refresh, bool? isPreview, int? pageId)
     {
         var landingPage = await landingPageService.GetLandingPage(pageCode, refresh, isPreview, pageId);
-        if (landingPage == null)
+        if (landingPage is null)
         {
             return null;
         }
@@ -259,10 +259,12 @@ public class LandingPageModel(
     /// <returns>Redirect result or null if no redirect needed</returns>
     private Task<IActionResult?> HandleRedirectsAsync(LandingPage? landingPage)
     {
-        if (landingPage == null)
+        var queryString = Request.QueryString.HasValue ? Request.QueryString.Value : string.Empty;
+
+        if (landingPage is null)
         {
-            var redirectLink = domainSettingService.GetCurrentMemberSiteHost(HttpContext.Request, LanguageCode);
-            return Task.FromResult<IActionResult?>(Redirect(redirectLink));
+            var redirectLink = domainSettingService.GetCurrentMemberSiteJoin(HttpContext.Request, LanguageCode);
+            return Task.FromResult<IActionResult?>(Redirect($"{redirectLink}{queryString}"));
         }
 
         var languageCode = CultureMappingConstants.IsLanguageSupported(landingPage.TargetLanguageCode)
@@ -272,7 +274,7 @@ public class LandingPageModel(
         if (!string.Equals(LanguageCode, languageCode, StringComparison.OrdinalIgnoreCase))
         {
             var correctUrl = GetCorrectLanguageLink(languageCode);
-            return Task.FromResult<IActionResult?>(RedirectPermanent(correctUrl));
+            return Task.FromResult<IActionResult?>(RedirectPermanent($"{correctUrl}{queryString}"));
         }
 
         return Task.FromResult<IActionResult?>(null);
@@ -284,23 +286,40 @@ public class LandingPageModel(
     /// <returns>Registration result</returns>
     private async Task<RegistrationResult> ProcessRegistrationAsync()
     {
-        if (RegisterForm == null)
+        if (RegisterForm is null)
         {
             return new RegistrationResult(false, LandingPageConstants.RegistrationFormNotAvailable);
         }
 
         var registerData = ProcessDataSubmitForm(RegisterForm);
         var result = await signUpService.SignUpAsync(registerData);
-        
+
         if (result.ErrorCode == 0)
         {
             return new RegistrationResult(true, string.Empty, result);
         }
 
-        var errorMessage = string.IsNullOrEmpty(result.Message) ?
-            $"{result.ErrorCode} - {LandingPageConstants.ProcessingError}"
-            : result.Message;
+        string errorMessage = GetErrorMessage(result);
         return new RegistrationResult(false, errorMessage);
+    }
+
+    private static string GetErrorMessage(SignUpResponse result)
+    {
+        string errorMessage;
+        if (string.IsNullOrEmpty(result.Message))
+        {
+            errorMessage = $"[{result.ErrorCode}] - {LandingPageConstants.ProcessingError}";
+        }
+        else if (result.Message.Contains(result.ErrorCode.ToString()))
+        {
+            errorMessage = result.Message;
+        }
+        else
+        {
+            errorMessage = $"[{result.ErrorCode}] - {result.Message}";
+        }
+
+        return errorMessage;
     }
 
     /// <summary>

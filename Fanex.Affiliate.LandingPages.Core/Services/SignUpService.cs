@@ -20,7 +20,7 @@ public class SignUpService(ILogService logService,
     {
         var cacheKey = cacheKeyService.GetRecaptchaInfoKey(langCode, domain);
         var recaptchaInfo = await redisService.GetAsync<RecaptchaInfo>(cacheKey);
-        if (recaptchaInfo == null)
+        if (recaptchaInfo is null)
         {
             recaptchaInfo = await GetRecaptchaInfoFromAPIAsync(langCode);
             var slidingExpirationTime = TimeSpan.FromSeconds(cacheDurationInSeconds);
