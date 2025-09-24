@@ -12,7 +12,7 @@ public class UnderMaintenanceService(ILogService logService,
     ICacheKeyService cacheKeyService,
     IHttpClientFactory httpClientFactory) : IUnderMaintenanceService
 {
-    private const int cacheDurationInSeconds = 120;
+    private const int cacheDurationInSeconds = 60;
 
     public async Task<ScheduleMaintenance> GetUnderMaintenanceInfoAsync()
     {

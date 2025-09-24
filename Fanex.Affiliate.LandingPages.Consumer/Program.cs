@@ -18,11 +18,7 @@ using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHostedService<SignUpLogWorker>();
-builder.Services.AddHostedService<SignUpLogDLQWorker>();
-builder.Services.AddHostedService<SignUpLogRedisStorageWorker>();
-builder.Services.AddHostedService<SyncLandingPageToCacheWorker>();
-//// builder.Services.AddHostedService<SyncUnderMaintenanceInfoToCacheWorker>();
+RegisterWorker(builder);
 
 // Configure RabbitMQ
 var rabbitMqConnectionString = builder.Configuration["RabbitMQConnectionString"];
@@ -97,4 +93,21 @@ static void RouteToAction(WebApplication host)
         var result = await redisService.SetAsync(Settings.TurnOnErrorQueueConsumer, false);
         return Results.Ok(result);
     });
+}
+
+static void RegisterWorker(WebApplicationBuilder builder)
+{
+    RegisterWorkerIfEnabled<SignUpLogDLQWorker>(builder, "SignUpLogDLQWorker");
+    RegisterWorkerIfEnabled<SignUpLogRedisStorageWorker>(builder, "SignUpLogRedisStorageWorker");
+    RegisterWorkerIfEnabled<SignUpLogWorker>(builder, "SignUpLogWorker");
+    RegisterWorkerIfEnabled<SyncLandingPageToCacheWorker>(builder, "SyncLandingPageToCacheWorker");
+    RegisterWorkerIfEnabled<SyncUnderMaintenanceInfoToCacheWorker>(builder, "SyncUnderMaintenanceInfoToCacheWorker");
+}
+
+static void RegisterWorkerIfEnabled<T>(WebApplicationBuilder builder, string configKey) where T : class, IHostedService
+{
+    if (bool.TryParse(builder.Configuration[configKey], out var isEnabled) && isEnabled)
+    {
+        builder.Services.AddHostedService<T>();
+    }
 }
