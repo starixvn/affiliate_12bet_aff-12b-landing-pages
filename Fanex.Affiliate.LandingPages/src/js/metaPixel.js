@@ -38,7 +38,7 @@ $(document).ready(function () {
 
         try {
             window.fbq(action, eventName, params, { eventID: eventValue });
-            console.log('Meta Pixel Event Sent:', eventName, params);
+            console.log('Event Sent:', eventName, params);
         } catch (error) {
             console.error('MetaPixelTracker error:', error);
         }
@@ -100,25 +100,17 @@ $(document).ready(function () {
     // Check Meta Pixel status
     MetaPixel.checkStatus = function() {
         if (MetaPixel.isSDKAvailable()) {
-            console.log("Meta Pixel SDK is ready!");
+            console.log("SDK is ready!");
             // Get pixel IDs
             try {
                 const pixelIds = window.fbq.getState().pixels.map(pixel => pixel.id).join(',');
                 MetaPixel.setCookie('pixelIds', pixelIds);
-                console.log("pixelIds:", pixelIds);
-                
             } catch (error) {
                 console.log("Error when getting Pixel IDs.");
             }
         } else {
-            console.log("Meta Pixel SDK is not ready.");
+            console.log("SDK is not ready.");
         }
-    }
-
-    // Show result message
-    MetaPixel.showResult = function(message, isError = false) {
-        const className = isError ? 'error' : 'success';
-        console.log(message);
     }
 
     // Check Meta Pixel status on page load
