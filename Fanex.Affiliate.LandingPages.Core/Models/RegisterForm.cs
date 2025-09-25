@@ -57,9 +57,13 @@ public class RegisterForm
 
     public SignUpFormConfig? SignUpFormConfig { get; set; }
 
-    public string TermsConditionsURL { get; set; } = string.Empty;
+    public string TermsConditionsUrl { get; set; } = string.Empty;
 
     public bool IsTurnstileCaptchaEnabled { get; set; }
 
     public string TurnstileSiteKey { get; set; } = string.Empty;
+
+    public string? RedirectUrl { get; set; } = string.Empty;
+
+    public string? IsSuccessful { get; set; } = "false";
 }

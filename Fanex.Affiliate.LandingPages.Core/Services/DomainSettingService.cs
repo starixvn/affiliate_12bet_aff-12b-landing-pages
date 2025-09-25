@@ -39,6 +39,12 @@ public class DomainSettingService(IOptions<DomainSettings> options) : IDomainSet
         return $"{redirectLink}/{langCode}";
     }
 
+    public string GetMemberSiteAfterSignUpSuccess(HttpRequest request, string langCode)
+    {
+        var redirectLink = GetCurrentMemberSiteHost(request);
+        return $"{redirectLink}/{langCode}?{options.Value.Redirect.SuceessPath}";
+    }
+
     public string GetCurrentMemberSiteJoin(HttpRequest request, string langCode)
     {
         var redirectLink = GetCurrentMemberSiteHost(request);

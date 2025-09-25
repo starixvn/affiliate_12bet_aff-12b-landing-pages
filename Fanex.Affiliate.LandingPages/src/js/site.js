@@ -11,11 +11,15 @@ import 'jquery-validation-unobtrusive';
 import { parsePhoneNumberFromString } from 'libphonenumber-js/core';
 import metadata from 'libphonenumber-js/metadata.mobile.json';
 import './capcha.js';
+import './metaPixel.js';
 // Constants
 const SITE_CONFIG = {
     SELECTORS: {
         REGISTER_FORM: '#register-form',
+        ISSUCCESSFUL: "#IsSuccessful",
+        REDIRECTURL: "#RedirectUrl",
         GO_TOP_BTN: '#goTopBtn',
+        USERNAME_INPUT: '#Username',
         PASSWORD_INPUT: '#UserPwd',
         HIDDEN_PASSWORD: '#Password',
         INPUT_VALIDATION_ERROR: '.input-validation-error',
@@ -83,6 +87,7 @@ function initializeSite() {
     }
 
     try {
+        handleSubmitSuccess();
         initializeComponents();
         setupFormHandlers();
         setupValidationStyles();
@@ -135,6 +140,39 @@ function setupPhoneValidation() {
     }, window.validationMessages?.phoneNumberInvalid || "Invalid phone number for the selected country.");
 }
 
+function handleSubmitSuccess() {
+    MetaPixel.checkStatus();
+    const $isSuccessfulElement = $(SITE_CONFIG.SELECTORS.ISSUCCESSFUL);
+    const isSuccessfulValue = $isSuccessfulElement.val();
+
+    if (isSuccessfulValue === "true") {
+        const username = $(SITE_CONFIG.SELECTORS.USERNAME_INPUT).val();
+        MetaPixel.tracking({
+           eventName: 'CompleteRegistration',
+           eventValue: username
+        });
+        
+        // Show the redirect overlay (HTML is already in the page)
+        $('#redirect-overlay').show();
+        // Prevent scrolling
+        $('body').addClass('redirect-overlay-active');
+        
+        const redirectUrl = $(SITE_CONFIG.SELECTORS.REDIRECTURL).val();
+        if (redirectUrl) {
+            setTimeout(function () {
+                window.location.href = redirectUrl;
+            }, 600);
+        }
+    }
+}
+
+function scrollToForm() {
+    const $form = $(SITE_CONFIG.SELECTORS.USERNAME_INPUT);
+    if ($form.length > 0) {
+        console.log('📜 Scrolling to form after successful submission');
+        scrollToElement($form);
+    }
+}
 /**
  * Initialize all components
  * @private
@@ -170,7 +208,16 @@ function setupFormHandlers() {
 
             if ($form.valid()) {
                 handlePasswordEncoding();
-                this.submit();
+
+                const username = $(SITE_CONFIG.SELECTORS.USERNAME_INPUT).val();
+                MetaPixel.tracking({
+                   eventName: 'registerSubmit',
+                   eventValue: username
+                });
+
+                setTimeout(() => { this.submit(); }, 100);
+
+                console.log('submit done');
             } else {
                 // Scroll to first error after a short delay to allow validation to complete
                 setTimeout(() => {
@@ -605,6 +652,7 @@ $(document).ready(function () {
         }
     }, 100);
 });
+
 
 // Cleanup on page unload
 $(window).on('beforeunload', function () {

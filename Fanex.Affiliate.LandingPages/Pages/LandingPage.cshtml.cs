@@ -92,13 +92,13 @@ public class LandingPageModel(
         try
         {
             var errorMessage = string.Empty;
-            
             if (ModelState.IsValid && RegisterForm != null)
             {
                 var result = await ProcessRegistrationAsync();
                 if (result.Success)
                 {
-                    return await HandleSuccessfulRegistrationAsync(result);
+                    HandleSuccessfulRegistrationAsync(result);
+                    return await ProcessFormDataAsync();
                 }
                 else
                 {
@@ -110,7 +110,7 @@ public class LandingPageModel(
                 errorMessage = GetModelStateErrors();
             }
 
-            if (errorMessage is not null)
+            if (!string.IsNullOrWhiteSpace(errorMessage))
             {
                 ModelState.AddModelError(string.Empty, errorMessage);
             }
@@ -190,7 +190,7 @@ public class LandingPageModel(
         RegisterForm.CurrencyId = landingPage.CurrencyId;
         RegisterForm.AffClickId = ClickId ?? string.Empty;
         RegisterForm.AffCode = AffCode ?? string.Empty;
-        RegisterForm.TermsConditionsURL = domainSettingService.GetTermsConditionsLink(languageCode);
+        RegisterForm.TermsConditionsUrl = domainSettingService.GetTermsConditionsLink(languageCode);
         RegisterForm.IsTurnstileCaptchaEnabled = landingPage.IsTurnstileCaptchaEnabled;
         RegisterForm.TurnstileSiteKey = landingPage.TurnstileSiteKey;
         
@@ -336,16 +336,12 @@ public class LandingPageModel(
         return registerForm;
     }
 
-    /// <summary>
-    /// Handles successful registration by setting cookies and redirecting
-    /// </summary>
-    /// <param name="result">Registration result</param>
-    /// <returns>Redirect result</returns>
-    private async Task<IActionResult> HandleSuccessfulRegistrationAsync(RegistrationResult result)
+    private void HandleSuccessfulRegistrationAsync(RegistrationResult result)
     {
         AppendSetCookie(result.Response!);
-        var redirectLink = domainSettingService.GetCurrentMemberSiteHost(HttpContext.Request, LanguageCode);
-        return await Task.FromResult(Redirect(redirectLink));
+        var redirectLink = domainSettingService.GetMemberSiteAfterSignUpSuccess(HttpContext.Request, LanguageCode);
+        RegisterForm.IsSuccessful = "true";
+        RegisterForm.RedirectUrl = redirectLink;
     }
 
     /// <summary>

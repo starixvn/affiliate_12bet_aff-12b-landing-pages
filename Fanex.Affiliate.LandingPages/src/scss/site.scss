@@ -17,6 +17,7 @@
 @use './layout/register-form';
 @use './layout/youtube';
 @use './layout/fav-game';
+@use './layout/redirect-overlay';
 
 .container {
   position: relative;

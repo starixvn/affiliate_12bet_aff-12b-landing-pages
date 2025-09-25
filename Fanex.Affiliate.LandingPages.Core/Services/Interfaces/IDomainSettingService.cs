@@ -12,6 +12,8 @@ public interface IDomainSettingService
 
     string GetCurrentMemberSiteHost(HttpRequest request, string langCode);
 
+    string GetMemberSiteAfterSignUpSuccess(HttpRequest request, string langCode);
+
     string GetCurrentMemberSiteJoin(HttpRequest request, string langCode);
 
     string GetMemberSiteLinkWithPath(HttpRequest request, string langCode, string path);

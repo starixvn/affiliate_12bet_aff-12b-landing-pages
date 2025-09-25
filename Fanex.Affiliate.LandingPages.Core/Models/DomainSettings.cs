@@ -26,4 +26,6 @@ public class RedirectSettings
     public string SpecificDomain { get; set; } = string.Empty;
 
     public string DefaultPath { get; set; } = string.Empty;
+
+    public string SuceessPath { get; set; } = string.Empty;
 }

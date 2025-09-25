@@ -8,7 +8,11 @@
     <div class="form-content">
         <p class="form-title">@UI.Form_QuickRegistration</p>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+        <input asp-for="CountryCode" type="hidden" />
+        <input asp-for="CurrencyId" type="hidden" />
+        <input asp-for="UserLang" type="hidden" />
+        <input type="hidden" id="IsSuccessful" name="IsSuccessful" value="@Model.IsSuccessful" />
+        <input type="hidden" id="RedirectUrl" name="RedirectUrl" value="@Model.RedirectUrl" />
         <!-- Username -->
         <div class="input-field">
             <div class="input-info">
@@ -56,9 +60,6 @@
                     <input asp-for="PhoneNo" placeholder="@UI.Form_PhoneNumber" autocomplete="tel" />
                 </div>
             </div>
-            <input asp-for="CountryCode" type="hidden" />
-            <input asp-for="CurrencyId" type="hidden" />
-            <input asp-for="UserLang" type="hidden" />
             <span class="required-text" asp-validation-for="PhoneNo"></span>
         </div>
 
@@ -165,7 +166,7 @@
 
             <div class="terms-conditions">
                 @prefixTermsAgreement
-                <a rel="noreferrer" target="_blank" href="@Model.TermsConditionsURL">
+                <a rel="noreferrer" target="_blank" href="@Model.TermsConditionsUrl">
                     @UI.Form_TermsAndConditions
                 </a>
                 @suffixTermsAgreement
