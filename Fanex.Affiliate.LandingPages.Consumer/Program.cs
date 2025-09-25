@@ -97,11 +97,11 @@ static void RouteToAction(WebApplication host)
 
 static void RegisterWorker(WebApplicationBuilder builder)
 {
-    RegisterWorkerIfEnabled<SignUpLogDLQWorker>(builder, "SignUpLogDLQWorker");
-    RegisterWorkerIfEnabled<SignUpLogRedisStorageWorker>(builder, "SignUpLogRedisStorageWorker");
-    RegisterWorkerIfEnabled<SignUpLogWorker>(builder, "SignUpLogWorker");
-    RegisterWorkerIfEnabled<SyncLandingPageToCacheWorker>(builder, "SyncLandingPageToCacheWorker");
-    RegisterWorkerIfEnabled<SyncUnderMaintenanceInfoToCacheWorker>(builder, "SyncUnderMaintenanceInfoToCacheWorker");
+    RegisterWorkerIfEnabled<SignUpLogDLQWorker>(builder, "JobSettings:SignUpLogDLQWorker");
+    RegisterWorkerIfEnabled<SignUpLogRedisStorageWorker>(builder, "JobSettings:SignUpLogRedisStorageWorker");
+    RegisterWorkerIfEnabled<SignUpLogWorker>(builder, "JobSettings:SignUpLogWorker");
+    RegisterWorkerIfEnabled<SyncLandingPageToCacheWorker>(builder, "JobSettings:SyncLandingPageToCacheWorker");
+    RegisterWorkerIfEnabled<SyncUnderMaintenanceInfoToCacheWorker>(builder, "JobSettings:SyncUnderMaintenanceInfoToCacheWorker");
 }
 
 static void RegisterWorkerIfEnabled<T>(WebApplicationBuilder builder, string configKey) where T : class, IHostedService
