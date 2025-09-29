@@ -1,6 +1,7 @@
 using EasyNetQ;
 using Fanex.Affiliate.LandingPages.Consumer;
 using Fanex.Affiliate.LandingPages.Core.Constants;
+using Fanex.Affiliate.LandingPages.Core.Extensions;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Redis;
 using Fanex.Affiliate.LandingPages.Core.Services;
@@ -27,8 +28,9 @@ if (!string.IsNullOrEmpty(rabbitMqConnectionString))
     builder.Services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnectionString));
 }
 
-builder.Services.AddHttpClient();
 builder.Services.AddOneBookUmForService(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<ForwardHeadersHandler>();
 builder.Services.AddSingleton<IMaintenanceService, MaintenanceService>();
 builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
 builder.Services.AddSingleton<ITrackingSignUpService, TrackingSignUpService>();
@@ -43,6 +45,8 @@ builder.Services.AddSingleton<Fanex.Logging.ILogger, Fanex.Logging.Logger>();
 builder.Services.AddSingleton<ILogService, Fanex.Affiliate.LandingPages.Core.Services.LogService>();
 builder.Services.AddSingleton<IRabbitBus, Fanex.Affiliate.LandingPages.Core.Services.RabbitBus>();
 builder.Services.Configure<DomainSettings>(builder.Configuration.GetSection("DomainSettings"));
+builder.Services.AddProxyWithForwardHeadersHttpClient(Settings.UseProxyWithForwardHeaders, builder.Configuration);
+builder.Services.AddProxyHttpClient(Settings.UseProxy, builder.Configuration);
 // Configure logging
 var env = builder.Configuration["Sentry:Environment"];
 var backEndDsn = builder.Configuration["Sentry:Dsn"];
