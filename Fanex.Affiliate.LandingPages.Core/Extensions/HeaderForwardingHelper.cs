@@ -20,6 +20,7 @@ public static class HeaderForwardingHelper
         "cf-ray",
         "cf-visitor",
         "User-Agent",
+        "x-assigned-client-ip"
     ];
 
     public static IDictionary<string, string> BuildForwardHeaders(HttpContext context)
@@ -30,6 +31,7 @@ public static class HeaderForwardingHelper
         var memberSiteOptions = context.RequestServices.GetService<IOptions<DomainSettings>>();
         headers["ai-host"] = memberSiteOptions?.Value?.MainMemberSite ?? string.Empty;
         headers["origin-host"] = $"{LandingPageConstants.HttpsScheme}://{context.Request.Host}";
+        headers["x-assigned-client-ip"] = GetClientIpAddress(context);
 
         foreach (var headerName in ForwardHeaderNames)
         {
@@ -40,5 +42,24 @@ public static class HeaderForwardingHelper
         }
 
         return headers;
+    }
+
+    public static string GetClientIpAddress(HttpContext httpContext)
+    {
+        var realIp = httpContext.Request.Headers["x-actual-ip"].FirstOrDefault();
+        if (!string.IsNullOrEmpty(realIp))
+        {
+            return realIp;
+        }
+        else
+        {
+            var forwardedFor = httpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+            if (!string.IsNullOrEmpty(forwardedFor))
+            {
+                return forwardedFor.Split(',')[0].Trim();
+            }
+        }
+
+        return httpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
     }
 }
