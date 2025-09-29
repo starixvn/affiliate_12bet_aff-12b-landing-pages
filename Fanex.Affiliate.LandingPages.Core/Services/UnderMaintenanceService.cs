@@ -39,6 +39,9 @@ public class UnderMaintenanceService(ILogService logService,
             using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var request = new HttpRequestMessage(HttpMethod.Get, underMaintenanceLink);
             request.Headers.Add("accept", "application/json");
+            // Add cache-control header to ensure we get a fresh version, not from cache
+            request.Headers.Add("Cache-Control", "no-cache");
+            request.Headers.Add("Pragma", "no-cache");
             var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var jsonContent = await response.Content.ReadAsStringAsync();
