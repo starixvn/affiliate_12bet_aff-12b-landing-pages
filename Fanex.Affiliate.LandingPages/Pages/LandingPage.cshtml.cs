@@ -329,11 +329,32 @@ public class LandingPageModel(
     {
         registerForm.UserPwd = registerForm.Password;
         registerForm.AffClickId = ClickId ?? string.Empty;
-        registerForm.ReferralUrl = GetRequestHeader(LandingPageConstants.RefererHeader);
+        registerForm.ReferralUrl = GetReferralHeader();
         registerForm.UserAgent = GetRequestHeader(LandingPageConstants.UserAgentHeader);
         registerForm.SignUpUrl = domainSettingService.GetCurrentLandingPageDomain(HttpContext.Request);
         registerForm.IpAddress = domainSettingService.GetClientIpAddress(HttpContext);
         return registerForm;
+    }
+
+    private string GetReferralHeader()
+    {
+        var refererUrl = string.Empty;
+        var referer = GetRequestHeader(LandingPageConstants.RefererHeader);
+        if (!string.IsNullOrEmpty(referer))
+        {
+            try
+            {
+                var uri = new Uri(referer);
+                var cleanUri = uri.GetLeftPart(UriPartial.Path);
+                refererUrl = cleanUri;
+            }
+            catch
+            {
+                refererUrl = referer;
+            }
+        }
+
+        return refererUrl;
     }
 
     private void HandleSuccessfulRegistrationAsync(RegistrationResult result)
