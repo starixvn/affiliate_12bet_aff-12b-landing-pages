@@ -249,6 +249,10 @@ public class SignUpService(ILogService logService,
                 response.Headers.TryGetValues("Set-Cookie", out var cookies);
                 result.Cookies = cookies;
             }
+            else
+            {
+                await logService.SentryErrorAsync("Sign-up error from API: " + result.Message);
+            }
         }
         catch (HttpRequestException ex)
         {
