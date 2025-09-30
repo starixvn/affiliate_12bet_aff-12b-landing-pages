@@ -251,7 +251,9 @@ public class SignUpService(ILogService logService,
             }
             else
             {
-                await logService.SentryErrorAsync("Sign-up error from API: " + result.Message);
+                signUpRequest.UserPwd = string.Empty;
+                var logContent = JsonSerializer.Serialize(signUpRequest);
+                await logService.SentryErrorAsync($"Sign-up error from API: { result.ErrorCode } - {result.Message}: \n{logContent}");
             }
         }
         catch (HttpRequestException ex)
