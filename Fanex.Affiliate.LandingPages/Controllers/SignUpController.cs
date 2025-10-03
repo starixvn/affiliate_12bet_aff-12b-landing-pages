@@ -5,7 +5,9 @@ namespace Fanex.Affiliate.LandingPages.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SignUpController(ISignUpService signUpService) : ControllerBase
+public class SignUpController(ISignUpService signUpService, 
+    IDomainSettingService domainSettingService,
+    ILogService logService) : ControllerBase
 {
     [HttpGet("GetNumberCaptcha")]
     public async Task<IActionResult> GetNumberCaptcha(string userLang)
@@ -13,6 +15,17 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
         try
         {
             var result = await signUpService.GetNumberCaptchaAsync(userLang);
+            var logMessage = GetLogMessage(HttpContext);
+            if (string.IsNullOrWhiteSpace(result?.Data?.Picture))
+            {
+                var logErrorMeassage = $"GetNumberCaptcha error: {logMessage}";
+                await logService.SentryInfoAsync(logErrorMeassage);
+                logService.LogFileMessage(logErrorMeassage);
+            }
+            else
+            {
+                logService.LogFileMessage($"GetNumberCaptcha success: {logMessage}");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -75,5 +88,12 @@ public class SignUpController(ISignUpService signUpService) : ControllerBase
         {
             return StatusCode(500, new { error = "Internal server error", message = ex.Message });
         }
+    }
+
+    private string GetLogMessage(HttpContext httpContext)
+    {
+        var ipAddress = domainSettingService.GetClientIpAddress(httpContext);
+        var domain = domainSettingService.GetCurrentLandingPageDomain(httpContext.Request);
+        return $"domain: {domain} - ip: {ipAddress}";
     }
 }
