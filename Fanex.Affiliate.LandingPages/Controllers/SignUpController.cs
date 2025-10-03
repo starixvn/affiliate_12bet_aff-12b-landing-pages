@@ -1,3 +1,4 @@
+using Fanex.Affiliate.LandingPages.Core.Extensions;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -94,6 +95,8 @@ public class SignUpController(ISignUpService signUpService,
     {
         var ipAddress = domainSettingService.GetClientIpAddress(httpContext);
         var domain = domainSettingService.GetCurrentLandingPageDomain(httpContext.Request);
-        return $"domain: {domain} - ip: {ipAddress}";
+        var header = HeaderForwardingHelper.BuildForwardHeaders(httpContext);
+        var headersString = string.Join("; ", header.Select(h => $"{h.Key}: {h.Value}"));
+        return $"domain: {domain} - ip: {ipAddress} - headers: {headersString}";
     }
 }
