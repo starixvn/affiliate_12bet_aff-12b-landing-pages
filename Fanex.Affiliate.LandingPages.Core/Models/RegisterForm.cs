@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Extensions;
 using Fanex.Affiliate.LandingPages.Core.Resources;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ public class RegisterForm
 {
     [Required(ErrorMessageResourceName = "Validation_UsernameRequired", ErrorMessageResourceType = typeof(UI))]
     [StringLength(18, MinimumLength = 6, ErrorMessageResourceName = "Validation_UsernameLengthRequired", ErrorMessageResourceType = typeof(UI))]
-    [Remote(action: "CheckExistsUsername", controller: "SignUp", AdditionalFields = nameof(UserLang), 
+    [Remote(action: "CheckExistsUsername", controller: "SignUp", AdditionalFields = nameof(UserLang),
         ErrorMessageResourceName = "Validation_UsernameNoLongerAvailable", ErrorMessageResourceType = typeof(UI))]
     public string Username { get; set; } = string.Empty;
 
@@ -66,4 +67,13 @@ public class RegisterForm
     public string? RedirectUrl { get; set; } = string.Empty;
 
     public string? IsSuccessful { get; set; } = "false";
+
+    public bool IsIndiaMarket
+    { 
+        get
+        {
+            return string.Equals(CountryCode, LandingPageConstants.IndiaContryCode, StringComparison.OrdinalIgnoreCase)
+                && string.Equals(UserLang, LandingPageConstants.DefaultLanguageCode, StringComparison.OrdinalIgnoreCase);
+        }
+    }
 }

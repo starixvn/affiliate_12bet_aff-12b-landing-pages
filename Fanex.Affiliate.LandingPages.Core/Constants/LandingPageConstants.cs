@@ -26,7 +26,8 @@ public static class LandingPageConstants
     public const string DefaultFormCode = "F1";
     public const string DefaultLanguageCode = "en";
     public const string DefaultPath = "join";
-    
+    public const string IndiaContryCode = "IN";
+
     // URL schemes
     public const string HttpsScheme = "https";
     

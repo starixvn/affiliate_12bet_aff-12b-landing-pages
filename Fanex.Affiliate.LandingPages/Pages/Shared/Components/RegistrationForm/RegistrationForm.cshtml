@@ -2,6 +2,11 @@
 @using Fanex.Affiliate.LandingPages.Core.Resources
 @{
     var formConfig = Model.SignUpFormConfig!;
+    var submitText = UI.Form_Register;
+    if (Model.IsIndiaMarket)
+    {
+        submitText = "CREATE ACCOUNT";
+    }
 }
 
 <form id="register-form" class="register-form @formConfig.CssClass" method="post" autocomplete="off">
@@ -151,8 +156,8 @@
         </div>
 
         <!-- Submit Button -->
-        <button id="submit-btn" class="submit-btn" type="submit" aria-label="@UI.Form_Register">
-            <span>@UI.Form_Register</span>
+        <button id="submit-btn" class="submit-btn" type="submit" aria-label="@submitText">
+            <span>@submitText</span>
         </button>
 
         <!-- Terms and Conditions -->
