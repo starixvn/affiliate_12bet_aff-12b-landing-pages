@@ -10,7 +10,8 @@ public class RegisterForm
 {
     [Required(ErrorMessageResourceName = "Validation_UsernameRequired", ErrorMessageResourceType = typeof(UI))]
     [StringLength(18, MinimumLength = 6, ErrorMessageResourceName = "Validation_UsernameLengthRequired", ErrorMessageResourceType = typeof(UI))]
-    [Remote(action: "CheckExistsUsername", controller: "SignUp", AdditionalFields = nameof(UserLang),
+    [Remote(action: "CheckExistsUsername", controller: "SignUp", HttpMethod = "POST",
+        AdditionalFields = nameof(UserLang),
         ErrorMessageResourceName = "Validation_UsernameNoLongerAvailable", ErrorMessageResourceType = typeof(UI))]
     public string Username { get; set; } = string.Empty;
 
@@ -24,7 +25,8 @@ public class RegisterForm
     public string Password { get; set; } = string.Empty;
 
     [EmailAddress(ErrorMessageResourceName = "Validation_EmailFormat", ErrorMessageResourceType = typeof(UI))]
-    [Remote(action: "CheckExistsEmail", controller: "SignUp", AdditionalFields = nameof(UserLang), ErrorMessageResourceName = "Validation_EmailAlreadyExists", ErrorMessageResourceType = typeof(UI))]
+    [Remote(action: "CheckExistsEmail", controller: "SignUp", HttpMethod = "POST",
+        AdditionalFields = nameof(UserLang), ErrorMessageResourceName = "Validation_EmailAlreadyExists", ErrorMessageResourceType = typeof(UI))]
     public string? Email { get; set; }
 
     [Required(ErrorMessageResourceName = "Validation_PhoneRequired", ErrorMessageResourceType = typeof(UI))]
@@ -46,7 +48,8 @@ public class RegisterForm
     public string SignUpUrl { get; set; } = string.Empty;
     public string ReferralUrl { get; set; } = string.Empty;
 
-    [Remote(action: "CheckAffiliate", controller: "SignUp", AdditionalFields = nameof(UserLang),
+    [Remote(action: "CheckAffiliate", controller: "SignUp", HttpMethod = "POST", 
+        AdditionalFields = nameof(UserLang),
         ErrorMessageResourceName = "Validation_AffiliateNotFound", ErrorMessageResourceType = typeof(UI))]
     public string? AffCode { get; set; }
 

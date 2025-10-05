@@ -10,8 +10,8 @@ public class SignUpController(ISignUpService signUpService,
     IDomainSettingService domainSettingService,
     ILogService logService) : ControllerBase
 {
-    [HttpGet("GetNumberCaptcha")]
-    public async Task<IActionResult> GetNumberCaptcha(string userLang)
+    [HttpPost("GetNumberCaptcha")]
+    public async Task<IActionResult> GetNumberCaptcha([FromForm] string userLang)
     {
         try
         {
@@ -35,8 +35,8 @@ public class SignUpController(ISignUpService signUpService,
         }
     }
 
-    [HttpGet("ExistsEmail")]
-    public async Task<IActionResult> CheckExistsEmail(string email, string userLang)
+    [HttpPost("ExistsEmail")]
+    public async Task<IActionResult> CheckExistsEmail([FromForm] string email, [FromForm] string userLang)
     {
         try
         {
@@ -53,8 +53,8 @@ public class SignUpController(ISignUpService signUpService,
         }
     }
 
-    [HttpGet("AffiliateCheck")]
-    public async Task<IActionResult> CheckAffiliate(string affCode, string userLang)
+    [HttpPost("AffiliateCheck")]
+    public async Task<IActionResult> CheckAffiliate([FromForm] string affCode, [FromForm] string userLang)
     {
         try
         {
@@ -72,8 +72,8 @@ public class SignUpController(ISignUpService signUpService,
         }
     }
 
-    [HttpGet("ExistsUsername")]
-    public async Task<IActionResult> CheckExistsUsername(string username, string userLang)
+    [HttpPost("ExistsUsername")]
+    public async Task<IActionResult> CheckExistsUsername([FromForm] string username, [FromForm] string userLang)
     {
         try
         {

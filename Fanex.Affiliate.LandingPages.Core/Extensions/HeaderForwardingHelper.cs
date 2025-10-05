@@ -12,12 +12,6 @@ public static class HeaderForwardingHelper
         "x-forwarded-for",
         "x-forwarded-host",
         "x-client-ip",
-        "cloudfront-viewer-address",
-        "cdn-loop",
-        "cf-connecting-ip",
-        "cf-ipcountry",
-        "cf-ray",
-        "cf-visitor",
         "User-Agent",
         "x-assigned-client-ip"
     ];

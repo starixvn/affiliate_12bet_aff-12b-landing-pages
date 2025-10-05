@@ -124,7 +124,7 @@ function loadNumberCaptcha() {
     
     $.ajax({
         url: CAPTCHA_CONFIG.API_ENDPOINTS.NUMBER_CAPTCHA,
-        method: 'GET',
+        method: 'POST',
         dataType: 'json',
         timeout: 10000,
         data: {
