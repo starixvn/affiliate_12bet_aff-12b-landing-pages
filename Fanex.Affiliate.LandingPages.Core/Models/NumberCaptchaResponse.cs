@@ -18,10 +18,10 @@ public class NumberCaptchaExpire
     public NumberCaptchaExpire(NumberCaptchaData numberCaptchaData)
     {
         NumberCaptchaData = numberCaptchaData;
-        ExpireTime = DateTime.Now.AddSeconds(numberCaptchaData.Seconds);
+        ExpireTime = DateTimeOffset.Now.AddSeconds(numberCaptchaData.Seconds);
     }
 
     public NumberCaptchaData NumberCaptchaData { get; set; }
 
-    public DateTime ExpireTime { get; set; }
+    public DateTimeOffset ExpireTime { get; set; }
 }
