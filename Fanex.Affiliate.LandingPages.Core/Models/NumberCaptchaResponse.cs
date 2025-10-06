@@ -12,3 +12,16 @@ public class NumberCaptchaData
     public int Seconds { get; set; }
     public string Picture { get; set; } = string.Empty;
 }
+
+public class NumberCaptchaExpire
+{
+    public NumberCaptchaExpire(NumberCaptchaData numberCaptchaData)
+    {
+        NumberCaptchaData = numberCaptchaData;
+        ExpireTime = DateTime.Now.AddSeconds(numberCaptchaData.Seconds);
+    }
+
+    public NumberCaptchaData NumberCaptchaData { get; set; }
+
+    public DateTime ExpireTime { get; set; }
+}

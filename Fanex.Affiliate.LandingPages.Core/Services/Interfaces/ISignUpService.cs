@@ -8,6 +8,8 @@ public interface ISignUpService
 
     Task<NumberCaptchaResponse> GetNumberCaptchaAsync(string langCode);
 
+    Task SaveNumberCaptchaToCacheAsync(string clientIpAddress, NumberCaptchaData numberCaptcha);
+
     Task<ExistsEmailResponse> CheckExistsEmailAsync(string email, string langCode);
 
     Task<AffiliateCheckResponse> CheckAffiliateAsync(string affCode, string langCode);

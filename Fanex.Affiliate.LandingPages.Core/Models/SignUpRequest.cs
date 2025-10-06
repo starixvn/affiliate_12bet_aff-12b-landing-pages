@@ -4,7 +4,7 @@ public class SignUpRequest
 {
     public SignUp? SignUpData { get; set; }
 
-    public BaseResponse? SignUpResponeData { get; set; }
+    public SignUpResponse? SignUpResponeData { get; set; }
 
     public string IpAddress { get; set; } = string.Empty;
 

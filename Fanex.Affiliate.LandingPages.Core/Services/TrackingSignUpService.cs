@@ -55,7 +55,8 @@ public class TrackingSignUpService(IDynamicRepository dynamicRepository,
                 APIMessage = response.Message,
                 ApiUrl = signUpRequest.ApiUrl,
                 SignUpUrl = signUpRequest.SignUpUrl,
-                UserAgent = signUpRequest.UserAgent
+                UserAgent = signUpRequest.UserAgent,
+                ExtData = signUpRequest.SignUpResponeData.NumberCaptCha
             };
 
             await dynamicRepository.ExecuteAsync(command);

@@ -25,6 +25,8 @@ public class SignUpController(ISignUpService signUpService,
             }
             else
             {
+                var clientIp = domainSettingService.GetClientIpAddress(HttpContext);
+                await signUpService.SaveNumberCaptchaToCacheAsync(clientIp, result.Data);
                 logService.LogFileMessage($"GetNumberCaptcha success: {logMessage}");
             }
             return Ok(result);

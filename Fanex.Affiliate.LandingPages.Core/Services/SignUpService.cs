@@ -15,6 +15,7 @@ public class SignUpService(ILogService logService,
     IHttpClientFactory httpClientFactory) : ISignUpService
 {
     private const int cacheDurationInSeconds = 86400;
+    private const int cacheDurationNumberCaptCha = 300;
 
     public async Task<RecaptchaInfo> GetRecaptchaInfoAsync(string langCode, string domain)
     {
@@ -89,6 +90,21 @@ public class SignUpService(ILogService logService,
                 Data = new NumberCaptchaData()
             };
         }
+    }
+
+    public async Task SaveNumberCaptchaToCacheAsync(string clientIpAddress, NumberCaptchaData numberCaptcha)
+    {
+        var expirationTime = TimeSpan.FromSeconds(cacheDurationNumberCaptCha);
+        var numberCaptchaKey = $"{cacheKeyService.GetNumberCaptchaKey()}:{clientIpAddress}";
+        var numberCaptChaData = new NumberCaptchaExpire(numberCaptcha);
+        await redisService.SetAsync(numberCaptchaKey, numberCaptChaData, expirationTime);
+    }
+
+    private async Task<NumberCaptchaExpire> GetNumberCaptchaFromCacheAsync(string clientIpAddress)
+    {
+        var numberCaptchaKey = $"{cacheKeyService.GetNumberCaptchaKey()}:{clientIpAddress}";
+        var captCha = await redisService.GetAsync<NumberCaptchaExpire>(numberCaptchaKey);
+        return captCha!;
     }
 
     public async Task<ExistsEmailResponse> CheckExistsEmailAsync(string email, string langCode)
@@ -251,9 +267,7 @@ public class SignUpService(ILogService logService,
             }
             else
             {
-                signUpRequest.UserPwd = string.Empty;
-                var logContent = JsonSerializer.Serialize(signUpRequest);
-                await logService.SentryErrorAsync($"Sign-up error from API: { result.ErrorCode } - {result.Message}: \n{logContent}");
+                await WriteLogAPIError(result, signUpRequest, registerForm);
             }
         }
         catch (HttpRequestException ex)
@@ -268,6 +282,27 @@ public class SignUpService(ILogService logService,
         }
 
         return (result, signUpRequest);
+    }
+
+    private async Task WriteLogAPIError(SignUpResponse result, SignUp signUpRequest, RegisterForm registerForm)
+    {
+        signUpRequest.UserPwd = string.Empty;
+        const int errorFailVerify = 1112;
+        if (result.ErrorCode == errorFailVerify)
+        {
+            var captCha = await GetNumberCaptchaFromCacheAsync(registerForm.IpAddress);
+            result.NumberCaptCha = captCha.NumberCaptchaData.Picture;
+            var logMessage = $"Sign-up error from API: {result.ErrorCode} - {result.Message}:" +
+                $" \nSignUpData: {JsonSerializer.Serialize(signUpRequest)} " +
+                $"\nNumberCaptcha:{JsonSerializer.Serialize(captCha)}";
+            await logService.SentryErrorAsync(logMessage);
+            logService.LogFileMessage(logMessage);
+        }
+        else
+        {
+            var logContent = JsonSerializer.Serialize(signUpRequest);
+            await logService.SentryErrorAsync($"Sign-up error from API: {result.ErrorCode} - {result.Message}: \n{logContent}");
+        }
     }
 
     private SignUpResponse GetSignUpHttpRequestException(HttpRequestException ex)

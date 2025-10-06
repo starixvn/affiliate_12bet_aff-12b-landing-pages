@@ -41,5 +41,10 @@ public class CacheKeyService : ICacheKeyService
     {
         return $"{applicationName}:{CacheKey.UnderMaintainInfo}";
     }
+
+    public string GetNumberCaptchaKey()
+    {
+        return $"{applicationName}:{CacheKey.NumberCaptcha}";
+    }
 }
 

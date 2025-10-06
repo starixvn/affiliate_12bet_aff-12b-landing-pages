@@ -9,5 +9,7 @@ public interface ICacheKeyService
     string GetRecaptchaInfoKey(string langCode, string domain);
 
     string GetUnderMaintainInfoKey();
+
+    string GetNumberCaptchaKey();
 }
 
