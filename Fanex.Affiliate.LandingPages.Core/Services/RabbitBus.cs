@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
-public class RabbitBus(ILogService logService) : IRabbitBus
+public class RabbitBus(ILogProvider logService) : IRabbitBus
 {
     private IAdvancedBus? advancedBus;
     private Exchange? exchange;
@@ -41,8 +41,6 @@ public class RabbitBus(ILogService logService) : IRabbitBus
                        ).ConfigureAwait(false);
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
                     result = true;
-
-                    logService.LogFileMessage($"Published model {JsonConvert.SerializeObject(model)} successfully!");
                 }
             }
             catch (Exception ex)

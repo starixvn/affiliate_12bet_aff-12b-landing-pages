@@ -9,7 +9,7 @@ public class TrackingSignUpService(IDynamicRepository dynamicRepository,
         IRabbitBus rabbitBus,
         IRedisService redisService,
         ICacheKeyService cacheKeyService,
-        ILogService logService) : ITrackingSignUpService
+        ILogProvider logService) : ITrackingSignUpService
 {
     public async Task WriteLogSignUp(SignUpRequest signUpRequest)
     {

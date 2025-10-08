@@ -6,7 +6,7 @@ using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
-public class UnderMaintenanceService(ILogService logService, 
+public class UnderMaintenanceService(ILogProvider logService, 
     IDomainSettingService memberSiteConfigService,
     IRedisService redisService,
     ICacheKeyService cacheKeyService,

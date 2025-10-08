@@ -18,8 +18,18 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using ONEbook.UM.DependencyInjection;
 using SharpRaven;
 using StackExchange.Redis;
+using Serilog;
+using Serilog.Sinks.Network;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfiguration) =>
+{
+    loggerConfiguration.ReadFrom.Configuration(context.Configuration);
+    var logEndpoint = context.Configuration["Serilog:WriteTo:2:Args:serverUri"];
+    loggerConfiguration.WriteTo.TCPSink(logEndpoint, new Serilog.Formatting.Json.JsonFormatter());
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages().AddViewLocalization()
@@ -34,7 +44,8 @@ builder.Services.AddProxyHttpClient(Settings.UseProxy, builder.Configuration);
 builder.Services.AddSingleton<IDynamicRepository, DynamicRepository>();
 builder.Services.AddScoped<ISignUpService, SignUpService>();
 builder.Services.AddScoped<ILandingPageService, LandingPageService>();
-builder.Services.AddSingleton<ILogService, Fanex.Affiliate.LandingPages.Core.Services.LogService>();
+builder.Services.AddScoped<IHttpService, HttpService>();
+builder.Services.AddSingleton<ILogProvider, Fanex.Affiliate.LandingPages.Core.Services.LogProvider>();
 builder.Services.AddSingleton<Fanex.Logging.ILogger, Logger>();
 
 // Configure MemberSite options from appsettings.json
@@ -157,4 +168,15 @@ app.MapRazorPages()
 
 app.MapControllers();
 
-await app.RunAsync();
+try
+{
+    await app.RunAsync();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

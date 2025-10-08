@@ -1,6 +1,6 @@
 ﻿namespace Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
-public interface ILogService
+public interface ILogProvider
 {
     Task SentryErrorAsync(string errMsg, Exception exception);
 

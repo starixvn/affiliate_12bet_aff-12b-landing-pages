@@ -4,7 +4,7 @@ namespace Fanex.Affiliate.LandingPages.Consumer;
 
 public sealed class SyncUnderMaintenanceInfoToCacheWorker(
     IUnderMaintenanceService underMaintenanceService,
-    ILogService logService) : BackgroundService
+    ILogProvider logService) : BackgroundService
 {
     private const int JobDelayMinute = 1;
     private const int InitialDelayMilliseconds = 10;

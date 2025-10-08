@@ -26,7 +26,8 @@ const CAPTCHA_CONFIG = {
         RECAPTCHA_TOKEN: '#ReCaptchaToken',
         NUMBER_CAPTCHA: '#numberCapcha',
         TURNSTILE_WIDGET: '#turnstile_widget',
-        LANGUAGE_CODE: '#UserLang'
+        LANGUAGE_CODE: '#UserLang',
+        ISSUCCESSFUL: "#IsSuccessful",
     }
 };
 
@@ -45,7 +46,7 @@ function initializeCaptcha() {
 
     try {
         const captchaType = getCaptchaType();
-        
+
         if (captchaType === CAPTCHA_CONFIG.CAPTCHA_TYPES.NUMBER) {
             loadNumberCaptcha();
         }
@@ -117,26 +118,31 @@ function bindEvents() {
  * @private
  */
 function loadNumberCaptcha() {
-    clearRefreshTimeout();
-    
-    // Get language code from form
-    const langCode = getLanguageCode();
-    
-    $.ajax({
-        url: CAPTCHA_CONFIG.API_ENDPOINTS.NUMBER_CAPTCHA,
-        method: 'POST',
-        dataType: 'json',
-        timeout: 10000,
-        data: {
-            'userLang': langCode
-        }
-    })
-    .done(function(response) {
-        handleNumberCaptchaSuccess(response);
-    })
-    .fail(function(xhr, status, error) {
-        handleNumberCaptchaError(xhr, status, error);
-    });
+    const $isSuccessfulElement = $(CAPTCHA_CONFIG.SELECTORS.ISSUCCESSFUL);
+    const isSuccessfulValue = $isSuccessfulElement.val();
+    if (isSuccessfulValue !== "true") {
+
+        clearRefreshTimeout();
+
+        // Get language code from form
+        const langCode = getLanguageCode();
+
+        $.ajax({
+            url: CAPTCHA_CONFIG.API_ENDPOINTS.NUMBER_CAPTCHA,
+            method: 'POST',
+            dataType: 'json',
+            timeout: 10000,
+            data: {
+                'userLang': langCode
+            }
+        })
+            .done(function (response) {
+                handleNumberCaptchaSuccess(response);
+            })
+            .fail(function (xhr, status, error) {
+                handleNumberCaptchaError(xhr, status, error);
+            });
+    }
 }
 
 /**

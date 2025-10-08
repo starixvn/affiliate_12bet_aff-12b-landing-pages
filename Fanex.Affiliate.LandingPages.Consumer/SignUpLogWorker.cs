@@ -12,7 +12,7 @@ public sealed class SignUpLogWorker(
     IBus bus,
     IMaintenanceService maintenanceService,
     ITrackingSignUpService trackingSignUpService,
-    ILogService logService) : BackgroundService
+    ILogProvider logService) : BackgroundService
 {
     private IDisposable? consumerHandle;
     private bool isUnderMaintenance;

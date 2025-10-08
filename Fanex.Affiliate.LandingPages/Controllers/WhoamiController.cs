@@ -5,7 +5,7 @@ using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-public class WhoamiController(ILogService logService) : Controller
+public class WhoamiController(ILogProvider logService) : Controller
 {
     [Route("healthz")]
     [AllowAnonymous]

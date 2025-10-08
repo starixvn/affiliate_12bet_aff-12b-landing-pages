@@ -6,7 +6,7 @@ namespace Fanex.Affiliate.LandingPages.Workers;
 
 public class RabbitMqBusHostedService : BackgroundService
 {
-    private readonly ILogService logService;
+    private readonly ILogProvider logService;
     private readonly IConfiguration configuration;
 
     private IBus? bus;
@@ -15,7 +15,7 @@ public class RabbitMqBusHostedService : BackgroundService
     private bool isConnected;
 
     public RabbitMqBusHostedService(
-        ILogService logService,
+        ILogProvider logService,
         IConfiguration configuration,
       IRabbitBus rabbitBus)
     {

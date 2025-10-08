@@ -8,7 +8,7 @@ namespace Fanex.Affiliate.LandingPages.Controllers;
 [Route("api/[controller]")]
 public class SignUpController(ISignUpService signUpService, 
     IDomainSettingService domainSettingService,
-    ILogService logService) : ControllerBase
+    ILogProvider logService) : ControllerBase
 {
     [HttpPost("GetNumberCaptcha")]
     public async Task<IActionResult> GetNumberCaptcha([FromForm] string userLang)
@@ -16,18 +16,16 @@ public class SignUpController(ISignUpService signUpService,
         try
         {
             var result = await signUpService.GetNumberCaptchaAsync(userLang);
-            var logMessage = GetLogMessage(HttpContext);
             if (string.IsNullOrWhiteSpace(result?.Data?.Picture))
             {
+                var logMessage = GetLogMessage(HttpContext);
                 var logErrorMeassage = $"GetNumberCaptcha error: {logMessage}";
                 await logService.SentryInfoAsync(logErrorMeassage);
-                logService.LogFileMessage(logErrorMeassage);
             }
             else
             {
                 var clientIp = domainSettingService.GetClientIpAddress(HttpContext);
                 await signUpService.SaveNumberCaptchaToCacheAsync(clientIp, result.Data);
-                logService.LogFileMessage($"GetNumberCaptcha success: {logMessage}");
             }
             return Ok(result);
         }

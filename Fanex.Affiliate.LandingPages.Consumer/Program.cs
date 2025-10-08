@@ -14,10 +14,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using ONEbook.UM.DependencyInjection;
 using ONEbook.UM.Services;
+using Serilog;
+using Serilog.Sinks.Network;
 using SharpRaven;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfiguration) =>
+{
+    loggerConfiguration.ReadFrom.Configuration(context.Configuration);
+    var logEndpoint = context.Configuration["Serilog:WriteTo:2:Args:serverUri"];
+    loggerConfiguration.WriteTo.TCPSink(logEndpoint, new Serilog.Formatting.Json.JsonFormatter());
+});
 
 RegisterWorker(builder);
 
@@ -42,7 +51,7 @@ builder.Services.AddSingleton<IRedisService, RedisService>();
 builder.Services.AddSingleton<ICacheKeyService, CacheKeyService>();
 builder.Services.AddSingleton<ILandingPageService, LandingPageService>();
 builder.Services.AddSingleton<Fanex.Logging.ILogger, Fanex.Logging.Logger>();
-builder.Services.AddSingleton<ILogService, Fanex.Affiliate.LandingPages.Core.Services.LogService>();
+builder.Services.AddSingleton<ILogProvider, Fanex.Affiliate.LandingPages.Core.Services.LogProvider>();
 builder.Services.AddSingleton<IRabbitBus, Fanex.Affiliate.LandingPages.Core.Services.RabbitBus>();
 builder.Services.Configure<DomainSettings>(builder.Configuration.GetSection("DomainSettings"));
 builder.Services.AddProxyWithForwardHeadersHttpClient(Settings.UseProxyWithForwardHeaders, builder.Configuration);
@@ -68,9 +77,9 @@ DbSettingProviderManager
     .StartNewSession()
     .Register(builder.Configuration)
     .Run();
-
 var host = builder.Build();
 
+host.UseSerilogRequestLogging();
 RouteToAction(host);
 
 host.Run();
@@ -80,7 +89,7 @@ static void RouteToAction(WebApplication host)
     host.MapGet("/", () => "Affiliate.Link.Consumer running!");
     host.MapGet("/sentry", async () =>
     {
-        var logService = host.Services.GetRequiredService<ILogService>();
+        var logService = host.Services.GetRequiredService<ILogProvider>();
         await logService.SentryErrorAsync("Landing Page Consumer Test Sentry");
         return "Landing Page Consumer Test sentry!";
     });

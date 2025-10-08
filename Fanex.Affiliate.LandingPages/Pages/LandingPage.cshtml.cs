@@ -17,7 +17,7 @@ public class LandingPageModel(
     ILandingPageService landingPageService,
     ISignUpService signUpService,
     IDomainSettingService domainSettingService,
-    ILogService logService) : PageModel
+    ILogProvider logService) : PageModel
 {
     #region Properties
 

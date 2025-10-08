@@ -1,18 +1,17 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
-using Fanex.Affiliate.LandingPages.Core.Constants;
 using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Resources;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
 
-public class SignUpService(ILogService logService, 
+public class SignUpService(ILogProvider logService, 
     IDomainSettingService memberSiteConfigService,
     ITrackingSignUpService trackingSignUpService,
+    IHttpService httpService,
     IRedisService redisService,
-    ICacheKeyService cacheKeyService,
-    IHttpClientFactory httpClientFactory) : ISignUpService
+    ICacheKeyService cacheKeyService) : ISignUpService
 {
     private const int cacheDurationInSeconds = 86400;
     private const int cacheDurationNumberCaptCha = 300;
@@ -35,21 +34,9 @@ public class SignUpService(ILogService logService,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetRecaptchaInfo}/{langCode}";
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            request.Headers.Add("accept", "text/plain");
-
-            var response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var jsonContent = await response.Content.ReadAsStringAsync();
-            var recaptchaInfo = JsonSerializer.Deserialize<RecaptchaInfo>(jsonContent, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return recaptchaInfo ?? new RecaptchaInfo();
+            var (result, _) = await httpService.PostAsync<RecaptchaInfo>(requestUrl, string.Empty);
+            return result ?? new RecaptchaInfo();
         }
         catch (Exception ex)
         {
@@ -62,21 +49,10 @@ public class SignUpService(ILogService logService,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
+            const string action = "signup";
             var requestUrl = $"{memberSiteConfigService.GetAPIHost()}{ApiPath.GetNumberCaptcha}/{langCode}";
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
-            {
-                Content = new StringContent("{\"action\":\"signup\"}", System.Text.Encoding.UTF8, "application/json")
-            };
-
-            var response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<NumberCaptchaResponse>(content, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            var bodyContent = JsonSerializer.Serialize(new { action });
+            var (result, _) = await httpService.PostAsync<NumberCaptchaResponse>(requestUrl, bodyContent);
             return result ?? new NumberCaptchaResponse
             {
                 Data = new NumberCaptchaData()
@@ -111,27 +87,10 @@ public class SignUpService(ILogService logService,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.ExistsEmail}/{langCode}";
-
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(new { email }),
-                    System.Text.Encoding.UTF8,
-                    "application/json")
-            };
-
-            var response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<ExistsEmailResponse>(content, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
+            var bodyContent = JsonSerializer.Serialize(new { email });
+            var (result, _) = await httpService.PostAsync<ExistsEmailResponse>(requestUrl, bodyContent); 
             return result ?? new ExistsEmailResponse();
         }
         catch (Exception ex)
@@ -145,26 +104,10 @@ public class SignUpService(ILogService logService,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.AffiliateCheck}/{langCode}";
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(new { affCode }),
-                    System.Text.Encoding.UTF8,
-                    "application/json")
-            };
-
-            var response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<AffiliateCheckResponse>(content, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
+            var bodyContent = JsonSerializer.Serialize(new { affCode });
+            var (result, _) = await httpService.PostAsync<AffiliateCheckResponse>(requestUrl, bodyContent);
             return result ?? new AffiliateCheckResponse();
         }
         catch (Exception ex)
@@ -178,27 +121,10 @@ public class SignUpService(ILogService logService,
     {
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
             var apiHost = memberSiteConfigService.GetAPIHost();
             var requestUrl = $"{apiHost}{ApiPath.ExistsUserName}/{langCode}";
-
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl)
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(new { username }),
-                    System.Text.Encoding.UTF8,
-                    "application/json")
-            };
-
-            var response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<ExistsUserNameResponse>(content, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
+            var bodyContent = JsonSerializer.Serialize(new { username });
+            var (result, _) = await httpService.PostAsync<ExistsUserNameResponse>(requestUrl, bodyContent);
             return result ?? new ExistsUserNameResponse();
         }
         catch (Exception ex)
@@ -238,27 +164,14 @@ public class SignUpService(ILogService logService,
 
     private async Task<(SignUpResponse, SignUp)> ProcessSignUpAPI(RegisterForm registerForm)
     {
-        SignUpResponse result;
+        SignUpResponse? result;
         var signUpRequest = GetSignUpRequest(registerForm);
         try
         {
-            using var httpClient = httpClientFactory.CreateClient(Settings.UseProxyWithForwardHeaders);
-            var request = new HttpRequestMessage(HttpMethod.Post, registerForm.ApiUrl)
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(signUpRequest),
-                    System.Text.Encoding.UTF8,
-                    "application/json")
-            };
-
-            var response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            
-            var content = await response.Content.ReadAsStringAsync();
-            result = JsonSerializer.Deserialize<SignUpResponse>(content, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            }) ?? GetSignUpErrorResponse();
+            var bodyContent = JsonSerializer.Serialize(signUpRequest);
+            var response = new HttpResponseMessage();
+            (result, response) = await httpService.PostAsync<SignUpResponse>(registerForm.ApiUrl, bodyContent);
+            result ??= GetSignUpErrorResponse();
 
             if (result.ErrorCode == 0)
             {
@@ -286,22 +199,31 @@ public class SignUpService(ILogService logService,
 
     private async Task WriteLogAPIError(SignUpResponse result, SignUp signUpRequest, RegisterForm registerForm)
     {
+        // Sanitize sensitive data before logging
         signUpRequest.UserPwd = string.Empty;
+        signUpRequest.ReCaptchaToken = string.Empty;
+        
         const int errorFailVerify = 1112;
         if (result.ErrorCode == errorFailVerify)
         {
             var captCha = await GetNumberCaptchaFromCacheAsync(registerForm.IpAddress);
             result.NumberCaptCha = captCha.NumberCaptchaData.Picture;
+            
+            // Sanitize the signUpRequest data before logging
+            var sanitizedSignUpData = SensitiveDataSanitizer.SanitizeJsonContent(JsonSerializer.Serialize(signUpRequest));
+            var sanitizedCaptchaData = SensitiveDataSanitizer.SanitizeJsonContent(JsonSerializer.Serialize(captCha));
+            
             var logMessage = $"Sign-up error from API: {result.ErrorCode} - {result.Message}:" +
-                $" \nSignUpData: {JsonSerializer.Serialize(signUpRequest)} " +
-                $"\nNumberCaptcha:{JsonSerializer.Serialize(captCha)}";
+                $" \nSignUpData: {sanitizedSignUpData} " +
+                $"\nNumberCaptcha:{sanitizedCaptchaData}";
             await logService.SentryErrorAsync(logMessage);
             logService.LogFileMessage(logMessage);
         }
         else
         {
-            var logContent = JsonSerializer.Serialize(signUpRequest);
-            await logService.SentryErrorAsync($"Sign-up error from API: {result.ErrorCode} - {result.Message}: \n{logContent}");
+            // Sanitize the signUpRequest data before logging
+            var sanitizedLogContent = SensitiveDataSanitizer.SanitizeJsonContent(JsonSerializer.Serialize(signUpRequest));
+            await logService.SentryErrorAsync($"Sign-up error from API: {result.ErrorCode} - {result.Message}: \n{sanitizedLogContent}");
         }
     }
 

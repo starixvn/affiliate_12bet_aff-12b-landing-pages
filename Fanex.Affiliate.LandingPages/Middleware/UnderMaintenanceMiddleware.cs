@@ -6,7 +6,7 @@ namespace Fanex.Affiliate.LandingPages.Middleware;
 public class UnderMaintenanceMiddleware(RequestDelegate next,
     IDomainSettingService domainSettingService,
     IUnderMaintenanceService underMaintainService,
-    ILogService logService)
+    ILogProvider logService)
 {
     public async Task InvokeAsync(HttpContext context)
     {

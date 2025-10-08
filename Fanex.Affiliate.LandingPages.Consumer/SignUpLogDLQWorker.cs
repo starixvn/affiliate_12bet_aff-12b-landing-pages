@@ -13,7 +13,7 @@ public sealed class SignUpLogDLQWorker(
     IMaintenanceService maintenanceService,
     ITrackingSignUpService trackingSignUpService,
     IRedisService redisService,
-    ILogService logService) : BackgroundService
+    ILogProvider logService) : BackgroundService
 {
     private IDisposable? consumerHandle;
     private bool isTurnOffConsumer;

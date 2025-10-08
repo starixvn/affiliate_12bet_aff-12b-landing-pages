@@ -9,7 +9,7 @@ public sealed class SignUpLogRedisStorageWorker(
     ITrackingSignUpService trackingSignUpService,
     IRedisService redisService,
     ICacheKeyService cacheKeyService,
-    ILogService logService) : BackgroundService
+    ILogProvider logService) : BackgroundService
 {
     private const int JobDelayMinute = 1;
     private const int InitialDelayMilliseconds = 10;
