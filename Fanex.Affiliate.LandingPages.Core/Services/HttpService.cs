@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using Fanex.Affiliate.LandingPages.Core.Constants;
+using Fanex.Affiliate.LandingPages.Core.Models;
 using Fanex.Affiliate.LandingPages.Core.Services.Interfaces;
 
 namespace Fanex.Affiliate.LandingPages.Core.Services;
@@ -39,56 +40,91 @@ public class HttpService(IHttpClientFactory httpClientFactory, ILogProvider logP
 
     private async Task WriteLogRequest(HttpRequestMessage request, HttpResponseMessage? response)
     {
-        var requestInfo = new StringBuilder();
-        requestInfo.AppendLine($"[HTTP REQUEST] {request.Method} {request.RequestUri}");
-        
-        // Sanitize request headers
-        foreach (var header in request.Headers)
+        // Create dictionary for structured logging properties
+        var logProperties = new Dictionary<string, object>
+        {
+            ["HttpMethod"] = request.Method.ToString(),
+            ["RequestUri"] = request.RequestUri?.ToString() ?? string.Empty,
+            ["RequestHeaders"] = SanitizeHeaders(request.Headers),
+            ["RequestContentHeaders"] = new Dictionary<string, string>(),
+            ["ResponseStatusCode"] = response?.StatusCode.ToString() ?? "N/A",
+            ["ResponseReasonPhrase"] = response?.ReasonPhrase ?? "N/A",
+            ["ResponseHeaders"] = new Dictionary<string, string>(),
+            ["ResponseContentHeaders"] = new Dictionary<string, string>()
+        };
+
+        await ProcessRequestContent(request, logProperties);
+        await ProcessResponse(response, logProperties);
+
+        // Use structured logging with properties
+        logProvider.LogFileMessageWithProperties("HTTP Request/Response completed", logProperties);
+    }
+
+    private static Dictionary<string, string> SanitizeHeaders(IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers)
+    {
+        var sanitizedHeaders = new Dictionary<string, string>();
+        foreach (var header in headers)
         {
             var sanitizedValue = SensitiveDataSanitizer.SanitizeHeaderValue(header.Key, string.Join(", ", header.Value));
-            requestInfo.AppendLine($"{header.Key}: {sanitizedValue}");
+            sanitizedHeaders[header.Key] = sanitizedValue;
         }
+        return sanitizedHeaders;
+    }
 
-        if (request.Content != null)
+    private async Task ProcessRequestContent(HttpRequestMessage request, Dictionary<string, object> logProperties)
+    {
+        if (request.Content == null)
         {
-            // Sanitize content headers
-            foreach (var header in request.Content.Headers)
-            {
-                var sanitizedValue = SensitiveDataSanitizer.SanitizeHeaderValue(header.Key, string.Join(", ", header.Value));
-                requestInfo.AppendLine($"{header.Key}: {sanitizedValue}");
-            }
-
-            var requestBody = await request.Content.ReadAsStringAsync();
-            var sanitizedRequestBody = SensitiveDataSanitizer.SanitizeJsonContent(requestBody);
-            requestInfo.AppendLine($"Body: {sanitizedRequestBody}");
+            return;
         }
-        
-        if (response is not null)
+
+        var requestContentHeaders = (Dictionary<string, string>)logProperties["RequestContentHeaders"];
+        foreach (var header in request.Content.Headers)
         {
-            requestInfo.AppendLine($"[HTTP RESPONSE] {(int)response.StatusCode} {response.ReasonPhrase}");
-
-            // Sanitize response headers
-            foreach (var header in response.Headers)
-            {
-                var sanitizedValue = SensitiveDataSanitizer.SanitizeHeaderValue(header.Key, string.Join(", ", header.Value));
-                requestInfo.AppendLine($"{header.Key}: {sanitizedValue}");
-            }
-
-            if (response.Content != null)
-            {
-                // Sanitize content headers
-                foreach (var header in response.Content.Headers)
-                {
-                    var sanitizedValue = SensitiveDataSanitizer.SanitizeHeaderValue(header.Key, string.Join(", ", header.Value));
-                    requestInfo.AppendLine($"{header.Key}: {sanitizedValue}");
-                }
-
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var sanitizedResponseBody = SensitiveDataSanitizer.SanitizeJsonContent(responseBody);
-                requestInfo.AppendLine($"Response Body: {sanitizedResponseBody}");
-            }
+            var sanitizedValue = SensitiveDataSanitizer.SanitizeHeaderValue(header.Key, string.Join(", ", header.Value));
+            requestContentHeaders[header.Key] = sanitizedValue;
         }
 
-        logProvider.LogFileMessage(requestInfo.ToString());
+        var requestBody = await request.Content.ReadAsStringAsync();
+        var sanitizedRequestBody = SensitiveDataSanitizer.SanitizeJsonContent(requestBody);
+        logProperties["RequestBody"] = sanitizedRequestBody;
+    }
+
+    private async Task ProcessResponse(HttpResponseMessage? response, Dictionary<string, object> logProperties)
+    {
+        if (response == null)
+        {
+            return;
+        }
+
+        var responseHeaders = (Dictionary<string, string>)logProperties["ResponseHeaders"];
+        foreach (var header in response.Headers)
+        {
+            var sanitizedValue = SensitiveDataSanitizer.SanitizeHeaderValue(header.Key, string.Join(", ", header.Value));
+            responseHeaders[header.Key] = sanitizedValue;
+        }
+
+        if (response.Content == null)
+        {
+            return;
+        }
+
+        var responseContentHeaders = (Dictionary<string, string>)logProperties["ResponseContentHeaders"];
+        foreach (var header in response.Content.Headers)
+        {
+            var sanitizedValue = SensitiveDataSanitizer.SanitizeHeaderValue(header.Key, string.Join(", ", header.Value));
+            responseContentHeaders[header.Key] = sanitizedValue;
+        }
+
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var sanitizedResponseBody = SensitiveDataSanitizer.SanitizeJsonContent(responseBody);
+        logProperties["ResponseBody"] = sanitizedResponseBody;
+
+        var result = JsonSerializer.Deserialize<BaseResponse>(responseBody, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+
+        logProperties["ErrCode"] = result?.ErrorCode ?? 0;
     }
 }

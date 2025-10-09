@@ -16,10 +16,9 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ONEbook.UM.DependencyInjection;
+using Serilog;
 using SharpRaven;
 using StackExchange.Redis;
-using Serilog;
-using Serilog.Sinks.Network;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,8 +26,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
     loggerConfiguration.ReadFrom.Configuration(context.Configuration);
-    var logEndpoint = context.Configuration["Serilog:WriteTo:2:Args:serverUri"];
-    loggerConfiguration.WriteTo.TCPSink(logEndpoint, new Serilog.Formatting.Json.JsonFormatter());
 });
 
 // Add services to the container.

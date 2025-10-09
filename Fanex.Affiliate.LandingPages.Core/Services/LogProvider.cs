@@ -15,6 +15,11 @@ public class LogProvider(Logging.ILogger logger) : ILogProvider
         Log.Information(message);
     }
 
+    public void LogFileMessageWithProperties(string message, Dictionary<string, object> properties)
+    {
+        Log.Information("{Message} {@Properties}", message, properties);
+    }
+
     public async Task SentryErrorAsync(string errMsg, Exception exception)
     {
         await logger.ErrorAsync(errMsg, exception);

@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Http;
 using ONEbook.UM.DependencyInjection;
 using ONEbook.UM.Services;
 using Serilog;
-using Serilog.Sinks.Network;
 using SharpRaven;
 using StackExchange.Redis;
 
@@ -24,8 +23,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
     loggerConfiguration.ReadFrom.Configuration(context.Configuration);
-    var logEndpoint = context.Configuration["Serilog:WriteTo:2:Args:serverUri"];
-    loggerConfiguration.WriteTo.TCPSink(logEndpoint, new Serilog.Formatting.Json.JsonFormatter());
 });
 
 RegisterWorker(builder);
