@@ -87,7 +87,6 @@ public sealed class SignUpLogWorker(
 
             try
             {
-                logService.LogFileMessage($"[Consumer] Processing: {message.Body.ToString()}");
                 var result = await trackingSignUpService.WriteLogSignUpToDatabase(message.Body);
                 if (!result.IsSuccessful)
                 {
@@ -174,7 +173,7 @@ public sealed class SignUpLogWorker(
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            logService.LogFileMessage($"Worker running at: {DateTimeOffset.Now}");
+            logService.LogFileMessage($"SignUpLogWorker running at: {DateTimeOffset.Now}");
 
             CheckMaintenanceMode();
 

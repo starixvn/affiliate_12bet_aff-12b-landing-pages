@@ -38,9 +38,7 @@ public sealed class SyncUnderMaintenanceInfoToCacheWorker(
         while (!stoppingToken.IsCancellationRequested)
         {
             logService.LogFileMessage($"SyncUnderMaintenanceInfoToCacheWorker running at: {DateTimeOffset.Now}");
-
             await SyncUnderMaintenanceInfo();
-
             await Task.Delay(TimeSpan.FromMinutes(JobDelayMinute), stoppingToken).ConfigureAwait(false);
         }
     }

@@ -33,17 +33,17 @@ public class RabbitMqBusHostedService : BackgroundService
         }
 
         bus = RabbitHutch.CreateBus(connStr);
-        bus.Advanced.Connected += (_, _) =>
-        {
-            logService.LogFileMessage("RabbitMQ connected.");
-        };
+       
         bus.Advanced.Disconnected += async (_, _) =>
         {
+            isConnected = false; // Reset connection state
             await TryConnectToRabbitMqAsync(stoppingToken);
             logService.LogFileMessage("RabbitMQ disconnected.");
         };
 
         await TryConnectToRabbitMqAsync(stoppingToken);
+        logService.LogFileMessage("RabbitMQ connected and ready.");
+
     }
 
     public override void Dispose()
