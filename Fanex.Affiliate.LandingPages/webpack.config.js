@@ -55,8 +55,17 @@ module.exports = (env, argv) => {
       usedExports: true,
       sideEffects: false,
     },
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
+      ],
+    },
     resolve: {
-      extensions: ['.js'],
+      extensions: ['.tsx', '.ts', '.js'],
       // Add alias for better tree shaking
       alias: {
         'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
