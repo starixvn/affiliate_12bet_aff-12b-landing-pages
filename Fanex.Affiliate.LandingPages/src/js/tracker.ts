@@ -1,5 +1,6 @@
 import { MetaPixelTracker } from './metaPixel'
 import { YuriTracker } from './yuri'
+import { AdjustTracker } from './adjust'
 import { OperaPixelTracker, BaseTrackerEvent } from './operaPixel'
 
 // Type definitions
@@ -69,6 +70,14 @@ export const tracking = (trackerParams: TTrackerParams): void => {
 			MetaPixelTracker(name, currency, amount, eventValue);
 		} catch (error) {
 			// MetaPixelTracker error
+		}
+
+		try {
+			AdjustTracker(name, currency, amount, {
+				eventID: eventValue,
+			});
+		} catch (error) {
+			// AdjustTracker error
 		}
 
 		try {
