@@ -34,7 +34,6 @@ public sealed class SignUpLogDLQWorker(
             isTurnOffConsumer = true;
             consumerHandle?.Dispose();
             consumerHandle = null;
-            logService.LogFileMessage("Maintenance mode enabled – message processing paused.");
         }
     }
 
@@ -91,7 +90,6 @@ public sealed class SignUpLogDLQWorker(
 
             try
             {
-                logService.LogFileMessage($"[Consumer] Processing: {message.Body.ToString()}");
                 var result = await trackingSignUpService.WriteLogSignUpToDatabase(message.Body);
                 if (!result.IsSuccessful)
                 {
@@ -129,8 +127,6 @@ public sealed class SignUpLogDLQWorker(
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            logService.LogFileMessage($"Worker running at: {DateTimeOffset.Now}");
-
             await CheckConsumerMode();
 
             await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken).ConfigureAwait(false);

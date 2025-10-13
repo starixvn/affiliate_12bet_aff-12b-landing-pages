@@ -24,8 +24,17 @@ public class WhoamiController(ILogProvider logService) : Controller
 
     [Route("/")]
     [AllowAnonymous]
-    public async Task<IActionResult> Home()
+    public IActionResult Home()
     {
         return Ok("Landing Pages...");
+    }
+
+    [Route("robots.txt")]
+    [AllowAnonymous]
+    public IActionResult RobotsTxt()
+    {
+        const string content = @"User-agent: *
+Allow: /";
+        return Content(content, "text/plain");
     }
 }

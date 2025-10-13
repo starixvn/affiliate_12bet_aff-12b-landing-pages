@@ -11,7 +11,8 @@ import 'jquery-validation-unobtrusive';
 import { parsePhoneNumberFromString } from 'libphonenumber-js/core';
 import metadata from 'libphonenumber-js/metadata.mobile.json';
 import './capcha.js';
-import './metaPixel.js';
+import { tracking } from './tracker';
+
 // Constants
 const SITE_CONFIG = {
     SELECTORS: {
@@ -141,13 +142,13 @@ function setupPhoneValidation() {
 }
 
 function handleSubmitSuccess() {
-    MetaPixel.checkStatus();
+    // MetaPixel.checkStatus() - moved to tracker
     const $isSuccessfulElement = $(SITE_CONFIG.SELECTORS.ISSUCCESSFUL);
     const isSuccessfulValue = $isSuccessfulElement.val();
 
     if (isSuccessfulValue === "true") {
         const username = $(SITE_CONFIG.SELECTORS.USERNAME_INPUT).val();
-        MetaPixel.tracking({
+        tracking({
            eventName: 'CompleteRegistration',
            eventValue: username
         });
@@ -210,7 +211,7 @@ function setupFormHandlers() {
                 handlePasswordEncoding();
 
                 const username = $(SITE_CONFIG.SELECTORS.USERNAME_INPUT).val();
-                MetaPixel.tracking({
+                tracking({
                    eventName: 'registerSubmit',
                    eventValue: username
                 });

@@ -76,7 +76,6 @@ DbSettingProviderManager
     .Run();
 var host = builder.Build();
 
-host.UseSerilogRequestLogging();
 RouteToAction(host);
 
 host.Run();

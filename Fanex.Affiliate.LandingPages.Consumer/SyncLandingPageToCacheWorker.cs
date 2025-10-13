@@ -46,9 +46,7 @@ public sealed class SyncLandingPageToCacheWorker(
         while (!stoppingToken.IsCancellationRequested)
         {
             logService.LogFileMessage($"SyncLandingPageToCacheWorker running at: {DateTimeOffset.Now}");
-
             await SyncLandingPage();
-
             await Task.Delay(TimeSpan.FromMinutes(JobDelayMinute), stoppingToken).ConfigureAwait(false);
         }
     }

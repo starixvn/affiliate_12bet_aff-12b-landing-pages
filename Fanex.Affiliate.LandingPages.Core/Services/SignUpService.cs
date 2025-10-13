@@ -207,7 +207,8 @@ public class SignUpService(ILogProvider logService,
         if (result.ErrorCode == errorFailVerify)
         {
             var captCha = await GetNumberCaptchaFromCacheAsync(registerForm.IpAddress);
-            result.NumberCaptCha = captCha.NumberCaptchaData.Picture;
+
+            result.NumberCaptCha = captCha is null ? string.Empty : captCha.NumberCaptchaData.Picture;
             
             // Sanitize the signUpRequest data before logging
             var sanitizedSignUpData = SensitiveDataSanitizer.SanitizeJsonContent(JsonSerializer.Serialize(signUpRequest));

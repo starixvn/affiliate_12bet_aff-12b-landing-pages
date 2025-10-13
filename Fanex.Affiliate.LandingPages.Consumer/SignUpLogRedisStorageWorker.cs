@@ -63,9 +63,7 @@ public sealed class SignUpLogRedisStorageWorker(
         while (!stoppingToken.IsCancellationRequested)
         {
             logService.LogFileMessage($"SignUpLogRedisStorageWorker running at: {DateTimeOffset.Now}");
-
             await StartConsumer();
-
             await Task.Delay(TimeSpan.FromMinutes(JobDelayMinute), stoppingToken).ConfigureAwait(false);
         }
     }
