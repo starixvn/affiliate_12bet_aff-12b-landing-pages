@@ -11,7 +11,7 @@ const ADJUST_EVENT_TOKENS: Record<string, string> = {
 	[BaseTrackerEvent.Login]: '',
 };
 
-const PUBLIC_ADJUST_TOKEN = '';
+const PUBLIC_ADJUST_TOKEN = 'e8xoahfuzqbk';
 
 // Helper to check if string is empty
 const isEmpty = (str: string): boolean => !str || str.trim().length === 0;
