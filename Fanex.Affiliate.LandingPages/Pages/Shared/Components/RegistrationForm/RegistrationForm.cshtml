@@ -107,12 +107,13 @@
         <!-- Affiliate Code -->
         @if (formConfig.IsEnableAffiliate)
         {
+            var isAffCodeDisabled = Context.Request.Query.ContainsKey("AffCode");
             <div class="input-field">
                 <div class="input-info">
                     @UI.Validation_AffiliateCannotChange
                 </div>
                 <div class="input-box">
-                    <input asp-for="AffCode" placeholder="@UI.Form_AffiliateCode" />
+                    <input asp-for="AffCode" placeholder="@UI.Form_AffiliateCode" disabled="@isAffCodeDisabled" />
                     <div class="icon-area" aria-hidden="true">
                         <i class="icon-detail icon-check-mark"></i>
                         <i class="icon-detail icon-info"></i>
