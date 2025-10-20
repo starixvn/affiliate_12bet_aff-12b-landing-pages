@@ -40,24 +40,31 @@ public class HttpService(IHttpClientFactory httpClientFactory, ILogProvider logP
 
     private async Task WriteLogRequest(HttpRequestMessage request, HttpResponseMessage? response)
     {
-        // Create dictionary for structured logging properties
-        var logProperties = new Dictionary<string, object>
+        try
         {
-            ["HttpMethod"] = request.Method.ToString(),
-            ["RequestUri"] = request.RequestUri?.ToString() ?? string.Empty,
-            ["RequestHeaders"] = SanitizeHeaders(request.Headers),
-            ["RequestContentHeaders"] = new Dictionary<string, string>(),
-            ["ResponseStatusCode"] = response?.StatusCode.ToString() ?? "N/A",
-            ["ResponseReasonPhrase"] = response?.ReasonPhrase ?? "N/A",
-            ["ResponseHeaders"] = new Dictionary<string, string>(),
-            ["ResponseContentHeaders"] = new Dictionary<string, string>()
-        };
+            // Create dictionary for structured logging properties
+            var logProperties = new Dictionary<string, object>
+            {
+                ["HttpMethod"] = request.Method.ToString(),
+                ["RequestUri"] = request.RequestUri?.ToString() ?? string.Empty,
+                ["RequestHeaders"] = SanitizeHeaders(request.Headers),
+                ["RequestContentHeaders"] = new Dictionary<string, string>(),
+                ["ResponseStatusCode"] = response?.StatusCode.ToString() ?? "N/A",
+                ["ResponseReasonPhrase"] = response?.ReasonPhrase ?? "N/A",
+                ["ResponseHeaders"] = new Dictionary<string, string>(),
+                ["ResponseContentHeaders"] = new Dictionary<string, string>()
+            };
 
-        await ProcessRequestContent(request, logProperties);
-        await ProcessResponse(response, logProperties);
+            await ProcessRequestContent(request, logProperties);
+            await ProcessResponse(response, logProperties);
 
-        // Use structured logging with properties
-        logProvider.LogFileMessageWithProperties("HTTP Request/Response completed", logProperties);
+            // Use structured logging with properties
+            logProvider.LogFileMessageWithProperties("HTTP Request/Response completed", logProperties);
+        }
+        catch
+        {
+            logProvider.LogFileMessage("Cannot Write Log HTTP Request");
+        }
     }
 
     private static Dictionary<string, string> SanitizeHeaders(IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers)
@@ -119,12 +126,23 @@ public class HttpService(IHttpClientFactory httpClientFactory, ILogProvider logP
         var responseBody = await response.Content.ReadAsStringAsync();
         var sanitizedResponseBody = SensitiveDataSanitizer.SanitizeJsonContent(responseBody);
         logProperties["ResponseBody"] = sanitizedResponseBody;
-
-        var result = JsonSerializer.Deserialize<BaseResponse>(responseBody, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        });
+        BaseResponse? result = GetResponse(responseBody);
 
         logProperties["ErrCode"] = result?.ErrorCode ?? 0;
+    }
+
+    private static BaseResponse? GetResponse(string responseBody)
+    {
+        try
+        {
+            return JsonSerializer.Deserialize<BaseResponse>(responseBody, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
