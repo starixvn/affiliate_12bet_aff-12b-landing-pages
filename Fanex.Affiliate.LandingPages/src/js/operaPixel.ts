@@ -1,16 +1,7 @@
-export enum BaseTrackerEvent {
-	RegisterSubmit = 'registerSubmit',
-	DepositSubmit = 'depositSubmit',
-	Purchase = 'Purchase',
-	Withdraw = 'withdraw',
-	CompleteRegistration = 'CompleteRegistration',
-	StartTrial = 'StartTrial',
-	Redeposit = 'redeposit',
-	Login = 'Login'
-}
+import { BaseTrackerEvent } from './baseTrackerEvent';
 
 const OperaEventName: Record<string, string> = {
-	[BaseTrackerEvent.RegisterSubmit]: 'registerSubmit',
+	[BaseTrackerEvent.RegisterSubmit]: '',
 	[BaseTrackerEvent.DepositSubmit]: 'deposit',
 	[BaseTrackerEvent.Purchase]: 'Purchase',
 	[BaseTrackerEvent.Withdraw]: 'withdraw',

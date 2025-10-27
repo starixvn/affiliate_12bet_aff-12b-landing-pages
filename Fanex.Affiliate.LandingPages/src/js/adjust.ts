@@ -1,4 +1,4 @@
-import { BaseTrackerEvent } from './operaPixel';
+import { BaseTrackerEvent } from './baseTrackerEvent';
 
 const ADJUST_EVENT_TOKENS: Record<string, string> = {
 	[BaseTrackerEvent.Purchase]: 'c82gz0',

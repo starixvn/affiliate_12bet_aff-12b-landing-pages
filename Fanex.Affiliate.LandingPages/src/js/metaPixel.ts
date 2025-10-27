@@ -1,6 +1,4 @@
-// MetaPixel Tracker TypeScript wrapper
-import { BaseTrackerEvent } from './operaPixel'
-
+import { BaseTrackerEvent } from './baseTrackerEvent';
 // Types
 interface TrackerParams {
     eventName: BaseTrackerEvent | string;
