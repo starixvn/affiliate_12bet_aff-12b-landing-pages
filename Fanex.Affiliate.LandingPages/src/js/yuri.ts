@@ -1,4 +1,4 @@
-import { BaseTrackerEvent } from './operaPixel'
+import { BaseTrackerEvent } from './baseTrackerEvent';
 
 const isSDKAvailable = (win: Window = window): boolean =>
 	// eslint-disable-next-line no-underscore-dangle

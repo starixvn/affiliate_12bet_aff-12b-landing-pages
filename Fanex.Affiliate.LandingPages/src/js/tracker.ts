@@ -1,7 +1,9 @@
+import { BaseTrackerEvent } from './baseTrackerEvent';
 import { MetaPixelTracker } from './metaPixel'
 import { YuriTracker } from './yuri'
 import { AdjustTracker } from './adjust'
-import { OperaPixelTracker, BaseTrackerEvent } from './operaPixel'
+import { OperaPixelTracker } from './operaPixel'
+import { iConvertTracker } from './iConvert'
 
 // Type definitions
 interface FBQPixel {
@@ -84,6 +86,11 @@ export const tracking = (trackerParams: TTrackerParams): void => {
 			YuriTracker(name);
 		} catch (error) {
 			// YuriTracker error
+		}
+
+		try {
+			iConvertTracker({ eventName, eventValue });
+		} catch (error) {
 		}
 	};
 
