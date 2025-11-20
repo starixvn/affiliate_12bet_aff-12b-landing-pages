@@ -46,3 +46,4 @@ node_modules
 /Admin/AffiliateAdmin/coverage
 *.UnitTestCoverage_*.xml
 Fanex.Affiliate.LandingPages/wwwroot/dist/dev
+Fanex.Affiliate.LandingPages/logs

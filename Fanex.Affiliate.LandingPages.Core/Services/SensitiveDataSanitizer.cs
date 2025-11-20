@@ -13,7 +13,7 @@ public static class SensitiveDataSanitizer
         "token", "accesstoken", "refreshtoken", "bearertoken", "jwt",
         "cookie", "cookies", "session", "sessionid",
         "authorization", "auth", "apikey", "secret",
-        "captchatoken"
+        "captchatoken", "email", "phoneno"
     };
 
     private static readonly string[] SensitiveHeaders = 
